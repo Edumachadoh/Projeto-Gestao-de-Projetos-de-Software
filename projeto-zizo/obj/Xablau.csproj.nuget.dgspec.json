@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gus\\UP\\projeto-dbz-csharp\\Xablau.csproj": {}
+    "C:\\Users\\Eduardo\\Desktop\\ProjetoGestaodeSoftware\\projeto-zizo\\Xablau.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gus\\UP\\projeto-dbz-csharp\\Xablau.csproj": {
+    "C:\\Users\\Eduardo\\Desktop\\ProjetoGestaodeSoftware\\projeto-zizo\\Xablau.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gus\\UP\\projeto-dbz-csharp\\Xablau.csproj",
+        "projectUniqueName": "C:\\Users\\Eduardo\\Desktop\\ProjetoGestaodeSoftware\\projeto-zizo\\Xablau.csproj",
         "projectName": "Xablau",
-        "projectPath": "C:\\Users\\gus\\UP\\projeto-dbz-csharp\\Xablau.csproj",
-        "packagesPath": "C:\\Users\\gus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gus\\UP\\projeto-dbz-csharp\\obj\\",
+        "projectPath": "C:\\Users\\Eduardo\\Desktop\\ProjetoGestaodeSoftware\\projeto-zizo\\Xablau.csproj",
+        "packagesPath": "C:\\Users\\Eduardo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Eduardo\\Desktop\\ProjetoGestaodeSoftware\\projeto-zizo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Eduardo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
