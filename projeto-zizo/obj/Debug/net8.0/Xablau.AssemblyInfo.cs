@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Xablau")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86cad15e61d1605b5a4fdf608e9b8d974d665c8d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06504121a1d0c9b931642408e74351e015070bb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Xablau")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Xablau")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
