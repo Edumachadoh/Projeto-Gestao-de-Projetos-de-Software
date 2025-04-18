@@ -47,6 +47,8 @@ namespace Xablau.Models
 
         public string NomeProduto{get;set;}
 
+        public string TipoProduto{get;set;}
+
         public float QuantidadeProduto{get;set;}
 
         public float ValorProduto{get;set;}
@@ -57,7 +59,7 @@ namespace Xablau.Models
         [Key]
         public int ContaSaldo{get;set;}
         public float ValorSaldo{get;set;}
-        
+
     }
 
     
