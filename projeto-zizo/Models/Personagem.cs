@@ -9,10 +9,24 @@ namespace Xablau.Models
         [Key]
         public int CpfCliente{get;set;}
 
+        [Required]
         public string NomeCliente{get;set;}
 
+        [Required]
         public string MetodoPagamentoCliente{get;set;}
 
+    }
+
+    public class ItemPedido
+    {
+        [Key]
+        public int IdItem{get;set;}
+
+        [Required]
+        public string NomeItem{get;set;}
+
+        [Required]
+        public string DescricaoItem{get;set;}
     }
 
     public class PedidoCliente
@@ -23,21 +37,32 @@ namespace Xablau.Models
         [ForeignKey("Cliente")]
         public string CpfCliente{get;set;}
 
-        public List<string> ItemPedido{get;set;}
+        [Required]
+        public ItemPedido Itens{get;set;}
 
+        [Required]
         public float ValorPedido{get;set;}
     }
+
 
     public class Funcionario
     {
         [Key]
         public int IdFuncionario{get;set;}
 
+        [Required]
+        public int StatusFuncionario{get;set;}
+
+        [Required]
         public string NomeFuncionario{get;set;}
 
+        [Required]
         public string Cargo{get;set;}
 
+        [Required]
         public float Salario{get;set;}
+
+
     }
 
     public class ProdutosEstoque
@@ -45,20 +70,29 @@ namespace Xablau.Models
         [Key]
         public int IdProduto{get;set;}
 
+        [Required]
         public string NomeProduto{get;set;}
 
+        [Required]
         public string TipoProduto{get;set;}
-
+        
+        [Required]
         public float QuantidadeProduto{get;set;}
 
+        [Required]
         public float ValorProduto{get;set;}
     }
 
-    public class Saldo
+    public class Gasto
     {
         [Key]
-        public int ContaSaldo{get;set;}
-        public float ValorSaldo{get;set;}
+        public int ContaGasto{get;set;}
+
+        [Required]
+        public float ValorGasto{get;set;}
+
+        [Required]
+        public string DescricaoGasto{get;set;}
 
     }
 
