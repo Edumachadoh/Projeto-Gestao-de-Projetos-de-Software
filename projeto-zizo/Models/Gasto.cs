@@ -4,17 +4,17 @@ namespace Xablau.Models
 
 {
 
-    public class Cliente
+     public class Gasto
     {
         [Key]
-        public int CpfCliente{get;set;}
+        public int ContaGasto{get;set;}
 
         [Required]
-        public string NomeCliente{get;set;}
+        public float ValorGasto{get;set;}
 
         [Required]
-        public string MetodoPagamentoCliente{get;set;}
+        public string DescricaoGasto{get;set;}
 
     }
-    
+
 }

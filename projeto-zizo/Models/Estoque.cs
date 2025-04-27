@@ -4,7 +4,6 @@ namespace Xablau.Models
 
 {
 
-
     public class ProdutosEstoque
     {
         [Key]
@@ -21,19 +20,6 @@ namespace Xablau.Models
 
         [Required]
         public float ValorProduto{get;set;}
-    }
-
-    public class Gasto
-    {
-        [Key]
-        public int ContaGasto{get;set;}
-
-        [Required]
-        public float ValorGasto{get;set;}
-
-        [Required]
-        public string DescricaoGasto{get;set;}
-
     }
 
     
