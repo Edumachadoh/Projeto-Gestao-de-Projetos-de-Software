@@ -1,6 +1,0 @@
-@Xablau_HostAddress = http://localhost:5124
-
-GET {{Xablau_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
