@@ -6,17 +6,13 @@ public class Produto
 {
     [Key]
     public int Id { get; set; }
-
     [Required]
     public string Nome { get; set; } = null!;
-
     [Required]
-    public string Tipo { get; set; } // ana: vai virar enum!
-    
+    public int QtdMinima { get; set; }
     [Required]
-    public int Quantidade { get; set; } // ana: ?? float pra QUANTIDADE?
-
+    public int QtdMaxima { get; set; }
     [Required]
-    public float Valor { get; set; }
+    public int QtdAtual { get; set; } 
 }
 

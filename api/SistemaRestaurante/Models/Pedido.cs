@@ -1,19 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SistemaRestaurante.Enums;
+using SistemaRestaurante.Models.Pessoa;
 namespace SistemaRestaurante.Models;
 
-// ana: ... chamaram a classe de um nome e o arquivo de outro se foder mesmo
 public class Pedido
 {
     [Key]
-    public int Id { get; set; } // ana: NumeroPedido e um nome... redundante...
-
+    public int Id { get; set; }
     [ForeignKey("Cliente")]
-    public int ClienteId { get; set; } // ana: KKKKKKKKKK repare que e uma FK. na classe cliente Cpf era uma INT. aqui era STRING. pqp 
-
+    public int? ClienteId { get; set; }  
     [Required]
-    public List<ItemPedido> Itens { get; set; } = []; // ana: ? e como esse erro passou
+    public decimal ValorTotal { get; set; } 
+    public StatusPreparo StatusPreparo { get; set; }
+    public DateTime Data { get; set; }
 
+    // Não necessariamente um pedido precisa estar vinculado a um cliente
+    public Cliente? Cliente { get; set; }
     [Required]
-    public decimal Valor { get; set; } // ana: dinheiro, por convencao, usa decimal 
+    public List<Item> Itens { get; set; } = []; 
 }
