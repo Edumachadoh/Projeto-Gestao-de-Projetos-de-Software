@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using SistemaRestaurante.Enums;
 
 namespace SistemaRestaurante.Models;
 
