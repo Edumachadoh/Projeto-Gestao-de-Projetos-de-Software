@@ -8,7 +8,7 @@ public class RegistroFinanceiro
     public int Id { get; set; }
     public DateTime DataRegistrada { get; set; } = DateTime.Now;
 
-    public decimal Gas { get; set; } // ana: ?? rever depois
+    public decimal Gas { get; set; }
     public decimal Luz { get; set; }
     public decimal Agua { get; set; }
     public decimal Funcionarios { get; set; }
