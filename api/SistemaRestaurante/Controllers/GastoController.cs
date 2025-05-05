@@ -27,7 +27,7 @@ public class GastoController : ControllerBase
         await _appDbContext.Gastos.AddAsync(gasto);
         await _appDbContext.SaveChangesAsync();
 
-        return Created();
+        return Created("Gasto adicionado.", gasto);
     }
 
     [HttpGet]
@@ -51,7 +51,6 @@ public class GastoController : ControllerBase
     public async Task<ActionResult<Gasto>> GetGasto(int id)
     {
         var gasto = await _appDbContext.Gastos.FirstOrDefaultAsync(x => x.Id == id);
-
         if (gasto is null)
             return NotFound("Gasto não encontrado.");
 
@@ -63,7 +62,6 @@ public class GastoController : ControllerBase
     public async Task<ActionResult> DeleteGasto(int id)
     {
         var gasto = await _appDbContext.Gastos.FirstOrDefaultAsync(x => x.Id == id);
-
         if (gasto is null)
             return NotFound("Gasto não encontrado.");
 

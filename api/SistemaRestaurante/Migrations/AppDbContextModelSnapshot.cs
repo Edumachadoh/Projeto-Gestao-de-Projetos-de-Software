@@ -21,9 +21,9 @@ namespace SistemaRestaurante.Migrations
 
             modelBuilder.Entity("SistemaRestaurante.Models.Estoque", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DataRegistrada")
                         .HasColumnType("datetime(6)");
@@ -205,8 +205,8 @@ namespace SistemaRestaurante.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("EstoqueId")
-                        .HasColumnType("char(36)");
+                    b.Property<int?>("EstoqueId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()

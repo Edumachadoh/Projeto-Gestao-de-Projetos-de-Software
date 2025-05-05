@@ -40,7 +40,8 @@ namespace SistemaRestaurante.Migrations
                 name: "Estoques",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataRegistrada = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -143,7 +144,7 @@ namespace SistemaRestaurante.Migrations
                     QtdMinima = table.Column<int>(type: "int", nullable: false),
                     QtdMaxima = table.Column<int>(type: "int", nullable: false),
                     QtdAtual = table.Column<int>(type: "int", nullable: false),
-                    EstoqueId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    EstoqueId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

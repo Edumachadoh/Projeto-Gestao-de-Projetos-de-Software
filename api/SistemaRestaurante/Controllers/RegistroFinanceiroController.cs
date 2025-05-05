@@ -34,7 +34,7 @@ public class RegistroFinanceiroController : ControllerBase
         await _appDbContext.RegistrosFinanceiros.AddAsync(registroFinanceiro);
         await _appDbContext.SaveChangesAsync();
 
-        return Created();
+        return Created("Registro financeiro adicionado.", registroFinanceiro);
     }
 
     [HttpGet]
@@ -48,22 +48,22 @@ public class RegistroFinanceiroController : ControllerBase
     [HttpGet("id/{id}")]
     public async Task<ActionResult<RegistroFinanceiro>> GetRegistroFinanceiro(int id)
     {
-        var gasto = await _appDbContext.RegistrosFinanceiros.FirstOrDefaultAsync(x => x.Id == id);
+        var estoque = await _appDbContext.RegistrosFinanceiros.FirstOrDefaultAsync(x => x.Id == id);
 
-        if (gasto is null)
+        if (estoque is null)
             return NotFound("Registro Financeiro não encontrado.");
 
-        return Ok(gasto);
+        return Ok(estoque);
     }
 
     [HttpGet("mes/{mes}")]
     public async Task<ActionResult<RegistroFinanceiro>> GetRegistroFinanceiroMes(int mes)
     {
-        var gasto = await _appDbContext.RegistrosFinanceiros.FirstOrDefaultAsync(x => x.DataRegistrada.Month == mes);
+        var estoque = await _appDbContext.RegistrosFinanceiros.FirstOrDefaultAsync(x => x.DataRegistrada.Month == mes);
 
-        if (gasto is null)
+        if (estoque is null)
             return NotFound("Registro Financeiro não encontrado.");
 
-        return Ok(gasto);
+        return Ok(estoque);
     }
 }
