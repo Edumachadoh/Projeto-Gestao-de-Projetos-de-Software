@@ -1,93 +1,85 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaRestaurante.Context;
-using SistemaRestaurante.Models;
 using SistemaRestaurante.Models.Pessoa;
 
-namespace SistemaRestaurante.Controllers
+namespace SistemaRestaurante.Controllers;
+
+[ApiController]
+[Route("api/funcionarios")]
+public class FuncionarioController : ControllerBase
 {
+    private readonly AppDbContext _appDbContext;
 
-    [ApiController]
-    [Route("api/funcionarios")]
-    public class FuncionarioController : ControllerBase
+    public FuncionarioController (AppDbContext appDbContext)
     {
-        private readonly AppDbContext _appDbContext;
+        _appDbContext = appDbContext;
+    }
 
-        public FuncionarioController (AppDbContext appDbContext)
+    [HttpPost]
+    public async Task <IActionResult> AddFuncionario([FromBody] Funcionario funcionario)
+    {
+        if (!ModelState.IsValid)
         {
-            _appDbContext = appDbContext;
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        public async Task <IActionResult> AddFuncionario([FromBody] Funcionario funcionario)
-        {
-            if (!ModelState.IsValid){
-                return BadRequest(ModelState);
-            }
-            await _appDbContext.Funcionarios.AddAsync(funcionario);
-            await _appDbContext.SaveChangesAsync();
+        await _appDbContext.Funcionarios.AddAsync(funcionario);
+        await _appDbContext.SaveChangesAsync();
 
-            return StatusCode(201, funcionario);
+        return StatusCode(201, funcionario);
+    }
+
+    [HttpGet]
+    public async Task <ActionResult<IEnumerable<Funcionario>>> GetFuncionarios()
+    {
+        var funcionarios = await _appDbContext.Funcionarios.ToListAsync();
+
+        return StatusCode(200, funcionarios);
+    }
+
+    [HttpGet("{id}")]
+    public async Task <ActionResult<IEnumerable<Funcionario>>> GetFuncionarioId(int id)
+    {
+        var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
+
+        if(buscarFuncionario is null)
+        {
+            return NotFound("Funcionario não encontrado.");
         }
 
-        [HttpGet]
-        public async Task <ActionResult<IEnumerable<Funcionario>>> GetFuncionario()
-        {
-            var funcionarios = await _appDbContext.Funcionarios.ToListAsync();
+        return StatusCode(200, buscarFuncionario);
+    }
 
-            return StatusCode(201, funcionarios);
+    [HttpPut("{id}")]
+    public async Task <ActionResult> UpdateFuncionario(int id, [FromBody] Funcionario funcionarioAtualizado)
+    {
+        var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
+
+        if(buscarFuncionario is null)
+        {
+            return NotFound("Funcionario não encontrado.");
         }
 
-        [HttpGet("{id}")]
-        public async Task <ActionResult<IEnumerable<Funcionario>>> GetFuncionarioId(int id)
+        _appDbContext.Entry(buscarFuncionario).CurrentValues.SetValues(funcionarioAtualizado);
+        await _appDbContext.SaveChangesAsync();
+
+        return Ok("Funcionario atualizado com sucesso.");
+    }
+
+    // ana: a lei não deixa você deletar funcionário... provavelmente vamos deixar um booleano EstaAtivo e setar como falso aqui. dai no GetFuncionarios a gente puxa um .Where(x => x.EstaAtivo == true) ou algo asi
+    [HttpDelete("{id}")]
+    public async Task <ActionResult> DeleteFuncionario(int id)
+    {
+        var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
+        if(buscarFuncionario is null)
         {
-            var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
-
-            if(buscarFuncionario == null)
-            {
-                return NotFound("Funcionario não encontrado");
-            }
-
-            return StatusCode(201, buscarFuncionario);
+            return NotFound("Funcionario não encontrado.");
         }
 
-        [HttpPut("{id}")]
-        public async Task <ActionResult> UpdateFuncionarioId (int id, [FromBody] Funcionario funcionarioAtualizado)
-        {
-            var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
+        _appDbContext.Remove(buscarFuncionario);
+        await _appDbContext.SaveChangesAsync();
 
-            if(buscarFuncionario == null)
-            {
-                return NotFound("Funcionario não encontrado");
-            }
-
-            _appDbContext.Entry(buscarFuncionario).CurrentValues.SetValues(funcionarioAtualizado);
-
-            await _appDbContext.SaveChangesAsync();
-            return Ok("Funcionario atualizado com sucesso");
-        }
-
-        [HttpDelete("{id}")]
-        public async Task <ActionResult> DeleteFuncionarioId (int id, [FromBody] Funcionario funcionario)
-        {
-            var buscarFuncionario = await _appDbContext.Funcionarios.FindAsync(id);
-
-            if(buscarFuncionario == null)
-            {
-                return NotFound("Funcionario não encontrado");
-            }
-
-            _appDbContext.Remove(buscarFuncionario);
-
-            await _appDbContext.SaveChangesAsync();
-
-            return Ok(buscarFuncionario);
-        }
-
-
-}
+        return Ok("Funcionário deletado.");
+    }
 }
