@@ -38,7 +38,7 @@ public class GastoController : ControllerBase
         return Ok(gastos);
     }
 
-    [HttpGet]
+    [HttpGet("por-categoria")]
     public async Task<ActionResult <IEnumerable<Gasto>>> GetGastosCategoria([FromBody] Categoria categoria)
     {
         var gastos = await _appDbContext.Gastos.Where(x => x.Categoria == categoria).ToListAsync();

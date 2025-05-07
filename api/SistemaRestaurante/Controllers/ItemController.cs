@@ -1,95 +1,84 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaRestaurante.Context;
 using SistemaRestaurante.Models;
 
-namespace SistemaRestaurante.Controllers
+namespace SistemaRestaurante.Controllers;
+
+[ApiController]
+[Route("api/itens")]
+public class ItemController : ControllerBase
 {
-    [ApiController]
-        [Route("api/itens")]
-    public class ItemController : ControllerBase
+    private readonly AppDbContext _appDbContext;
+
+    public ItemController(AppDbContext appDbContext)
     {
-        private readonly AppDbContext _appDbContext;
+        _appDbContext = appDbContext;
+    }
 
-        public ItemController(AppDbContext appDbContext)
+    [HttpPost]
+    public async Task<IActionResult> AddItem([FromBody] Item item)
+    {
+        if (!ModelState.IsValid)
         {
-            _appDbContext = appDbContext;
+         return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddItem([FromBody] Item item)
+        await _appDbContext.Itens.AddAsync(item);
+        await _appDbContext.SaveChangesAsync();
+
+        return StatusCode(201, item);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Item>>> GetItens()
+    {
+        var itens = await _appDbContext.Itens.ToListAsync();
+
+        return StatusCode(200, itens);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<Item>>> GetItemId(int id)
+    {
+        var buscarItem = await _appDbContext.Itens.FindAsync(id);
+
+        if (buscarItem is null)
         {
-            if(!ModelState.IsValid){
-             return BadRequest(ModelState);
-            }
-
-            await _appDbContext.Itens.AddAsync(item);
-            await _appDbContext.SaveChangesAsync();
-
-            return StatusCode(201, item);
+            return NotFound("Item não encontrado.");
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItens()
-        {
-            var itens = await _appDbContext.Itens.ToListAsync();
+        return StatusCode(200, buscarItem);
+    }
 
-            return StatusCode(201, itens);
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateItem(int id, [FromBody] Item item)
+    {
+        var buscarItem = await _appDbContext.Itens.FindAsync(id);
+
+        if (buscarItem is null)
+        {
+            return NotFound("Item não encontrado.");
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItemId(int id)
+        _appDbContext.Entry(buscarItem).CurrentValues.SetValues(item);
+        await _appDbContext.SaveChangesAsync();
+
+        return Ok("Item atualizado com sucesso.");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteItem(int id)
+    {
+        var buscarItem = await _appDbContext.Itens.FindAsync(id);
+        if (buscarItem is null)
         {
-            var buscarItem = await _appDbContext.Itens.FindAsync(id);
-
-            if(buscarItem == null)
-            {
-                return NotFound("Item não encontrado");
-            }
-
-            return StatusCode(201, buscarItem);
+            return NotFound("Item não encontrado");
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateItemId(int id, [FromBody] Item item)
-        {
-            var buscarItem = await _appDbContext.Itens.FindAsync(id);
+        _appDbContext.Remove(buscarItem);
+        await _appDbContext.SaveChangesAsync();
 
-            if(buscarItem == null)
-            {
-                return NotFound("Item não encontrado");
-            }
-
-            _appDbContext.Entry(buscarItem).CurrentValues.SetValues(item);
-
-            await _appDbContext.SaveChangesAsync();
-
-            return Ok("Item alterado com sucesso");
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteItemId (int id, [FromBody] Item item)
-        {
-            var buscarItem = await _appDbContext.Itens.FindAsync(id);
-
-            if(buscarItem == null)
-            {
-                return NotFound("Item não encontrado");
-            }
-
-            _appDbContext.Remove(buscarItem);
-
-            await _appDbContext.SaveChangesAsync();
-
-            return Ok(buscarItem);
-
-        }
-
-        
-
+        return Ok("Item deletado.");
     }
 }

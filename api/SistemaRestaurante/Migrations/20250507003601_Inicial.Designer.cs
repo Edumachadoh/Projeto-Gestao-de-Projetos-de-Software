@@ -11,8 +11,8 @@ using SistemaRestaurante.Context;
 namespace SistemaRestaurante.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250505002013_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250507003601_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

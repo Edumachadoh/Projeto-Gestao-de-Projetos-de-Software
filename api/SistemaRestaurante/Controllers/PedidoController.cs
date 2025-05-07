@@ -1,100 +1,101 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaRestaurante.Context;
 using SistemaRestaurante.Models;
 
-namespace SistemaRestaurante.Controllers
-{
-    [ApiController]
-    [Route("api/pedidos")]
-    public class PedidoController : ControllerBase
-    {
-                private readonly AppDbContext _appDbContext;
+namespace SistemaRestaurante.Controllers;
 
-        public PedidoController(AppDbContext appDbContext)
+[ApiController]
+[Route("api/pedidos")]
+public class PedidoController : ControllerBase
+{
+    private readonly AppDbContext _appDbContext;
+
+    public PedidoController(AppDbContext appDbContext)
+    {
+        _appDbContext = appDbContext;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPedido([FromBody] Pedido pedido)
+    {
+        if (!ModelState.IsValid)
         {
-            _appDbContext = appDbContext;
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-
-    public async Task<IActionResult> AddCliente([FromBody] Pedido pedido)
-     {
-        if(!ModelState.IsValid){
-             return BadRequest(ModelState);
-            }
-
+        // ana: meio feio if dentro de if mas é um workaround
         if (pedido.ClienteId is not null)
         {
             var cliente = await _appDbContext.Clientes.FirstOrDefaultAsync(x => x.Id == pedido.ClienteId);
-            ///Ana Senhora, o VS diz que cliete abaixo faz referência a uma variavel local, não sei se instânciamos a model Cliente, ou só um "?" resolve
-             cliente.Pedidos.Add(pedido);
+
+            if (cliente is not null)
+            {
+                cliente.Pedidos.Add(pedido);
+            }
         }
-        
+
         await _appDbContext.Pedidos.AddAsync(pedido);
         await _appDbContext.SaveChangesAsync();
 
-        return StatusCode(201,pedido);
+        return StatusCode(201, pedido);
     }
 
-    public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidos()
     {
-        var produtos = await _appDbContext.Produtos.ToListAsync();
+        var pedidos = await _appDbContext.Pedidos.ToListAsync();
 
-        return StatusCode(201, produtos);
+        return StatusCode(200, pedidos);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<Produto>>> GetProdutoId(int id)
+    public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidoId(int id)
     {
-        var buscarProduto = await _appDbContext.Produtos.FindAsync(id);
-
-        if(buscarProduto == null)
+        var buscarPedido = await _appDbContext.Pedidos.FindAsync(id);
+        if (buscarPedido is null)
         {
-            return NotFound("Produto não encontrado");
+            return NotFound("Pedido não encontrado.");
         }
 
-        return StatusCode(201, buscarProduto);
+        return StatusCode(200, buscarPedido);
+    }
+
+    [HttpGet("cliente/{idCliente}")]
+    public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidosCliente(int idCliente)
+    {
+        var pedidos = await _appDbContext.Pedidos.Where(x => x.ClienteId == idCliente).ToListAsync();
+
+        return StatusCode(200, pedidos);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateProdutoId(int id, [FromBody] Produto produto)
+    public async Task<ActionResult> UpdatePedido(int id, [FromBody] Pedido pedido)
     {
-        var buscarProduto = await _appDbContext.Produtos.FindAsync(id);
-
-        if(buscarProduto == null)
+        var buscarPedido = await _appDbContext.Pedidos.FindAsync(id);
+        if (buscarPedido is null)
         {
-            return NotFound("O produto não foi encontrado");
+            return NotFound("Pedido não encontrado.");
         }
 
-        _appDbContext.Entry(buscarProduto).CurrentValues.SetValues(produto);
+        _appDbContext.Entry(buscarPedido).CurrentValues.SetValues(pedido);
         await _appDbContext.SaveChangesAsync();
 
-        return Ok("O Produto foi atualizado com sucesso");
+        return Ok("O pedido foi atualizado com sucesso.");
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteProdutoId(int id, [FromBody] Produto produto)
+    public async Task<ActionResult> DeletePedido(int id)
     {
-        var buscarProduto = await _appDbContext.Produtos.FindAsync(id);
-
-        if(buscarProduto == null)
+        var buscarPedido = await _appDbContext.Pedidos.FindAsync(id);
+        if(buscarPedido is null)
         {
-            return NotFound("O Produto não foi encontrado");
+            return NotFound("Pedido não encontrado.");
         }
 
-        _appDbContext.Remove(buscarProduto);
+        _appDbContext.Remove(buscarPedido);
         await _appDbContext.SaveChangesAsync();
 
-        return Ok(buscarProduto);
-    }
-    
-
-
+        return Ok("Pedido deletado.");
     }
 }
