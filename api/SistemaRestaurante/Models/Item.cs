@@ -9,4 +9,6 @@ public class Item
     [Required]
     public string Nome { get; set; } = null!;
     public decimal Valor { get; set; }
+
+    public int? PedidoId { get; set; }  
 }

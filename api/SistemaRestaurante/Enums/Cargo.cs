@@ -3,7 +3,7 @@ namespace SistemaRestaurante.Enums;
 public enum Cargo : byte
 {
     Administrador,
-    Cozinha
-    
-    // ... etc
+    Cozinha,
+    Gerente,
+    Balconista
 }
