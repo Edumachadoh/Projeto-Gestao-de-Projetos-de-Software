@@ -194,6 +194,18 @@ namespace SistemaRestaurante.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Estoques",
+                columns: new[] { "Id", "DataRegistrada" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 5, 3, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 5, new DateTime(2025, 5, 7, 0, 0, 0, 0, DateTimeKind.Local) }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Funcionarios",
                 columns: new[] { "Id", "Cargo", "Cpf", "EstaAtivo", "Nome", "Salario", "Senha", "Status", "Telefone" },
                 values: new object[,]
@@ -206,15 +218,51 @@ namespace SistemaRestaurante.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Gastos",
+                columns: new[] { "Id", "Categoria", "Data", "Valor" },
+                values: new object[,]
+                {
+                    { 1, (byte)1, new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 150.00m },
+                    { 2, (byte)0, new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 220.75m },
+                    { 3, (byte)1, new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 98.50m },
+                    { 4, (byte)1, new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3000.00m },
+                    { 5, (byte)0, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 785.90m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Produtos",
+                columns: new[] { "Id", "EstoqueId", "Nome", "QtdAtual", "QtdMaxima", "QtdMinima" },
+                values: new object[,]
+                {
+                    { 1, null, "Arroz", 50, 100, 10 },
+                    { 2, null, "Feijão", 30, 80, 15 },
+                    { 3, null, "Macarrão", 25, 70, 20 },
+                    { 4, null, "Carne", 20, 50, 5 },
+                    { 5, null, "Óleo", 35, 60, 8 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RegistrosFinanceiros",
+                columns: new[] { "Id", "Agua", "DataRegistrada", "Estoque", "Funcionarios", "Gas", "Itens", "Luz" },
+                values: new object[,]
+                {
+                    { 1, 90m, new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 750m, 3000m, 120m, 250m, 200m },
+                    { 2, 95m, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 800m, 3100m, 130m, 270m, 210m },
+                    { 3, 100m, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 700m, 3200m, 140m, 260m, 190m },
+                    { 4, 85m, new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 780m, 3150m, 125m, 240m, 205m },
+                    { 5, 88m, new DateTime(2025, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 760m, 3300m, 135m, 265m, 195m }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Pedidos",
                 columns: new[] { "Id", "ClienteId", "Data", "StatusPreparo", "ValorTotal" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9651), (byte)0, 45.50m },
-                    { 2, 2, new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9661), (byte)0, 22.00m },
-                    { 3, 3, new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9663), (byte)3, 100.00m },
-                    { 4, 4, new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9664), (byte)1, 18.75m },
-                    { 5, 1, new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9665), (byte)2, 70.30m }
+                    { 1, 1, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5327), (byte)0, 45.50m },
+                    { 2, 2, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5340), (byte)0, 22.00m },
+                    { 3, 3, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5342), (byte)3, 100.00m },
+                    { 4, 4, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5343), (byte)1, 18.75m },
+                    { 5, 1, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5345), (byte)2, 70.30m }
                 });
 
             migrationBuilder.InsertData(

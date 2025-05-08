@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SistemaRestaurante.Enums;
 using SistemaRestaurante.Models;
+using SistemaRestaurante.Models.Financeiro;
 using SistemaRestaurante.Models.Pessoa;
 
 namespace SistemaRestaurante.Data
@@ -137,7 +138,104 @@ namespace SistemaRestaurante.Data
             new Pedido { Id = 5, ClienteId = 1, ValorTotal = 70.30m, StatusPreparo = StatusPreparo.Feito, Data = DateTime.Now }
         );
 
-        // falta ESTOQUES, GASTOS, PRODUTOS, REGISTROS FINANCEIROS
+        modelBuilder.Entity<Estoque>().HasData(
+            new Estoque { Id = 1, DataRegistrada = DateTime.Today.AddDays(-5) },
+            new Estoque { Id = 2, DataRegistrada = DateTime.Today.AddDays(-4) },
+            new Estoque { Id = 3, DataRegistrada = DateTime.Today.AddDays(-3) },
+            new Estoque { Id = 4, DataRegistrada = DateTime.Today.AddDays(-2) },
+            new Estoque { Id = 5, DataRegistrada = DateTime.Today.AddDays(-1) }
+        );
+
+            modelBuilder.Entity<Produto>().HasData(
+        new Produto
+        {
+            Id = 1,
+            Nome = "Arroz",
+            QtdMinima = 10,
+            QtdMaxima = 100,
+            QtdAtual = 50
+        },
+        new Produto
+        {
+            Id = 2,
+            Nome = "Feijão",
+            QtdMinima = 15,
+            QtdMaxima = 80,
+            QtdAtual = 30
+        },
+        new Produto
+        {
+            Id = 3,
+            Nome = "Macarrão",
+            QtdMinima = 20,
+            QtdMaxima = 70,
+            QtdAtual = 25
+        },
+        new Produto
+        {
+            Id = 4,
+            Nome = "Carne",
+            QtdMinima = 5,
+            QtdMaxima = 50,
+            QtdAtual = 20
+        },
+        new Produto
+        {
+            Id = 5,
+            Nome = "Óleo",
+            QtdMinima = 8,
+            QtdMaxima = 60,
+            QtdAtual = 35
+        }
+    );
+
+
+        modelBuilder.Entity<Gasto>().HasData(
+    new Gasto
+    {
+        Id = 1,
+        Categoria = Categoria.Item,
+        Valor = 150.00m,
+        Data = new DateTime(2025, 1, 10)
+    },
+    new Gasto
+    {
+        Id = 2,
+        Categoria = Categoria.ProdutoEstoque,
+        Valor = 220.75m,
+        Data = new DateTime(2025, 2, 5)
+    },
+    new Gasto
+    {
+        Id = 3,
+        Categoria = Categoria.Item,
+        Valor = 98.50m,
+        Data = new DateTime(2025, 2, 20)
+    },
+    new Gasto
+    {
+        Id = 4,
+        Categoria = Categoria.Item,
+        Valor = 3000.00m,
+        Data = new DateTime(2025, 3, 1)
+    },
+    new Gasto
+    {
+        Id = 5,
+        Categoria = Categoria.ProdutoEstoque,
+        Valor = 785.90m,
+        Data = new DateTime(2025, 3, 10)
+    }
+    );
+        
+        modelBuilder.Entity<RegistroFinanceiro>().HasData(
+        new RegistroFinanceiro { Id = 1, DataRegistrada = new DateTime(2025, 1, 10), Gas = 120, Luz = 200, Agua = 90, Funcionarios = 3000, Estoque = 750, Itens = 250 },
+        new RegistroFinanceiro { Id = 2, DataRegistrada = new DateTime(2025, 2, 10), Gas = 130, Luz = 210, Agua = 95, Funcionarios = 3100, Estoque = 800, Itens = 270 },
+        new RegistroFinanceiro { Id = 3, DataRegistrada = new DateTime(2025, 3, 10), Gas = 140, Luz = 190, Agua = 100, Funcionarios = 3200, Estoque = 700, Itens = 260 },
+        new RegistroFinanceiro { Id = 4, DataRegistrada = new DateTime(2025, 4, 10), Gas = 125, Luz = 205, Agua = 85, Funcionarios = 3150, Estoque = 780, Itens = 240 },
+        new RegistroFinanceiro { Id = 5, DataRegistrada = new DateTime(2025, 5, 10), Gas = 135, Luz = 195, Agua = 88, Funcionarios = 3300, Estoque = 760, Itens = 265 }
+    );
+
     }
 }
 }

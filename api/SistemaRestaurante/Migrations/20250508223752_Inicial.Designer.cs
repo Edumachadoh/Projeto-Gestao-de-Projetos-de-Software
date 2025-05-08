@@ -11,7 +11,7 @@ using SistemaRestaurante.Context;
 namespace SistemaRestaurante.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250508024617_Inicial")]
+    [Migration("20250508223752_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -34,6 +34,33 @@ namespace SistemaRestaurante.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estoques");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DataRegistrada = new DateTime(2025, 5, 3, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DataRegistrada = new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DataRegistrada = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DataRegistrada = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DataRegistrada = new DateTime(2025, 5, 7, 0, 0, 0, 0, DateTimeKind.Local)
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Financeiro.Gasto", b =>
@@ -54,6 +81,43 @@ namespace SistemaRestaurante.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gastos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Categoria = (byte)1,
+                            Data = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Valor = 150.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Categoria = (byte)0,
+                            Data = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Valor = 220.75m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Categoria = (byte)1,
+                            Data = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Valor = 98.50m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Categoria = (byte)1,
+                            Data = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Valor = 3000.00m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Categoria = (byte)0,
+                            Data = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Valor = 785.90m
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Financeiro.RegistroFinanceiro", b =>
@@ -86,6 +150,63 @@ namespace SistemaRestaurante.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RegistrosFinanceiros");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Agua = 90m,
+                            DataRegistrada = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Estoque = 750m,
+                            Funcionarios = 3000m,
+                            Gas = 120m,
+                            Itens = 250m,
+                            Luz = 200m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Agua = 95m,
+                            DataRegistrada = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Estoque = 800m,
+                            Funcionarios = 3100m,
+                            Gas = 130m,
+                            Itens = 270m,
+                            Luz = 210m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Agua = 100m,
+                            DataRegistrada = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Estoque = 700m,
+                            Funcionarios = 3200m,
+                            Gas = 140m,
+                            Itens = 260m,
+                            Luz = 190m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Agua = 85m,
+                            DataRegistrada = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Estoque = 780m,
+                            Funcionarios = 3150m,
+                            Gas = 125m,
+                            Itens = 240m,
+                            Luz = 205m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Agua = 88m,
+                            DataRegistrada = new DateTime(2025, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Estoque = 760m,
+                            Funcionarios = 3300m,
+                            Gas = 135m,
+                            Itens = 265m,
+                            Luz = 195m
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Item", b =>
@@ -184,7 +305,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 1,
                             ClienteId = 1,
-                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9651),
+                            Data = new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5327),
                             StatusPreparo = (byte)0,
                             ValorTotal = 45.50m
                         },
@@ -192,7 +313,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 2,
                             ClienteId = 2,
-                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9661),
+                            Data = new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5340),
                             StatusPreparo = (byte)0,
                             ValorTotal = 22.00m
                         },
@@ -200,7 +321,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 3,
                             ClienteId = 3,
-                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9663),
+                            Data = new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5342),
                             StatusPreparo = (byte)3,
                             ValorTotal = 100.00m
                         },
@@ -208,7 +329,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 4,
                             ClienteId = 4,
-                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9664),
+                            Data = new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5343),
                             StatusPreparo = (byte)1,
                             ValorTotal = 18.75m
                         },
@@ -216,7 +337,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 5,
                             ClienteId = 1,
-                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9665),
+                            Data = new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5345),
                             StatusPreparo = (byte)2,
                             ValorTotal = 70.30m
                         });
@@ -424,6 +545,48 @@ namespace SistemaRestaurante.Migrations
                     b.HasIndex("EstoqueId");
 
                     b.ToTable("Produtos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nome = "Arroz",
+                            QtdAtual = 50,
+                            QtdMaxima = 100,
+                            QtdMinima = 10
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nome = "Feijão",
+                            QtdAtual = 30,
+                            QtdMaxima = 80,
+                            QtdMinima = 15
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nome = "Macarrão",
+                            QtdAtual = 25,
+                            QtdMaxima = 70,
+                            QtdMinima = 20
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nome = "Carne",
+                            QtdAtual = 20,
+                            QtdMaxima = 50,
+                            QtdMinima = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nome = "Óleo",
+                            QtdAtual = 35,
+                            QtdMaxima = 60,
+                            QtdMinima = 8
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Item", b =>
