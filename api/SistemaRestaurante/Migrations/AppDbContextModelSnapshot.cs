@@ -106,6 +106,50 @@ namespace SistemaRestaurante.Migrations
                     b.HasIndex("PedidoId");
 
                     b.ToTable("Itens");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nome = "Refrigerante",
+                            PedidoId = 1,
+                            Valor = 5.50m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nome = "Suco",
+                            PedidoId = 2,
+                            Valor = 12.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nome = "Bolacha",
+                            PedidoId = 2,
+                            Valor = 8.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nome = "Bala",
+                            PedidoId = 2,
+                            Valor = 2.20m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nome = "Chicletes",
+                            PedidoId = 3,
+                            Valor = 1.00m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nome = "Pasta de dente",
+                            PedidoId = 4,
+                            Valor = 15.00m
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
@@ -131,6 +175,48 @@ namespace SistemaRestaurante.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Pedidos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClienteId = 1,
+                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9651),
+                            StatusPreparo = (byte)0,
+                            ValorTotal = 45.50m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClienteId = 2,
+                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9661),
+                            StatusPreparo = (byte)0,
+                            ValorTotal = 22.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClienteId = 3,
+                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9663),
+                            StatusPreparo = (byte)3,
+                            ValorTotal = 100.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClienteId = 4,
+                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9664),
+                            StatusPreparo = (byte)1,
+                            ValorTotal = 18.75m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClienteId = 1,
+                            Data = new DateTime(2025, 5, 7, 23, 46, 17, 16, DateTimeKind.Local).AddTicks(9665),
+                            StatusPreparo = (byte)2,
+                            ValorTotal = 70.30m
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pessoa.Cliente", b =>
@@ -159,6 +245,53 @@ namespace SistemaRestaurante.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cpf = "12345678901",
+                            DataNascimento = new DateTime(1990, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Ana Oliveira",
+                            PontosFidelidade = 120,
+                            Telefone = "(11) 91234-5678"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cpf = "23456789012",
+                            DataNascimento = new DateTime(1985, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Bruno Souza",
+                            PontosFidelidade = 200,
+                            Telefone = "(21) 99876-5432"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cpf = "34567890123",
+                            DataNascimento = new DateTime(1998, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Carla Lima",
+                            PontosFidelidade = 80,
+                            Telefone = "(31) 98765-4321"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cpf = "45678901234",
+                            DataNascimento = new DateTime(1992, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Diego Martins",
+                            PontosFidelidade = 150,
+                            Telefone = "(41) 97654-3210"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cpf = "56789012345",
+                            DataNascimento = new DateTime(1980, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Elaine Costa",
+                            PontosFidelidade = 300,
+                            Telefone = "(51) 96543-2109"
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pessoa.Funcionario", b =>
@@ -197,6 +330,68 @@ namespace SistemaRestaurante.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Funcionarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cargo = (byte)0,
+                            Cpf = "535352123",
+                            EstaAtivo = true,
+                            Nome = "Paulo Tobias",
+                            Salario = 3000m,
+                            Senha = "senha123",
+                            Status = 1,
+                            Telefone = "4788845654"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cargo = (byte)3,
+                            Cpf = "12345678900",
+                            EstaAtivo = true,
+                            Nome = "Joao Paulo",
+                            Salario = 2500m,
+                            Senha = "chimarrao@@!",
+                            Status = 1,
+                            Telefone = "413532535"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cargo = (byte)2,
+                            Cpf = "7575422345",
+                            EstaAtivo = true,
+                            Nome = "Jeremias Antonio Junior",
+                            Salario = 5680m,
+                            Senha = "topzera224",
+                            Status = 1,
+                            Telefone = "242223254"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cargo = (byte)0,
+                            Cpf = "7346895211",
+                            EstaAtivo = true,
+                            Nome = "Fernanda Albuquerque",
+                            Salario = 7800m,
+                            Senha = "senha123",
+                            Status = 1,
+                            Telefone = "5799568888"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cargo = (byte)1,
+                            Cpf = "999067777",
+                            EstaAtivo = true,
+                            Nome = "Maria Betania",
+                            Salario = 2900m,
+                            Senha = "carambolas2323",
+                            Status = 1,
+                            Telefone = "4745454555"
+                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Produto", b =>

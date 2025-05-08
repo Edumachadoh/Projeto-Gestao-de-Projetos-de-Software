@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SistemaRestaurante.Data;
 using SistemaRestaurante.Models;
 using SistemaRestaurante.Models.Financeiro;
 using SistemaRestaurante.Models.Pessoa;
@@ -25,6 +26,7 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Seed();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 
