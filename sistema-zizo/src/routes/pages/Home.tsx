@@ -3,14 +3,16 @@ import ImagemZizo from "../../assets/Restaurante-do-Tio-Zizo-advertisement.jpg";
 
 const Home = () => {
   return (
-    <div style={{ display: "flex", alignItems: "center", marginLeft: "30px" }}>
+    <div style={{ display: "flex", alignItems: "center", padding: "0 30px" }}>
       <div
         style={{
           padding: "30px",
           display: "flex",
           alignItems: "center",
+          justifyContent: "center",
           flexDirection: "column",
           textAlign: "justify",
+          height: "90dvh",
         }}>
         <h1>Sistema Restaurante do Tio ZIZO</h1>
         <p style={{ padding: "30px", fontSize: "20px" }}>
@@ -24,9 +26,9 @@ const Home = () => {
         <img
           src={ImagemZizo}
           style={{
-            width: "1000px",
+            width: "900px",
             height: "auto",
-            padding: "30px",
+            maxHeight: "100dvh",
             borderRadius: "30px",
           }}
         />
