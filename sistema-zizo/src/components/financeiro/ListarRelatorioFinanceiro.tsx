@@ -6,17 +6,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import GraficoLinhas from "./graficos/GraficoLinhas";
 import GraficoColuna from "./graficos/GraficoColuna";
 
-const ListRelatorioFinanceiro = () => {
+const ListarRelatorioFinanceiro = () => {
   const [relatorioFinanceiro, setRelatorioFinanceiro] = useState<Relatorio[]>(
     [],
   );
   const [erro, setErro] = useState("");
-  const [showLineGraphic, setShowLineGraphic] = useState(false);
-  const [showColumnGraphic, setShowColoumnGraphic] = useState(false);
+  const [mostrarGraficoLinhas, setMostrarGraficoLinhas] = useState(false);
+  const [mostrarGraficoColuna, setMostrarGraficoColuna] = useState(false);
   const [colunaSelecionada, setColunaSelecionada] = useState<string | null>(
     null,
   );
-  const [selectedRows, setSelectedRows] = useState<Relatorio[]>([]);
+  const [linhasSelecionadas, setLinhasSelecionadas] = useState<Relatorio[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,13 +94,13 @@ const ListRelatorioFinanceiro = () => {
             const selectedData = relatorioFinanceiro.filter((relatorio) =>
               numericIds.includes(relatorio.id),
             );
-            setSelectedRows(selectedData);
+            setLinhasSelecionadas(selectedData);
 
             //se caso nenhuma for selecionada ele desaparece com o gráfico
             if (selectedData.length > 0) {
-              setShowLineGraphic(true);
+              setMostrarGraficoLinhas(true);
             } else {
-              setShowLineGraphic(false);
+              setMostrarGraficoLinhas(false);
             }
           }}
           //quando seleciona o cabeçalho de uma coluna
@@ -112,7 +112,7 @@ const ListRelatorioFinanceiro = () => {
 
             if (isCampoValido) {
               setColunaSelecionada(params.field);
-              setShowColoumnGraphic(true);
+              setMostrarGraficoColuna(true);
             }
           }}
         />
@@ -122,21 +122,21 @@ const ListRelatorioFinanceiro = () => {
         <p>Nenhum relatório encontrado. {erro}</p>
       )}
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {showLineGraphic && selectedRows.length > 0 && (
+        {mostrarGraficoLinhas && linhasSelecionadas.length > 0 && (
           <div>
             <Button
               variant="contained"
-              onClick={() => setShowLineGraphic(false)}>
+              onClick={() => setMostrarGraficoLinhas(false)}>
               <GridCloseIcon />
             </Button>
-            <GraficoLinhas selectedRows={selectedRows} />
+            <GraficoLinhas selectedRows={linhasSelecionadas} />
           </div>
         )}
-        {showColumnGraphic && colunaSelecionada && (
+        {mostrarGraficoColuna && colunaSelecionada && (
           <div>
             <Button
               variant="contained"
-              onClick={() => setShowColoumnGraphic(false)}>
+              onClick={() => setMostrarGraficoColuna(false)}>
               <CloseIcon />
             </Button>
             <GraficoColuna
@@ -151,4 +151,4 @@ const ListRelatorioFinanceiro = () => {
   );
 };
 
-export default ListRelatorioFinanceiro;
+export default ListarRelatorioFinanceiro;

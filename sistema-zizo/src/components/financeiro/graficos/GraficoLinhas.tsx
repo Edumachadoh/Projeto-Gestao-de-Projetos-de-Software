@@ -2,14 +2,16 @@ import { Box, Paper, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import React from "react";
 import type { Relatorio } from "../../../models/Relatorio";
-import NumToMonth from "../../../util/NumToMonth";
+import NumeroParaMes from "../../../util/NumeroParaMes";
 
 interface GraficoLinhasProps {
   selectedRows: Relatorio[];
 }
 
-const GraficoLinhas: React.FC<GraficoLinhasProps> = ({ selectedRows }) => {
-  const chartSetting = {
+const GraficoLinhas: React.FC<GraficoLinhasProps> = ({
+  selectedRows: linhasSelecionadas,
+}) => {
+  const configuracoesGrafico = {
     yAxis: [
       {
         label: "quantidade",
@@ -23,17 +25,19 @@ const GraficoLinhas: React.FC<GraficoLinhasProps> = ({ selectedRows }) => {
     <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
       <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
         <Typography variant="h6" sx={{ marginBottom: 2 }}>
-          <p>Gráfico dos {selectedRows.length > 1 ? "meses" : "mês de"}</p>
+          <p>
+            Gráfico dos {linhasSelecionadas.length > 1 ? "meses" : "mês de"}
+          </p>
           <ul style={{ paddingLeft: "20px" }}>
-            {selectedRows.map((datas) => (
+            {linhasSelecionadas.map((datas) => (
               <li>
-                {NumToMonth(datas.dataRegistrada.toString().split("-")[1])}{" "}
+                {NumeroParaMes(datas.dataRegistrada.toString().split("-")[1])}{" "}
               </li>
             ))}
           </ul>
         </Typography>
         <BarChart
-          dataset={selectedRows.map((relatorio) => ({
+          dataset={linhasSelecionadas.map((relatorio) => ({
             data: new Date(relatorio.dataRegistrada).toLocaleDateString(),
             estoque: relatorio.estoque,
             funcionarios: relatorio.funcionarios,
@@ -49,7 +53,7 @@ const GraficoLinhas: React.FC<GraficoLinhasProps> = ({ selectedRows }) => {
             { dataKey: "itens", label: "Itens" },
             { dataKey: "luz", label: "Luz" },
           ]}
-          {...chartSetting}
+          {...configuracoesGrafico}
         />
       </Paper>
     </Box>

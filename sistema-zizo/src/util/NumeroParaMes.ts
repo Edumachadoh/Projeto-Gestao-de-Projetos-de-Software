@@ -1,4 +1,4 @@
-const NumToMonth = (mes: string) => {
+const NumeroParaMes = (mes: string) => {
   switch (Number(mes)) {
     case 1: {
       return "Janeiro";
@@ -42,4 +42,4 @@ const NumToMonth = (mes: string) => {
   }
 };
 
-export default NumToMonth;
+export default NumeroParaMes;

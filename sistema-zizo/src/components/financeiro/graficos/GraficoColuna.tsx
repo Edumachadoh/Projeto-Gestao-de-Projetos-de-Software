@@ -13,7 +13,7 @@ const GraficoColuna: React.FC<GraficoColunaProps> = ({
   colunaSelecionadaHeaderName,
   rows,
 }) => {
-  const chartSetting = {
+  const configuracoesGrafico = {
     yAxis: [{ label: "quantidade", width: 60 }],
     height: 300,
   };
@@ -39,7 +39,7 @@ const GraficoColuna: React.FC<GraficoColunaProps> = ({
             },
           ]}
           series={[{ data: dadosColuna }]}
-          {...chartSetting}
+          {...configuracoesGrafico}
         />
       </Paper>
     </Box>
