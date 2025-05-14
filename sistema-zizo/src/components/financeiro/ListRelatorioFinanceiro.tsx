@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import type { Relatorio } from "../../models/Relatorio";
-import { Button, Paper, Typography } from "@mui/material";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
+import { Button, Paper } from "@mui/material";
+import { DataGrid, GridCloseIcon, type GridColDef } from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  ChartContainer,
-  BarPlot,
-  LinePlot,
-  MarkPlot,
-  ChartsXAxis,
-} from "@mui/x-charts";
+import GraficoLinhas from "./graficos/GraficoLinhas";
+import GraficoColuna from "./graficos/GraficoColuna";
 
 const ListRelatorioFinanceiro = () => {
   const [relatorioFinanceiro, setRelatorioFinanceiro] = useState<Relatorio[]>(
     [],
   );
   const [erro, setErro] = useState("");
-
-  const [showEspGraphic, setShowEspGraphic] = useState(false);
+  const [showLineGraphic, setShowLineGraphic] = useState(false);
+  const [showColumnGraphic, setShowColoumnGraphic] = useState(false);
   const [colunaSelecionada, setColunaSelecionada] = useState<string | null>(
     null,
   );
+  const [selectedRows, setSelectedRows] = useState<Relatorio[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,26 +41,26 @@ const ListRelatorioFinanceiro = () => {
     fetchData();
   }, []);
 
+  //esse type é obrigatório para o DataGrid
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", type: "number", width: 100 },
+    { field: "id", headerName: "ID", type: "number" },
     {
       field: "dataRegistrada",
-      headerName: "Data Registrada",
+      headerName: "Data",
       type: "string",
-      width: 200,
     },
-    { field: "estoque", headerName: "Estoque", type: "number", width: 200 },
+    { field: "estoque", headerName: "Estoque", type: "number" },
     {
       field: "funcionarios",
       headerName: "Funcionários",
       type: "number",
-      width: 200,
     },
-    { field: "gas", headerName: "Gás", type: "number", width: 200 },
-    { field: "itens", headerName: "Itens", type: "number", width: 200 },
-    { field: "luz", headerName: "Luz", type: "number", width: 200 },
+    { field: "gas", headerName: "Gás", type: "number" },
+    { field: "itens", headerName: "Itens", type: "number" },
+    { field: "luz", headerName: "Luz", type: "number" },
   ];
 
+  //formatando as linhas para as informações corretas
   const rows = relatorioFinanceiro.map((relatorio: Relatorio) => ({
     id: relatorio.id,
     dataRegistrada: new Date(relatorio.dataRegistrada).toLocaleDateString(),
@@ -78,68 +73,75 @@ const ListRelatorioFinanceiro = () => {
 
   const paginationModel = { page: 0, pageSize: 5 };
 
-  const generateData = () => {
-    if (!colunaSelecionada) return [];
-    return rows.map((row) =>
-      Number(row[colunaSelecionada as keyof typeof row]),
-    );
-  };
-
   // Busca o headerName para exibir no título do gráfico
-  const colunaSelecionadaHeaderName = columns.find(
+  const selectedLinesHeaderName = columns.find(
     (col) => col.field === colunaSelecionada,
   )?.headerName;
 
   return (
-    <div style={{ width: "100%", padding: 20 }}>
-      <Paper>
+    <div style={{ width: "fit-content", padding: 20, display: "flex" }}>
+      <Paper sx={{ height: "90dvh" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
-          onColumnHeaderClick={(params) => {
-            if (params.field !== "id" && params.field !== "dataRegistrada") {
-              setColunaSelecionada(params.field); // agora guarda o field
-              setShowEspGraphic(true);
+          checkboxSelection
+          //quando seleciona uma ou mais linhas
+          onRowSelectionModelChange={(selectionModel) => {
+            const idsArray = Array.from(selectionModel.ids ?? []);
+            const numericIds = idsArray.map((id) => Number(id));
+            const selectedData = relatorioFinanceiro.filter((relatorio) =>
+              numericIds.includes(relatorio.id),
+            );
+            setSelectedRows(selectedData);
+
+            //se caso nenhuma for selecionada ele desaparece com o gráfico
+            if (selectedData.length > 0) {
+              setShowLineGraphic(true);
+            } else {
+              setShowLineGraphic(false);
             }
           }}
-          checkboxSelection
-          sx={{ border: 0 }}
+          //quando seleciona o cabeçalho de uma coluna
+          onColumnHeaderClick={(params) => {
+            if (params.field !== "id" && params.field !== "dataRegistrada") {
+              setColunaSelecionada(params.field);
+              setShowColoumnGraphic(true);
+            }
+          }}
         />
       </Paper>
 
       {relatorioFinanceiro.length === 0 && (
         <p>Nenhum relatório encontrado. {erro}</p>
       )}
-
-      {showEspGraphic && (
-        <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
-          <Button variant="contained" onClick={() => setShowEspGraphic(false)}>
-            <CloseIcon />
-          </Button>
-          <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
-            <Typography variant="h6" sx={{ marginBottom: 2 }}>
-              Gráfico de {colunaSelecionadaHeaderName}
-            </Typography>
-            <ChartContainer
-              series={[{ type: "line", data: generateData() }]}
-              xAxis={[
-                {
-                  data: rows.map((row) => row.dataRegistrada),
-                  scaleType: "band",
-                  id: "x-axis-id",
-                  height: 45,
-                },
-              ]}>
-              <BarPlot />
-              <LinePlot />
-              <MarkPlot />
-              <ChartsXAxis label="Data" axisId="x-axis-id" />
-            </ChartContainer>
-          </Paper>
-        </Box>
-      )}
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {showLineGraphic && selectedRows.length > 0 && (
+          <div>
+            <Button
+              variant="contained"
+              onClick={() => setShowLineGraphic(false)}>
+              <GridCloseIcon />
+            </Button>
+            <GraficoLinhas selectedRows={selectedRows} />
+          </div>
+        )}
+        {showColumnGraphic && (
+          <div>
+            <Button
+              variant="contained"
+              onClick={() => setShowColoumnGraphic(false)}>
+              <CloseIcon />
+            </Button>
+            <GraficoColuna
+              rows={relatorioFinanceiro}
+              colunaSelecionadaHeaderName={String(selectedLinesHeaderName)}
+              colunaSelecionada={String(colunaSelecionada)}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
