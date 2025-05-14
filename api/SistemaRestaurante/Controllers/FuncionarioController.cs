@@ -16,7 +16,7 @@ public class FuncionarioController : ControllerBase
         _appDbContext = appDbContext;
     }
 
-    [HttpPost]
+    [HttpPost("cadastrar")]
     public async Task <IActionResult> AddFuncionario([FromBody] Funcionario funcionario)
     {
         if (!ModelState.IsValid)

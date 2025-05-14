@@ -25,7 +25,7 @@ function CadastroFuncionario() {
       status: 1,
     };
 
-    fetch("http://localhost:5020/api/funcionario/cadastrar", {
+    fetch("http://localhost:5190/api/funcionarios/cadastrar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ function CadastroFuncionario() {
         console.log("Funcionário cadastrado", funcionarioCadastrado);
       })
       .catch((erro) => {
-        console.error("Erro ao cadastrar funcionário", erro);
+        console.error("Erro ao cadastrar funcionário\n", erro);
       });
   }
 
