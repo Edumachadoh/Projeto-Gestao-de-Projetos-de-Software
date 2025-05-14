@@ -1,6 +1,5 @@
-@SistemaRestaurante_HostAddress = http://localhost:5190
+@SistemaRestaurante_HostAddress = http://localhost:5190/api
 
-GET {{SistemaRestaurante_HostAddress}}/weatherforecast/
-Accept: application/json
+DELETE {{SistemaRestaurante_HostAddress}}/clientes/1
 
 ###
