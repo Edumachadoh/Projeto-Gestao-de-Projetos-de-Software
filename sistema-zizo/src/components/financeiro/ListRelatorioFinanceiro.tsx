@@ -110,10 +110,11 @@ const ListRelatorioFinanceiro = () => {
           pageSizeOptions={[5, 10]}
           onColumnHeaderClick={(params) => {
             if (params.field !== "id" && params.field !== "dataRegistrada") {
-              setColunaSelecionada(params.field); // agora guarda o `field`
+              setColunaSelecionada(params.field); // agora guarda o field
               setShowEspGraphic(true);
             }
           }}
+          checkboxSelection
           sx={{ border: 0 }}
         />
       </Paper>
@@ -124,15 +125,13 @@ const ListRelatorioFinanceiro = () => {
 
       {showEspGraphic && (
         <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
+          <Button variant="contained" onClick={() => setShowEspGraphic(false)}>
+            Fechar
+          </Button>
           <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
             <Typography variant="h6" sx={{ marginBottom: 2 }}>
               Gráfico de {colunaSelecionadaHeaderName}
             </Typography>
-            <Button
-              variant="contained"
-              onClick={() => setShowEspGraphic(false)}>
-              Voltar
-            </Button>
             <ChartContainer
               series={[{ type: "line", data: generateData() }]}
               xAxis={[
