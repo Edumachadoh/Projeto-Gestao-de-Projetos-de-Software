@@ -105,7 +105,12 @@ const ListRelatorioFinanceiro = () => {
           }}
           //quando seleciona o cabeçalho de uma coluna
           onColumnHeaderClick={(params) => {
-            if (params.field !== "id" && params.field !== "dataRegistrada") {
+            const isCampoValido =
+              params.field !== "id" &&
+              params.field !== "dataRegistrada" &&
+              params.field !== "__check__";
+
+            if (isCampoValido) {
               setColunaSelecionada(params.field);
               setShowColoumnGraphic(true);
             }
@@ -127,7 +132,7 @@ const ListRelatorioFinanceiro = () => {
             <GraficoLinhas selectedRows={selectedRows} />
           </div>
         )}
-        {showColumnGraphic && (
+        {showColumnGraphic && colunaSelecionada && (
           <div>
             <Button
               variant="contained"

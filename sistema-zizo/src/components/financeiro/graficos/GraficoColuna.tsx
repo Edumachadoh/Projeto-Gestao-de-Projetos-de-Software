@@ -14,14 +14,15 @@ const GraficoColuna: React.FC<GraficoColunaProps> = ({
   rows,
 }) => {
   const chartSetting = {
-    yAxis: [
-      {
-        label: "quantidade",
-        width: 60,
-      },
-    ],
+    yAxis: [{ label: "quantidade", width: 60 }],
     height: 300,
   };
+
+  const dadosColuna = rows.map((row) =>
+    colunaSelecionada && colunaSelecionada in row
+      ? Number(row[colunaSelecionada as keyof Relatorio])
+      : null,
+  );
 
   return (
     <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
@@ -37,13 +38,7 @@ const GraficoColuna: React.FC<GraficoColunaProps> = ({
               ),
             },
           ]}
-          series={[
-            {
-              data: rows.map((row) =>
-                Number(row[colunaSelecionada as keyof typeof row]),
-              ),
-            },
-          ]}
+          series={[{ data: dadosColuna }]}
           {...chartSetting}
         />
       </Paper>
