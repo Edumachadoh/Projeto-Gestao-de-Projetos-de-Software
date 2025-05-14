@@ -46,7 +46,7 @@ function CadastroFuncionario() {
       <div className="form-header">
         <h2>Cadastro de Funcionário</h2>
       </div>
-      <form onSubmit={enviarFuncionario}>
+      <form className="form-content" onSubmit={enviarFuncionario}>
         <div className="form-group">
           <label htmlFor="nome">Nome</label>
           <input
@@ -107,7 +107,7 @@ function CadastroFuncionario() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="cargo">Cargo</label>
+          <label htmlFor="cargo">Cargo: </label>
           <select
             id="cargo"
             value={cargo}
@@ -122,7 +122,7 @@ function CadastroFuncionario() {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="estaAtivo">Status</label>
+          <label htmlFor="estaAtivo">Status: </label>
           <select
             id="estaAtivo"
             value={estaAtivo ? "1" : "0"}
@@ -131,7 +131,9 @@ function CadastroFuncionario() {
             <option value="0">Inativo</option>
           </select>
         </div>
-        <button type="submit">Cadastrar</button>
+        <button type="submit" className="form-submit-button">
+          Cadastrar
+        </button>
       </form>
     </div>
   );

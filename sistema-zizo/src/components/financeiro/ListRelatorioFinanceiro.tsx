@@ -3,6 +3,7 @@ import type { Relatorio } from "../../models/Relatorio";
 import { Button, Paper, Typography } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   ChartContainer,
   BarPlot,
@@ -90,19 +91,8 @@ const ListRelatorioFinanceiro = () => {
   )?.headerName;
 
   return (
-    <div
-      style={{
-        margin: "0 auto",
-        width: "80%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        padding: "20px",
-        borderRadius: "10px",
-      }}>
-      <Paper sx={{ height: 500, width: "100%" }}>
+    <div style={{ width: "100%", padding: 20 }}>
+      <Paper>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -126,7 +116,7 @@ const ListRelatorioFinanceiro = () => {
       {showEspGraphic && (
         <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
           <Button variant="contained" onClick={() => setShowEspGraphic(false)}>
-            Fechar
+            <CloseIcon />
           </Button>
           <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
             <Typography variant="h6" sx={{ marginBottom: 2 }}>
