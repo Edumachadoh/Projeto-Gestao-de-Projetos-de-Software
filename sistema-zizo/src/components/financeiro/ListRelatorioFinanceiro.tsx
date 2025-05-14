@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Relatorio } from "../../models/Relatorio";
-import { Paper } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {
@@ -17,6 +17,11 @@ const ListRelatorioFinanceiro = () => {
   );
   const [erro, setErro] = useState("");
 
+  const [showEspGraphic, setShowEspGraphic] = useState(false);
+  const [colunaSelecionada, setColunaSelecionada] = useState<string | null>(
+    null,
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       setErro("");
@@ -31,7 +36,6 @@ const ListRelatorioFinanceiro = () => {
         }
 
         const data = await response.json();
-        console.log(data);
         setRelatorioFinanceiro(data);
       } catch (err: any) {
         setErro(err.message);
@@ -46,34 +50,19 @@ const ListRelatorioFinanceiro = () => {
     {
       field: "dataRegistrada",
       headerName: "Data Registrada",
-      type: "number",
+      type: "string",
       width: 200,
     },
-    { field: "estoque", headerName: "estoque", width: 200 },
+    { field: "estoque", headerName: "Estoque", type: "number", width: 200 },
     {
       field: "funcionarios",
-      headerName: "Funcionarios",
+      headerName: "Funcionários",
       type: "number",
       width: 200,
     },
-    {
-      field: "gas",
-      headerName: "Gas",
-      type: "number",
-      width: 200,
-    },
-    {
-      field: "itens",
-      headerName: "Itens",
-      type: "number",
-      width: 200,
-    },
-    {
-      field: "luz",
-      headerName: "Luz",
-      type: "number",
-      width: 200,
-    },
+    { field: "gas", headerName: "Gás", type: "number", width: 200 },
+    { field: "itens", headerName: "Itens", type: "number", width: 200 },
+    { field: "luz", headerName: "Luz", type: "number", width: 200 },
   ];
 
   const rows = relatorioFinanceiro.map((relatorio: Relatorio) => ({
@@ -88,6 +77,18 @@ const ListRelatorioFinanceiro = () => {
 
   const paginationModel = { page: 0, pageSize: 5 };
 
+  const generateData = () => {
+    if (!colunaSelecionada) return [];
+    return rows.map((row) =>
+      Number(row[colunaSelecionada as keyof typeof row]),
+    );
+  };
+
+  // Busca o headerName para exibir no título do gráfico
+  const colunaSelecionadaHeaderName = columns.find(
+    (col) => col.field === colunaSelecionada,
+  )?.headerName;
+
   return (
     <div
       style={{
@@ -99,7 +100,6 @@ const ListRelatorioFinanceiro = () => {
         justifyContent: "center",
         textAlign: "center",
         padding: "20px",
-        height: "90vh",
         borderRadius: "10px",
       }}>
       <Paper sx={{ height: 500, width: "100%" }}>
@@ -108,38 +108,49 @@ const ListRelatorioFinanceiro = () => {
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
-          rowSelection
+          onColumnHeaderClick={(params) => {
+            if (params.field !== "id" && params.field !== "dataRegistrada") {
+              setColunaSelecionada(params.field); // agora guarda o `field`
+              setShowEspGraphic(true);
+            }
+          }}
           sx={{ border: 0 }}
         />
       </Paper>
+
       {relatorioFinanceiro.length === 0 && (
-        <p>Nenhum relatório encontrado.{erro}</p>
+        <p>Nenhum relatório encontrado. {erro}</p>
       )}
 
-      <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
-        <Paper sx={{ margin: 3, height: 300 }} elevation={5}>
-          <ChartContainer
-            series={[
-              {
-                type: "bar",
-                data: [1, 2, 3, 2, 1],
-              },
-            ]}
-            xAxis={[
-              {
-                data: rows.map((row) => row.dataRegistrada),
-                scaleType: "band",
-                id: "x-axis-id",
-                height: 45,
-              },
-            ]}>
-            <BarPlot />
-            <LinePlot />
-            <MarkPlot />
-            <ChartsXAxis label="Mês" axisId="x-axis-id" />
-          </ChartContainer>
-        </Paper>
-      </Box>
+      {showEspGraphic && (
+        <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
+          <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
+            <Typography variant="h6" sx={{ marginBottom: 2 }}>
+              Gráfico de {colunaSelecionadaHeaderName}
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => setShowEspGraphic(false)}>
+              Voltar
+            </Button>
+            <ChartContainer
+              series={[{ type: "line", data: generateData() }]}
+              xAxis={[
+                {
+                  data: rows.map((row) => row.dataRegistrada),
+                  scaleType: "band",
+                  id: "x-axis-id",
+                  height: 45,
+                },
+              ]}>
+              <BarPlot />
+              <LinePlot />
+              <MarkPlot />
+              <ChartsXAxis label="Data" axisId="x-axis-id" />
+            </ChartContainer>
+          </Paper>
+        </Box>
+      )}
     </div>
   );
 };
