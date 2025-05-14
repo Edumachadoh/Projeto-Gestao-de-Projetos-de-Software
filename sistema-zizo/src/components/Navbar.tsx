@@ -2,9 +2,10 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HomeIcon from "@mui/icons-material/Home";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { Link } from "react-router";
 
 const iconColor = {
   color: "#000",
@@ -26,19 +27,25 @@ export default function Navbar() {
         }}
         sx={{ backgroundColor: "#c0c0c1" }}>
         <BottomNavigationAction
-          label="Recents"
-          icon={<RestoreIcon />}
+          label="Home"
+          icon={<HomeIcon />}
           sx={iconColor}
+          component={Link}
+          to="/"
         />
         <BottomNavigationAction
-          label="Recents"
-          icon={<FavoriteIcon />}
+          label="Relatório"
+          icon={<AssignmentIcon />}
           sx={iconColor}
+          component={Link}
+          to="/relatorio-financeiro"
         />
         <BottomNavigationAction
-          label="Recents"
-          icon={<LocationOnIcon />}
+          label="Cadastro"
+          icon={<PersonAddAlt1Icon />}
           sx={iconColor}
+          component={Link}
+          to="/cadastro"
         />
       </BottomNavigation>
     </Box>

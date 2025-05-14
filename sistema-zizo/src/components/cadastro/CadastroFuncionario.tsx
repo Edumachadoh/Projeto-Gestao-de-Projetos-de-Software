@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import type { Funcionario } from '../../interfaces/Funcionario';
-import { Cargo } from '../../interfaces/Cargo';
+import { useState } from "react";
+import type { Funcionario } from "../../interfaces/Funcionario";
+import { Cargo } from "../../interfaces/Cargo";
 
-function FuncionarioCadastrar() {
+function CadastroFuncionario() {
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [senha, setSenha] = useState("");
@@ -22,7 +22,7 @@ function FuncionarioCadastrar() {
       salario: Number(salario),
       telefone: telefone || undefined,
       estaAtivo,
-      status: 1 
+      status: 1,
     };
 
     fetch("http://localhost:5020/api/funcionario/cadastrar", {
@@ -111,12 +111,13 @@ function FuncionarioCadastrar() {
           <select
             id="cargo"
             value={cargo}
-            onChange={(e) => setCargo(Number(e.target.value) as Cargo)}
-          >
+            onChange={(e) => setCargo(Number(e.target.value) as Cargo)}>
             {Object.entries(Cargo)
               .filter(([key]) => isNaN(Number(key)))
               .map(([key, value]) => (
-                <option key={key} value={value}>{key}</option>
+                <option key={key} value={value}>
+                  {key}
+                </option>
               ))}
           </select>
         </div>
@@ -125,8 +126,7 @@ function FuncionarioCadastrar() {
           <select
             id="estaAtivo"
             value={estaAtivo ? "1" : "0"}
-            onChange={(e) => setEstaAtivo(e.target.value === "1")}
-          >
+            onChange={(e) => setEstaAtivo(e.target.value === "1")}>
             <option value="1">Ativo</option>
             <option value="0">Inativo</option>
           </select>
@@ -137,4 +137,4 @@ function FuncionarioCadastrar() {
   );
 }
 
-export default FuncionarioCadastrar;
+export default CadastroFuncionario;
