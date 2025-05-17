@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import Home from "./routes/pages/Home.tsx";
 import RelatorioFinanceiro from "./routes/pages/RelatorioFinanceiro.tsx";
 import Cadastro from "./routes/pages/Cadastro.tsx";
+import ListarFuncionarios from "./routes/pages/Listar.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/cadastro",
         element: <Cadastro />,
+      },
+      {
+        path: "/funcionarios",
+        element: < ListarFuncionarios/>,
       },
     ],
   },

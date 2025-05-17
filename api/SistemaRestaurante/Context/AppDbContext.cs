@@ -28,6 +28,11 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Seed();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        modelBuilder.Entity<Funcionario>(entity =>
+    {
+        entity.Property(f => f.Status)
+              .HasDefaultValue(1); 
+    });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

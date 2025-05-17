@@ -17,9 +17,9 @@ public class Funcionario
     public string Nome { get; set; } = null!;
     public bool EstaAtivo { get; set; }
     [Required]
-    public decimal Salario { get; set; } 
+    public decimal Salario { get; set; }
     public string? Telefone { get; set; }
-    
     [Required]
-    public int Status { get; set; } // ana: e o que isso quer dizer?
+    public int Status { get; set; }
+    
 }

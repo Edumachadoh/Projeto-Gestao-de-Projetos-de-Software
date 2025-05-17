@@ -47,6 +47,13 @@ export default function Navbar() {
           component={Link}
           to="/cadastro"
         />
+        <BottomNavigationAction
+          label="Listar"
+          icon={<PersonAddAlt1Icon />}
+          sx={iconColor}
+          component={Link}
+          to="/funcionarios"
+        />
       </BottomNavigation>
     </Box>
   );

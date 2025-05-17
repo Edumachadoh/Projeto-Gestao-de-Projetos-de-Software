@@ -19,15 +19,38 @@ public class FuncionarioController : ControllerBase
     [HttpPost("cadastrar")]
     public async Task <IActionResult> AddFuncionario([FromBody] Funcionario funcionario)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            funcionario.Telefone = string.IsNullOrWhiteSpace(funcionario.Telefone) ? null : funcionario.Telefone;
+
+            await _appDbContext.Funcionarios.AddAsync(funcionario);
+            await _appDbContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetFuncionarioId), new { id = funcionario.Id }, funcionario);
         }
-
-        await _appDbContext.Funcionarios.AddAsync(funcionario);
-        await _appDbContext.SaveChangesAsync();
-
-        return StatusCode(201, funcionario);
+        catch (DbUpdateException ex)
+        {
+            // Log do erro (adicione isso no seu programa)
+            Console.WriteLine($"Erro ao salvar no banco: {ex.InnerException?.Message}");
+            return StatusCode(500, new { 
+                success = false, 
+                message = "Erro ao cadastrar funcionário",
+                error = ex.InnerException?.Message 
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { 
+                success = false, 
+                message = "Erro interno no servidor",
+                error = ex.Message 
+            });
+        }
     }
 
     [HttpGet]
