@@ -30,6 +30,7 @@ const Home = () => {
             height: "auto",
             maxHeight: "100dvh",
             borderRadius: "30px",
+            margin: "30px",
           }}
         />
       ) : (

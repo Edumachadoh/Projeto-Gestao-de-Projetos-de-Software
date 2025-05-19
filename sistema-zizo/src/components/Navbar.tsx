@@ -5,6 +5,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from "@mui/icons-material/Home";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { Link } from "react-router";
 
 const iconColor = {
@@ -49,7 +50,7 @@ export default function Navbar() {
         />
         <BottomNavigationAction
           label="Listar"
-          icon={<PersonAddAlt1Icon />}
+          icon={<FormatListBulletedIcon />}
           sx={iconColor}
           component={Link}
           to="/funcionarios"
