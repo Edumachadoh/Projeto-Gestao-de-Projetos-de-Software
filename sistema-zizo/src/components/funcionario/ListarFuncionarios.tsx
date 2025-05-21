@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Funcionario } from "../../models/interfaces/Funcionario";
 import { Cargo } from "../../models/enums/Cargo";
 
@@ -14,6 +14,8 @@ function ListaFuncionarios() {
   const [carregando, setCarregando] = useState(true);
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [formEdit, setFormEdit] = useState<Partial<Funcionario>>({});
+  const [termoPesquisa, setTermoPesquisa] = useState(""); 
+
 
   const carregarFuncionarios = async () => {
     try {
@@ -28,6 +30,12 @@ function ListaFuncionarios() {
       setCarregando(false);
     }
   };
+
+  const funcionariosFiltrados = useMemo(() => {
+    return funcionarios.filter((funcionario) =>
+      funcionario.nome.toLowerCase().includes(termoPesquisa.toLowerCase())
+    );
+  }, [funcionarios, termoPesquisa]);
 
   useEffect(() => {
     carregarFuncionarios();
@@ -148,6 +156,15 @@ function ListaFuncionarios() {
     <div className="form-container">
       <div className="form-header">
         <h2>Lista de Funcionários</h2>
+         <div className="search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar por nome..."
+            value={termoPesquisa}
+            onChange={(e) => setTermoPesquisa(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
 
       <div className="form-content">
@@ -163,14 +180,16 @@ function ListaFuncionarios() {
             </tr>
           </thead>
           <tbody>
-            {funcionarios.length === 0 ? (
+            {funcionariosFiltrados.length === 0 ? (
               <tr>
                 <td colSpan={6} className="no-data">
-                  Nenhum funcionário cadastrado
+                  {termoPesquisa ? 
+                    "Nenhum funcionário encontrado com esse nome" : 
+                    "Nenhum funcionário cadastrado"}
                 </td>
               </tr>
             ) : (
-              funcionarios.map((funcionario) => (
+              funcionariosFiltrados.map((funcionario) => (
                 <tr
                   key={funcionario.id}
                   className={

@@ -1,4 +1,4 @@
-import CadastroFuncionario from "../../components/cadastro/CadastroFuncionario";
+import CadastroFuncionario from "../../components/funcionario/CadastroFuncionario";
 
 const Cadastro = () => {
   return (
