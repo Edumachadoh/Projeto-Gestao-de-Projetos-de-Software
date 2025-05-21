@@ -11,8 +11,8 @@ using SistemaRestaurante.Context;
 namespace SistemaRestaurante.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250513225241_Teste")]
-    partial class Teste
+    [Migration("20250521222110_AjustandoModelsItem")]
+    partial class AjustandoModelsItem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,27 +39,27 @@ namespace SistemaRestaurante.Migrations
                         new
                         {
                             Id = 1,
-                            DataRegistrada = new DateTime(2025, 5, 8, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 16, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2,
-                            DataRegistrada = new DateTime(2025, 5, 9, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 3,
-                            DataRegistrada = new DateTime(2025, 5, 10, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 4,
-                            DataRegistrada = new DateTime(2025, 5, 11, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 19, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 5,
-                            DataRegistrada = new DateTime(2025, 5, 12, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -236,42 +236,36 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 1,
                             Nome = "Refrigerante",
-                            PedidoId = 1,
                             Valor = 5.50m
                         },
                         new
                         {
                             Id = 2,
                             Nome = "Suco",
-                            PedidoId = 2,
                             Valor = 12.00m
                         },
                         new
                         {
                             Id = 3,
                             Nome = "Bolacha",
-                            PedidoId = 2,
                             Valor = 8.00m
                         },
                         new
                         {
                             Id = 4,
                             Nome = "Bala",
-                            PedidoId = 2,
                             Valor = 2.20m
                         },
                         new
                         {
                             Id = 5,
                             Nome = "Chicletes",
-                            PedidoId = 3,
                             Valor = 1.00m
                         },
                         new
                         {
                             Id = 6,
                             Nome = "Pasta de dente",
-                            PedidoId = 4,
                             Valor = 15.00m
                         });
                 });
@@ -305,7 +299,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 1,
                             ClienteId = 1,
-                            Data = new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8350),
+                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1155),
                             StatusPreparo = (byte)0,
                             ValorTotal = 45.50m
                         },
@@ -313,7 +307,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 2,
                             ClienteId = 2,
-                            Data = new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8365),
+                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1169),
                             StatusPreparo = (byte)0,
                             ValorTotal = 22.00m
                         },
@@ -321,7 +315,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 3,
                             ClienteId = 3,
-                            Data = new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8367),
+                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1170),
                             StatusPreparo = (byte)3,
                             ValorTotal = 100.00m
                         },
@@ -329,7 +323,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 4,
                             ClienteId = 4,
-                            Data = new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8368),
+                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1171),
                             StatusPreparo = (byte)1,
                             ValorTotal = 18.75m
                         },
@@ -337,7 +331,7 @@ namespace SistemaRestaurante.Migrations
                         {
                             Id = 5,
                             ClienteId = 1,
-                            Data = new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8372),
+                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1173),
                             StatusPreparo = (byte)2,
                             ValorTotal = 70.30m
                         });
@@ -446,7 +440,9 @@ namespace SistemaRestaurante.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Telefone")
                         .HasColumnType("longtext");
