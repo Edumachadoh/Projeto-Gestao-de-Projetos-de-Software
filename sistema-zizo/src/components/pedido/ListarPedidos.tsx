@@ -3,6 +3,7 @@ import type { Pedido } from "../../models/interfaces/Pedido";
 import React from "react";
 import type { Item } from "../../models/interfaces/Item";
 import { DeletarPedido } from "./DeletarPedido";
+import EditarPedido from "./EditarPedido";
 
 const ListarPedidos = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -10,6 +11,7 @@ const ListarPedidos = () => {
   const [pedidoSelecionado, setPedidoSelecionado] = useState<number | null>(
     null,
   );
+  const [mostrarEditar, setMostrarEditar] = useState(false);
 
   const statusPreparoMap: { [key: number]: string } = {
     0: "A Fazer",
@@ -99,7 +101,25 @@ const ListarPedidos = () => {
                       })}
                     </td>
                     <td className="action-buttons">
-                      <button className="edit-btn">Editar</button>
+                      <button
+                        className="edit-btn"
+                        onClick={() => setMostrarEditar(true)}>
+                        Editar
+                      </button>
+                      {mostrarEditar && (
+                        <div
+                          className="edit"
+                          style={{
+                            display: "flex",
+                            position: "fixed",
+                            top: "25%",
+                            left: "25%",
+                          }}>
+                          <div className="edit-content">
+                            <EditarPedido _pedido={pedido} _id={pedido.id} />
+                          </div>
+                        </div>
+                      )}
                       <button
                         onClick={() => DeletarPedido(pedido.id)}
                         className="delete-btn">
