@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import React from "react";
 import type { Item } from "../../models/interfaces/Item";
+import { DeletarPedido } from "./DeletarPedido";
 
 const ListarPedidos = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -59,10 +60,9 @@ const ListarPedidos = () => {
             <tr>
               <th>id</th>
               <th>cliente</th>
-              <th>clienteId</th>
               <th>data</th>
               <th>itens</th>
-              <th>statusPreparo</th>
+              <th>Status</th>
               <th>valorTotal</th>
               <th>Ações</th>
             </tr>
@@ -80,7 +80,6 @@ const ListarPedidos = () => {
                   <tr>
                     <td>{pedido.id}</td>
                     <td>{pedido.cliente?.nome ?? "N/A"}</td>
-                    <td>{pedido.cliente?.id ?? "N/A"}</td>
                     <td>{new Date(pedido.data).toLocaleDateString()}</td>
                     <td>
                       <button
@@ -98,6 +97,14 @@ const ListarPedidos = () => {
                         style: "currency",
                         currency: "BRL",
                       })}
+                    </td>
+                    <td className="action-buttons">
+                      <button className="edit-btn">Editar</button>
+                      <button
+                        onClick={() => DeletarPedido(pedido.id)}
+                        className="delete-btn">
+                        Deletar
+                      </button>
                     </td>
                   </tr>
                   {pedido.id === pedidoSelecionado && (
