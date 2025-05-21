@@ -122,12 +122,12 @@ namespace SistemaRestaurante.Data
         );
 
         modelBuilder.Entity<Item>().HasData(
-            new Item { Id = 1, Nome = "Refrigerante", Valor = 5.50m , PedidoId=1},
-            new Item { Id = 2, Nome = "Suco", Valor = 12.00m, PedidoId=2},
-            new Item { Id = 3, Nome = "Bolacha", Valor = 8.00m, PedidoId=2},
-            new Item { Id = 4, Nome = "Bala", Valor = 2.20m, PedidoId=2},
-            new Item { Id = 5, Nome = "Chicletes", Valor = 1.00m, PedidoId=3 },
-            new Item { Id = 6, Nome = "Pasta de dente", Valor = 15.00m, PedidoId=4}
+            new Item { Id = 1, Nome = "Refrigerante", Valor = 5.50m },
+            new Item { Id = 2, Nome = "Suco", Valor = 12.00m},
+            new Item { Id = 3, Nome = "Bolacha", Valor = 8.00m},
+            new Item { Id = 4, Nome = "Bala", Valor = 2.20m},
+            new Item { Id = 5, Nome = "Chicletes", Valor = 1.00m},
+            new Item { Id = 6, Nome = "Pasta de dente", Valor = 15.00m}
         );
 
         modelBuilder.Entity<Pedido>().HasData(

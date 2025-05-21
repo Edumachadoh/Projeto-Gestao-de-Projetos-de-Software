@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaRestaurante.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,7 +69,7 @@ namespace SistemaRestaurante.Migrations
                     Salario = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Telefone = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
@@ -198,11 +198,11 @@ namespace SistemaRestaurante.Migrations
                 columns: new[] { "Id", "DataRegistrada" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 5, 3, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 5, new DateTime(2025, 5, 7, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, new DateTime(2025, 5, 16, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, new DateTime(2025, 5, 17, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, new DateTime(2025, 5, 19, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 5, new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(
@@ -258,11 +258,11 @@ namespace SistemaRestaurante.Migrations
                 columns: new[] { "Id", "ClienteId", "Data", "StatusPreparo", "ValorTotal" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5327), (byte)0, 45.50m },
-                    { 2, 2, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5340), (byte)0, 22.00m },
-                    { 3, 3, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5342), (byte)3, 100.00m },
-                    { 4, 4, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5343), (byte)1, 18.75m },
-                    { 5, 1, new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5345), (byte)2, 70.30m }
+                    { 1, 1, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6351), (byte)0, 45.50m },
+                    { 2, 2, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6362), (byte)0, 22.00m },
+                    { 3, 3, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6364), (byte)3, 100.00m },
+                    { 4, 4, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6365), (byte)1, 18.75m },
+                    { 5, 1, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6366), (byte)2, 70.30m }
                 });
 
             migrationBuilder.InsertData(

@@ -6,154 +6,168 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaRestaurante.Migrations
 {
     /// <inheritdoc />
-    public partial class Teste : Migration
+    public partial class AjustandoModelsItem : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 8, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: null);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 9, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: null);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 10, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: null);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 11, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: null);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 12, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: null);
+
+            migrationBuilder.UpdateData(
+                table: "Itens",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "PedidoId",
+                value: null);
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "Data",
-                value: new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8350));
+                value: new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1155));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "Data",
-                value: new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8365));
+                value: new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1169));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "Data",
-                value: new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8367));
+                value: new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1170));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "Data",
-                value: new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8368));
+                value: new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1171));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "Data",
-                value: new DateTime(2025, 5, 13, 19, 52, 40, 921, DateTimeKind.Local).AddTicks(8372));
+                value: new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1173));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 3, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: 1);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: 2);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: 2);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: 2);
 
             migrationBuilder.UpdateData(
-                table: "Estoques",
+                table: "Itens",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "DataRegistrada",
-                value: new DateTime(2025, 5, 7, 0, 0, 0, 0, DateTimeKind.Local));
+                column: "PedidoId",
+                value: 3);
+
+            migrationBuilder.UpdateData(
+                table: "Itens",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "PedidoId",
+                value: 4);
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "Data",
-                value: new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5327));
+                value: new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6351));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "Data",
-                value: new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5340));
+                value: new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6362));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "Data",
-                value: new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5342));
+                value: new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6364));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "Data",
-                value: new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5343));
+                value: new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6365));
 
             migrationBuilder.UpdateData(
                 table: "Pedidos",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "Data",
-                value: new DateTime(2025, 5, 8, 19, 37, 52, 735, DateTimeKind.Local).AddTicks(5345));
+                value: new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6366));
         }
     }
 }
