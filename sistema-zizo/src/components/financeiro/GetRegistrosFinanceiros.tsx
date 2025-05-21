@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import type { Relatorio } from "../../models/Relatorio";
+import type { Relatorio } from "../../models/interfaces/Relatorio";
 import { Button, Paper } from "@mui/material";
 import { DataGrid, GridCloseIcon, type GridColDef } from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
 import GraficoLinhas from "./graficos/GraficoLinhas";
 import GraficoColuna from "./graficos/GraficoColuna";
 
-const ListarRelatorioFinanceiro = () => {
+const GetRegistrosFinanceiros = () => {
   const [relatorioFinanceiro, setRelatorioFinanceiro] = useState<Relatorio[]>(
     [],
   );
@@ -151,4 +151,4 @@ const ListarRelatorioFinanceiro = () => {
   );
 };
 
-export default ListarRelatorioFinanceiro;
+export default GetRegistrosFinanceiros;

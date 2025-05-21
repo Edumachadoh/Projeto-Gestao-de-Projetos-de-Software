@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/funcionarios",
-        element: < ListarFuncionarios/>,
+        element: <ListarFuncionarios />,
       },
     ],
   },

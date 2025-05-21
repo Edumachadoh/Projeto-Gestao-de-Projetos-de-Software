@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import React from "react";
-import type { Relatorio } from "../../../models/Relatorio";
+import type { Relatorio } from "../../../models/interfaces/Relatorio";
 import NumeroParaMes from "../../../util/NumeroParaMes";
 
 interface GraficoLinhasProps {

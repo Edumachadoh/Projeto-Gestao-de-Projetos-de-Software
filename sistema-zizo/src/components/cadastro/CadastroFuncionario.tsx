@@ -1,6 +1,5 @@
 import { useState } from "react";
-import type { Funcionario } from "../../interfaces/Funcionario";
-import { Cargo } from "../../interfaces/Cargo";
+import { Cargo } from "../../models/enums/Cargo";
 
 function CadastroFuncionario() {
   const [nome, setNome] = useState("");
@@ -14,16 +13,15 @@ function CadastroFuncionario() {
   function enviarFuncionario(e: React.FormEvent) {
     e.preventDefault();
 
-    
     const funcionario = {
       nome,
       cpf,
       senha,
       cargo,
       salario: Number(salario),
-      telefone: telefone || null, 
+      telefone: telefone || null,
       estaAtivo,
-      status: 1
+      status: 1,
     };
 
     fetch("http://localhost:5190/api/funcionarios/cadastrar", {
@@ -33,29 +31,31 @@ function CadastroFuncionario() {
       },
       body: JSON.stringify(funcionario),
     })
-    .then(async (resposta) => {
-      if (!resposta.ok) {
-        const erro = await resposta.json().catch(() => ({ message: "Erro desconhecido" }));
-        throw new Error(erro.message || "Erro ao cadastrar");
-      }
-      return resposta.json();
-    })
-    .then((funcionarioCadastrado) => {
-      console.log("Funcionário cadastrado", funcionarioCadastrado);
-      alert("Funcionário cadastrado com sucesso!");
-      // Limpa o formulário
-      setNome("");
-      setCpf("");
-      setSenha("");
-      setSalario("");
-      setTelefone("");
-      setCargo(Cargo.Balconista);
-      setEstaAtivo(true);
-    })
-    .catch((erro) => {
-      console.error("Erro ao cadastrar funcionário\n", erro);
-      alert(`Erro: ${erro.message}`);
-    });
+      .then(async (resposta) => {
+        if (!resposta.ok) {
+          const erro = await resposta
+            .json()
+            .catch(() => ({ message: "Erro desconhecido" }));
+          throw new Error(erro.message || "Erro ao cadastrar");
+        }
+        return resposta.json();
+      })
+      .then((funcionarioCadastrado) => {
+        console.log("Funcionário cadastrado", funcionarioCadastrado);
+        alert("Funcionário cadastrado com sucesso!");
+        // Limpa o formulário
+        setNome("");
+        setCpf("");
+        setSenha("");
+        setSalario("");
+        setTelefone("");
+        setCargo(Cargo.Balconista);
+        setEstaAtivo(true);
+      })
+      .catch((erro) => {
+        console.error("Erro ao cadastrar funcionário\n", erro);
+        alert(`Erro: ${erro.message}`);
+      });
   }
 
   return (

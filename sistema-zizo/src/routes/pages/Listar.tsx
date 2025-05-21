@@ -1,10 +1,10 @@
-import GavetaListar from "../../components/drawers/GavetaListar";
-import ListaFuncionarios from "../../components/listar/ListarFuncionarios";
+import SidebarListar from "../../components/sidebars/SidebarListar";
+import ListaFuncionarios from "../../components/funcionario/ListarFuncionarios";
 
 const ListarFuncionarios = () => {
   return (
     <div>
-      <GavetaListar />
+      <SidebarListar />
       <ListaFuncionarios />
     </div>
   );

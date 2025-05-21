@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import type { Funcionario } from "../../interfaces/Funcionario";
-import { Cargo } from "../../interfaces/Cargo";
+import type { Funcionario } from "../../models/interfaces/Funcionario";
+import { Cargo } from "../../models/enums/Cargo";
 
 const getNomeCargo = (valorCargo: Cargo): string => {
-  const entry = Object.entries(Cargo).find(([_, value]) => value === valorCargo);
-  return entry?.[0] || 'Desconhecido';
+  const entry = Object.entries(Cargo).find(
+    ([_, value]) => value === valorCargo,
+  );
+  return entry?.[0] || "Desconhecido";
 };
 
 function ListaFuncionarios() {
@@ -32,7 +34,7 @@ function ListaFuncionarios() {
   }, []);
 
   const iniciarEdicao = (funcionario: Funcionario) => {
-    if (typeof funcionario.id !== 'number') return;
+    if (typeof funcionario.id !== "number") return;
     setEditandoId(funcionario.id);
     setFormEdit({
       id: funcionario.id,
@@ -42,7 +44,7 @@ function ListaFuncionarios() {
       salario: funcionario.salario,
       telefone: funcionario.telefone || "",
       estaAtivo: funcionario.estaAtivo,
-      status: funcionario.estaAtivo ? 1 : 0
+      status: funcionario.estaAtivo ? 1 : 0,
     });
   };
 
@@ -52,51 +54,61 @@ function ListaFuncionarios() {
   };
 
   const salvarEdicao = async () => {
-  if (editandoId === null) return;
-
-  try {
-    const funcionarioAtual = funcionarios.find(f => f.id === editandoId);
-    if (!funcionarioAtual) {
-      throw new Error("Funcionário não encontrado na lista local");
-    }
-
-    const telefoneTratado = formEdit.telefone === "" ? undefined : formEdit.telefone;
-
-    const dadosParaEnviar: Funcionario = {
-      ...funcionarioAtual,
-      ...formEdit,
-      id: editandoId,
-      telefone: telefoneTratado, 
-    };
-
-    const resposta = await fetch(`http://localhost:5190/api/funcionarios/${editandoId}`, {
-      method: "PUT",
-      headers: { 
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dadosParaEnviar),
-    });
-
-    if (!resposta.ok) {
-      const errorData = await resposta.json().catch(() => null);
-      throw new Error(errorData?.message || "Erro ao atualizar funcionário");
-    }
-
-    await carregarFuncionarios();
-    setEditandoId(null);
-    alert("Funcionário atualizado com sucesso!");
-  } catch (erro) {
-    console.error("Erro ao editar funcionário:", erro);
-    alert(erro instanceof Error ? erro.message : "Erro desconhecido ao atualizar");
-  }
-};
-  const deletarFuncionario = async (id: number) => {
-    if (!window.confirm("Tem certeza que deseja deletar este funcionário?")) return;
+    if (editandoId === null) return;
 
     try {
-      const resposta = await fetch(`http://localhost:5190/api/funcionarios/${id}`, {
-        method: "DELETE",
-      });
+      const funcionarioAtual = funcionarios.find((f) => f.id === editandoId);
+      if (!funcionarioAtual) {
+        throw new Error("Funcionário não encontrado na lista local");
+      }
+
+      const telefoneTratado =
+        formEdit.telefone === "" ? undefined : formEdit.telefone;
+
+      const dadosParaEnviar: Funcionario = {
+        ...funcionarioAtual,
+        ...formEdit,
+        id: editandoId,
+        telefone: telefoneTratado,
+      };
+
+      const resposta = await fetch(
+        `http://localhost:5190/api/funcionarios/${editandoId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dadosParaEnviar),
+        },
+      );
+
+      if (!resposta.ok) {
+        const errorData = await resposta.json().catch(() => null);
+        throw new Error(errorData?.message || "Erro ao atualizar funcionário");
+      }
+
+      await carregarFuncionarios();
+      setEditandoId(null);
+      alert("Funcionário atualizado com sucesso!");
+    } catch (erro) {
+      console.error("Erro ao editar funcionário:", erro);
+      alert(
+        erro instanceof Error ? erro.message : "Erro desconhecido ao atualizar",
+      );
+    }
+  };
+  const deletarFuncionario = async (id: number) => {
+    if (!window.confirm("Tem certeza que deseja deletar este funcionário?"))
+      return;
+
+    try {
+      const resposta = await fetch(
+        `http://localhost:5190/api/funcionarios/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!resposta.ok) throw new Error("Erro ao deletar funcionário");
 
@@ -108,18 +120,25 @@ function ListaFuncionarios() {
     }
   };
 
-  const handleChangeEdit = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChangeEdit = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormEdit(prev => ({
+    setFormEdit((prev) => ({
       ...prev,
-      [name]: name === "cargo" ? Number(value) as Cargo : 
-              name === "estaAtivo" ? value === "1" :
-              name === "salario" ? Number(value) : value
+      [name]:
+        name === "cargo"
+          ? (Number(value) as Cargo)
+          : name === "estaAtivo"
+          ? value === "1"
+          : name === "salario"
+          ? Number(value)
+          : value,
     }));
   };
 
   const handleDeletar = (funcionario: Funcionario) => {
-    if (typeof funcionario.id !== 'number') return;
+    if (typeof funcionario.id !== "number") return;
     deletarFuncionario(funcionario.id);
   };
 
@@ -146,11 +165,17 @@ function ListaFuncionarios() {
           <tbody>
             {funcionarios.length === 0 ? (
               <tr>
-                <td colSpan={6} className="no-data">Nenhum funcionário cadastrado</td>
+                <td colSpan={6} className="no-data">
+                  Nenhum funcionário cadastrado
+                </td>
               </tr>
             ) : (
-              funcionarios.map(funcionario => (
-                <tr key={funcionario.id} className={editandoId === funcionario.id ? "editing-row" : ""}>
+              funcionarios.map((funcionario) => (
+                <tr
+                  key={funcionario.id}
+                  className={
+                    editandoId === funcionario.id ? "editing-row" : ""
+                  }>
                   {editandoId === funcionario.id ? (
                     <>
                       <td>
@@ -168,8 +193,7 @@ function ListaFuncionarios() {
                           name="cargo"
                           value={formEdit.cargo || Cargo.Balconista}
                           onChange={handleChangeEdit}
-                          className="table-input"
-                        >
+                          className="table-input">
                           {Object.entries(Cargo)
                             .filter(([key]) => isNaN(Number(key)))
                             .map(([key, value]) => (
@@ -194,23 +218,16 @@ function ListaFuncionarios() {
                           name="estaAtivo"
                           value={formEdit.estaAtivo ? "1" : "0"}
                           onChange={handleChangeEdit}
-                          className="table-input"
-                        >
+                          className="table-input">
                           <option value="1">Ativo</option>
                           <option value="0">Inativo</option>
                         </select>
                       </td>
                       <td className="action-buttons">
-                        <button 
-                          onClick={salvarEdicao}
-                          className="save-btn"
-                        >
+                        <button onClick={salvarEdicao} className="save-btn">
                           Salvar
                         </button>
-                        <button 
-                          onClick={cancelarEdicao} 
-                          className="cancel-btn"
-                        >
+                        <button onClick={cancelarEdicao} className="cancel-btn">
                           Cancelar
                         </button>
                       </td>
@@ -222,21 +239,22 @@ function ListaFuncionarios() {
                       <td>{getNomeCargo(funcionario.cargo)}</td>
                       <td>R$ {funcionario.salario.toFixed(2)}</td>
                       <td>
-                        <span className={`status-badge ${funcionario.estaAtivo ? 'active' : 'inactive'}`}>
+                        <span
+                          className={`status-badge ${
+                            funcionario.estaAtivo ? "active" : "inactive"
+                          }`}>
                           {funcionario.estaAtivo ? "Ativo" : "Inativo"}
                         </span>
                       </td>
                       <td className="action-buttons">
-                        <button 
-                          onClick={() => iniciarEdicao(funcionario)} 
-                          className="edit-btn"
-                        >
+                        <button
+                          onClick={() => iniciarEdicao(funcionario)}
+                          className="edit-btn">
                           Editar
                         </button>
-                        <button 
-                          onClick={() => handleDeletar(funcionario)} 
-                          className="delete-btn"
-                        >
+                        <button
+                          onClick={() => handleDeletar(funcionario)}
+                          className="delete-btn">
                           Deletar
                         </button>
                       </td>

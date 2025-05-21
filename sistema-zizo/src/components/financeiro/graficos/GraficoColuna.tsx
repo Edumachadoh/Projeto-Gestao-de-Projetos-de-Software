@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
-import type { Relatorio } from "../../../models/Relatorio";
+import type { Relatorio } from "../../../models/interfaces/Relatorio";
 
 interface GraficoColunaProps {
   colunaSelecionada: string;

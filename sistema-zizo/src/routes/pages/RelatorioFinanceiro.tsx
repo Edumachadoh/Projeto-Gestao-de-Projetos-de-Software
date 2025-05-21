@@ -1,9 +1,9 @@
-import ListarRelatorioFinanceiro from "../../components/financeiro/ListarRelatorioFinanceiro";
+import GetRegistrosFinanceiros from "../../components/financeiro/GetRegistrosFinanceiros";
 
 const RelatorioFinanceiro = () => {
   return (
     <div>
-      <ListarRelatorioFinanceiro />
+      <GetRegistrosFinanceiros />
     </div>
   );
 };
