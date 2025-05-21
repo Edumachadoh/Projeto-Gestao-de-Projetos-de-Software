@@ -1,5 +1,11 @@
+import ListarPedidos from "../../components/pedido/ListarPedidos";
+
 const Pedido = () => {
-  return <div>Pedido</div>;
+  return (
+    <div>
+      <ListarPedidos />
+    </div>
+  );
 };
 
 export default Pedido;

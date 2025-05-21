@@ -14,33 +14,49 @@ const GraficoColuna: React.FC<GraficoColunaProps> = ({
   rows,
 }) => {
   const configuracoesGrafico = {
-    yAxis: [{ label: "quantidade", width: 60 }],
-    height: 300,
+    yAxis: [{ label: "Quantidade" }],
+    height: 350,
+    width: 1000,
   };
 
   const dadosColuna = rows.map((row) =>
     colunaSelecionada && colunaSelecionada in row
       ? Number(row[colunaSelecionada as keyof Relatorio])
-      : null,
+      : 0,
+  );
+
+  const datas = rows.map((row) =>
+    new Date(row.dataRegistrada).toLocaleDateString(),
   );
 
   return (
-    <Box sx={{ width: "100%", overflow: "hidden", paddingY: 4 }}>
-      <Paper sx={{ margin: 3, padding: 2 }} elevation={5}>
-        <Typography variant="h6" sx={{ marginBottom: 2 }}>
+    <Box sx={{ width: "100%", paddingY: 4 }}>
+      <Paper
+        elevation={6}
+        sx={{
+          padding: 3,
+          marginX: "auto",
+          maxWidth: 1000,
+          borderRadius: 4,
+          backgroundColor: "#f9f9f9",
+        }}>
+        <Typography variant="h5" gutterBottom sx={{ textAlign: "center" }}>
           Gráfico de {colunaSelecionadaHeaderName}
         </Typography>
-        <BarChart
-          xAxis={[
-            {
-              data: rows.map((row) =>
-                new Date(row.dataRegistrada).toLocaleDateString(),
-              ),
-            },
-          ]}
-          series={[{ data: dadosColuna }]}
-          {...configuracoesGrafico}
-        />
+
+        <Box sx={{ overflowX: "auto", paddingTop: 2 }}>
+          <BarChart
+            xAxis={[
+              {
+                data: datas,
+                label: "Data Registrada",
+                scaleType: "band",
+              },
+            ]}
+            series={[{ data: dadosColuna, label: colunaSelecionadaHeaderName }]}
+            {...configuracoesGrafico}
+          />
+        </Box>
       </Paper>
     </Box>
   );

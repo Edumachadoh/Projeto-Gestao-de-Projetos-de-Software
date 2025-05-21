@@ -6,7 +6,10 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import Home from "./routes/pages/Home.tsx";
 import RelatorioFinanceiro from "./routes/pages/RelatorioFinanceiro.tsx";
 import Cadastro from "./routes/pages/Cadastro.tsx";
-import ListarFuncionarios from "./routes/pages/Listar.tsx";
+import Pedido from "./routes/pages/Pedido.tsx";
+import Listar from "./routes/pages/Listar.tsx";
+import ListarFuncionarios from "./components/funcionario/ListarFuncionarios.tsx";
+import ListarPedidos from "./components/pedido/ListarPedidos.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +29,22 @@ const router = createBrowserRouter([
         element: <Cadastro />,
       },
       {
-        path: "/funcionarios",
-        element: <ListarFuncionarios />,
+        path: "/listar",
+        element: <Listar />,
+        children: [
+          {
+            path: "/listar/funcionarios",
+            element: <ListarFuncionarios />,
+          },
+          {
+            path: "/listar/pedidos",
+            element: <ListarPedidos />,
+          },
+        ],
+      },
+      {
+        path: "/pedidos",
+        element: <Pedido />,
       },
     ],
   },

@@ -53,7 +53,7 @@ export default function Navbar() {
           icon={<FormatListBulletedIcon />}
           sx={iconColor}
           component={Link}
-          to="/funcionarios"
+          to="/listar/funcionarios"
         />
       </BottomNavigation>
     </Box>

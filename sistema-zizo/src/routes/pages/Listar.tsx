@@ -1,11 +1,11 @@
+import { Outlet } from "react-router";
 import SidebarListar from "../../components/sidebars/SidebarListar";
-import ListaFuncionarios from "../../components/funcionario/ListarFuncionarios";
 
 const ListarFuncionarios = () => {
   return (
     <div>
       <SidebarListar />
-      <ListaFuncionarios />
+      <Outlet />
     </div>
   );
 };
