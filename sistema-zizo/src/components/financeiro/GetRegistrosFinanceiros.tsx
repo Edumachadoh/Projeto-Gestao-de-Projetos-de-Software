@@ -121,7 +121,7 @@ const GetRegistrosFinanceiros = () => {
               startIcon={<CloseIcon />}
               onClick={() => setMostrarGraficoLinhas(false)}
               sx={{ mb: 2 }}>
-              Fechar Gráfico de Linhas
+              Fechar {linhasSelecionadas.length <= 1 ? "Gráfico" : "Gráficos"}
             </Button>
             <GraficoLinhas selectedRows={linhasSelecionadas} />
           </Box>
@@ -134,7 +134,7 @@ const GetRegistrosFinanceiros = () => {
               startIcon={<CloseIcon />}
               onClick={() => setMostrarGraficoColuna(false)}
               sx={{ mb: 2 }}>
-              Fechar Gráfico de Coluna
+              Fechar Gráfico {colunaSelecionada}
             </Button>
             <GraficoColuna
               rows={relatorioFinanceiro}

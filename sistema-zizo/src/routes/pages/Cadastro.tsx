@@ -1,9 +1,11 @@
-import CadastroFuncionario from "../../components/funcionario/CadastroFuncionario";
+import { Outlet } from "react-router";
+import Sidebar from "../../components/Sidebar";
 
 const Cadastro = () => {
   return (
     <div>
-      <CadastroFuncionario />
+      <Sidebar type="cadastro" />
+      <Outlet />
     </div>
   );
 };

@@ -1,13 +1,13 @@
 import { Outlet } from "react-router";
-import SidebarListar from "../../components/sidebars/SidebarListar";
+import Sidebar from "../../components/Sidebar";
 
-const ListarFuncionarios = () => {
+const Listar = () => {
   return (
     <div>
-      <SidebarListar />
+      <Sidebar type="listar" />
       <Outlet />
     </div>
   );
 };
 
-export default ListarFuncionarios;
+export default Listar;

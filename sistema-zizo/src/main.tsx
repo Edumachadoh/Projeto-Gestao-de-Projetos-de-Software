@@ -10,6 +10,9 @@ import Pedido from "./routes/pages/Pedido.tsx";
 import Listar from "./routes/pages/Listar.tsx";
 import ListarFuncionarios from "./components/funcionario/ListarFuncionarios.tsx";
 import ListarPedidos from "./components/pedido/ListarPedidos.tsx";
+import CadastroPedido from "./components/pedido/CadastroPedido.tsx";
+import CadastroFuncionario from "./components/funcionario/CadastroFuncionario.tsx";
+import CadastroCliente from "./components/cliente/CadastroCliente.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,23 +30,37 @@ const router = createBrowserRouter([
       {
         path: "/cadastro",
         element: <Cadastro />,
+        children: [
+          {
+            path: "/cadastro/funcionario",
+            element: <CadastroFuncionario />,
+          },
+          {
+            path: "/cadastro/pedido",
+            element: <CadastroPedido />,
+          },
+          {
+            path: "/cadastro/cliente",
+            element: <CadastroCliente />,
+          },
+        ],
       },
       {
         path: "/listar",
         element: <Listar />,
         children: [
           {
-            path: "/listar/funcionarios",
+            path: "/listar/funcionario",
             element: <ListarFuncionarios />,
           },
           {
-            path: "/listar/pedidos",
+            path: "/listar/pedido",
             element: <ListarPedidos />,
           },
         ],
       },
       {
-        path: "/pedidos",
+        path: "/pedido",
         element: <Pedido />,
       },
     ],

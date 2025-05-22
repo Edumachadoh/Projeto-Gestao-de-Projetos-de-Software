@@ -8,11 +8,15 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Link } from "react-router-dom";
 
-const GavetaListar = () => {
+interface SidebarProps {
+  type: string;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ type }) => {
   const list = () => (
     <Box sx={{ width: 200, display: "" }} role="presentation">
       <List>
-        <ListItem component={Link} to="/listar/funcionarios">
+        <ListItem component={Link} to={`/${type}/funcionario`}>
           <ListItemButton>
             <ListItemIcon>
               <BadgeIcon />
@@ -20,7 +24,15 @@ const GavetaListar = () => {
             <ListItemText primary="Funcionários" />
           </ListItemButton>
         </ListItem>
-        <ListItem component={Link} to="/listar/pedidos">
+        <ListItem component={Link} to={`/${type}/pedido`}>
+          <ListItemButton>
+            <ListItemIcon>
+              <ViewListIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pedidos" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem component={Link} to={`/${type}/cliente`}>
           <ListItemButton>
             <ListItemIcon>
               <ViewListIcon />
@@ -44,4 +56,4 @@ const GavetaListar = () => {
   );
 };
 
-export default GavetaListar;
+export default Sidebar;
