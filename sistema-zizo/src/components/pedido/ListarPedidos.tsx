@@ -112,8 +112,9 @@ const ListarPedidos = () => {
                           style={{
                             display: "flex",
                             position: "fixed",
-                            top: "25%",
-                            left: "25%",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
                           }}>
                           <div className="edit-content">
                             <EditarPedido _pedido={pedido} _id={pedido.id} />

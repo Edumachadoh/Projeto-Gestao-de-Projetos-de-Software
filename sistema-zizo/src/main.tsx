@@ -13,6 +13,8 @@ import ListarPedidos from "./components/pedido/ListarPedidos.tsx";
 import CadastroPedido from "./components/pedido/CadastroPedido.tsx";
 import CadastroFuncionario from "./components/funcionario/CadastroFuncionario.tsx";
 import CadastroCliente from "./components/cliente/CadastroCliente.tsx";
+import ListarClientes from "./components/cliente/ListarClientes.tsx";
+import EditarCliente from "./components/cliente/EditarCliente.tsx";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,16 @@ const router = createBrowserRouter([
           {
             path: "/listar/pedido",
             element: <ListarPedidos />,
+          },
+          {
+            path: "/listar/cliente",
+            element: <ListarClientes />,
+            children: [
+              {
+                path: "/listar/cliente/editar/:id",
+                element: <EditarCliente />,
+              },
+            ],
           },
         ],
       },

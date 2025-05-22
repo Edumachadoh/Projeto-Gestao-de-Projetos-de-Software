@@ -46,14 +46,14 @@ export default function Navbar() {
           icon={<PersonAddAlt1Icon />}
           sx={iconColor}
           component={Link}
-          to="/cadastro/funcionarios"
+          to="/cadastro/funcionario"
         />
         <BottomNavigationAction
           label="Listar"
           icon={<FormatListBulletedIcon />}
           sx={iconColor}
           component={Link}
-          to="/listar/funcionarios"
+          to="/listar/funcionario"
         />
       </BottomNavigation>
     </Box>

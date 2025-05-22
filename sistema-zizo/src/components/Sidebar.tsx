@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ type }) => {
             <ListItemIcon>
               <ViewListIcon />
             </ListItemIcon>
-            <ListItemText primary="Pedidos" />
+            <ListItemText primary="Clientes" />
           </ListItemButton>
         </ListItem>
       </List>
