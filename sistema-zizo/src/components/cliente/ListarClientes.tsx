@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import React from "react";
 import { DeletarCliente } from "./DeletarCliente";
 import type { Cliente } from "../../models/interfaces/Cliente";
@@ -12,6 +12,7 @@ const ListarClientes = () => {
     null,
   );
   const [mostrarEditar, setMostrarEditar] = useState(false);
+  const [termoPesquisa, setTermoPesquisa] = useState("");
 
   const selecionarItens = (id: number, idSelecionado: number) => {
     if (id === idSelecionado) {
@@ -39,6 +40,12 @@ const ListarClientes = () => {
     carregarClientes();
   }, []);
 
+  const clientesFiltrados = useMemo(() => {
+    return clientes.filter((cliente) =>
+      cliente.nome.toLowerCase().includes(termoPesquisa.toLowerCase()),
+    );
+  }, [clientes, termoPesquisa]);
+
   if (carregando) {
     return <div className="form-container">Carregando...</div>;
   }
@@ -47,6 +54,15 @@ const ListarClientes = () => {
     <div className="form-container">
       <div className="form-header">
         <h2>Lista de Clientes</h2>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar por nome..."
+            value={termoPesquisa}
+            onChange={(e) => setTermoPesquisa(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
       <div className="form-content">
         <table className="styled-table">
@@ -63,14 +79,16 @@ const ListarClientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.length === 0 ? (
+            {clientesFiltrados.length === 0 ? (
               <tr>
                 <td colSpan={8} className="no-data">
-                  Nenhum cliente cadastrado
+                  {termoPesquisa
+                    ? "Nenhum cliente encontrado com esse nome"
+                    : "Nenhum cliente cadastrado"}
                 </td>
               </tr>
             ) : (
-              clientes.map((cliente) => (
+              clientesFiltrados.map((cliente) => (
                 <React.Fragment key={cliente.id}>
                   <tr>
                     <td>{cliente.id}</td>
@@ -130,7 +148,7 @@ const ListarClientes = () => {
                           {cliente.pedidos.length !== 0 ? (
                             cliente.pedidos.map((pedido: Pedido, index) => (
                               <li key={index}>
-                                {pedido.id ?? "Produto sem nome"} - id:
+                                {pedido.id ?? "Produto sem nome"} - id:{" "}
                                 {pedido.id}
                               </li>
                             ))
