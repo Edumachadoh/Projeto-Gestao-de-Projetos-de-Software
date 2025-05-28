@@ -11,9 +11,10 @@ public class Pedido
     [ForeignKey("Cliente")]
     public int? ClienteId { get; set; }  
     [Required]
-    public decimal ValorTotal { get; set; } 
-    public StatusPreparo StatusPreparo { get; set; }
-    public DateTime Data { get; set; }
+    public decimal ValorTotal { get; set; }
+    public bool EstaAtivo { get; set; }
+    public bool EstaPago { get; set; }
+    public DateTime Data { get; set; } = DateTime.Now;
 
     // Não necessariamente um pedido precisa estar vinculado a um cliente
     public Cliente? Cliente { get; set; }

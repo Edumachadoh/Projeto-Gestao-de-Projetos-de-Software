@@ -35,6 +35,11 @@ public class PedidoController : ControllerBase
             }
         }
 
+        foreach (Item item in pedido.Itens)
+        {
+            pedido.ValorTotal += item.Valor;
+        }
+
         await _appDbContext.Pedidos.AddAsync(pedido);
         await _appDbContext.SaveChangesAsync();
 
