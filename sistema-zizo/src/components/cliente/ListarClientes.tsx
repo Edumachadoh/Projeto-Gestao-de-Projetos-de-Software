@@ -25,11 +25,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
   >({});
 
   const selecionarItens = (id: number, idSelecionado: number) => {
-    if (id === idSelecionado) {
-      setClienteSelecionado(null);
-    } else {
-      setClienteSelecionado(id);
-    }
+    setClienteSelecionado(id === idSelecionado ? null : id);
   };
 
   const carregarClientes = async () => {
@@ -70,9 +66,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
     }));
   };
 
-  if (carregando) {
-    return <div className="form-container">Carregando...</div>;
-  }
+  if (carregando) return <div className="form-container">Carregando...</div>;
 
   return (
     <div className="form-container">
@@ -88,6 +82,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
           />
         </div>
       </div>
+
       <div className="form-content">
         <table className="styled-table">
           <thead>
@@ -97,7 +92,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
               <th>CPF</th>
               <th>Data Nascimento</th>
               <th>Telefone</th>
-              <th>Pontos Fidelidade</th>
+              <th>Pontos</th>
               {!modoSelecao && <th>Pedidos</th>}
               <th>{modoSelecao ? "Selecionar" : "Ações"}</th>
             </tr>
@@ -135,7 +130,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
                           }
                           className="table-input">
                           {cliente.id === clienteSelecionado
-                            ? "Ocultar Pedidos"
+                            ? "Ocultar"
                             : "Ver Pedidos"}
                         </button>
                       </td>
@@ -168,36 +163,41 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
                   </tr>
 
                   {cliente.id === clienteSelecionado && !modoSelecao && (
-                    <tr>
+                    <tr className="editing-row">
                       <td colSpan={8}>
-                        <strong>Itens do pedido:</strong>
-                        <ul>
-                          {cliente.pedidos.length !== 0 ? (
-                            cliente.pedidos.map((pedido: Pedido, index) => (
-                              <li key={index}>
-                                {pedido.id ?? "Produto sem nome"} - id:{" "}
-                                {pedido.id} | Quantidade:
-                                <input
-                                  type="number"
-                                  min={1}
-                                  value={
-                                    quantidades[cliente.id]?.[pedido.id] ?? 1
-                                  }
-                                  onChange={(e) =>
-                                    handleQuantidadeChange(
-                                      cliente.id,
-                                      pedido.id,
-                                      parseInt(e.target.value),
-                                    )
-                                  }
-                                  style={{ marginLeft: "10px", width: "60px" }}
-                                />
-                              </li>
-                            ))
+                        <div className="pedido-lista">
+                          <strong>Pedidos:</strong>
+                          {cliente.pedidos.length > 0 ? (
+                            <ul>
+                              {cliente.pedidos.map((pedido: Pedido, index) => (
+                                <li key={index} className="pedido-item">
+                                  Pedido ID: {pedido.id} - Quantidade:
+                                  <input
+                                    type="number"
+                                    min={1}
+                                    value={
+                                      quantidades[cliente.id]?.[pedido.id] ?? 1
+                                    }
+                                    onChange={(e) =>
+                                      handleQuantidadeChange(
+                                        cliente.id,
+                                        pedido.id,
+                                        parseInt(e.target.value),
+                                      )
+                                    }
+                                    className="table-input"
+                                    style={{
+                                      width: "60px",
+                                      marginLeft: "10px",
+                                    }}
+                                  />
+                                </li>
+                              ))}
+                            </ul>
                           ) : (
-                            <li>Nenhum pedido encontrado</li>
+                            <p>Nenhum pedido encontrado.</p>
                           )}
-                        </ul>
+                        </div>
                       </td>
                     </tr>
                   )}
@@ -207,16 +207,9 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
           </tbody>
         </table>
       </div>
+
       {mostrarEditar && (
-        <div
-          className="edit"
-          style={{
-            display: "flex",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}>
+        <div className="edit-overlay">
           <div className="edit-content">
             <Outlet />
           </div>

@@ -88,8 +88,11 @@ body {
 .styled-table th,
 .styled-table td {
   padding: 12px 15px;
-  border-bottom: 1px solid #dddddd;
   vertical-align: middle;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
 }
 
 .styled-table tbody tr:last-of-type {
@@ -105,17 +108,24 @@ body {
 }
 
 .table-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
+/* Centralização dos botões na coluna de ações */
 .action-buttons {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
+/* Estado vazio da tabela */
 .no-data {
   text-align: center;
   padding: 20px;
@@ -140,43 +150,44 @@ body {
   color: #c62828;
 }
 
-.save-btn {
-  background-color: #4caf50;
-  color: white;
+/* Botões de ação */
+button,
+.edit-btn,
+.delete-btn,
+.save-btn,
+.cancel-btn,
+.table-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 6px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
   cursor: pointer;
 }
 
+.save-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
 .cancel-btn {
-  text-align: center;
   background-color: #f44336;
   color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
   text-decoration: none;
 }
 
 .edit-btn {
   background-color: #2196f3;
   color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .delete-btn {
   background-color: #f44336;
   color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-
 }
 
 .non-editable {
@@ -184,6 +195,7 @@ body {
   background-color: #f9f9f9;
 }
 
+/* Campo de pesquisa */
 .search-container {
   width: 100%;
   display: flex;
