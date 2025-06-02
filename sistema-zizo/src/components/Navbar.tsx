@@ -17,14 +17,15 @@ const iconColor = {
 export default function Navbar() {
   const location = useLocation();
 
-  const pathToValueMap: { [key: string]: number } = {
-    "/": 0,
-    "/relatorio-financeiro": 1,
-    "/cadastro/funcionario": 2,
-    "/listar/funcionario": 3,
-  };
+  const pathToValueList = [
+    { path: "/relatorio-financeiro", value: 1 },
+    { path: "/cadastro", value: 2 },
+    { path: "/listar", value: 3 },
+  ];
 
-  const value = pathToValueMap[location.pathname] ?? 0;
+  const value =
+    pathToValueList.find(({ path }) => location.pathname.startsWith(path))
+      ?.value ?? 0;
 
   return (
     <Box sx={{ width: "100%", margin: "0 auto" }}>
