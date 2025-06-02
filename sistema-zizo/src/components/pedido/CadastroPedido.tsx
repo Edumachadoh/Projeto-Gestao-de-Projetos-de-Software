@@ -1,28 +1,42 @@
 import React, { useState } from "react";
-import type { StatusPreparo } from "../../models/enums/StatusPreparo";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import ListarClientes from "../cliente/ListarClientes";
 import ListarItens from "../item/ListarItens";
-import type { Item } from "../../models/interfaces/Item";
 import type { ItemSelecionado } from "../../models/interfaces/ItemSelecionado";
 import NotaFiscal from "./NotaFiscal";
+import type { Item } from "../../models/interfaces/Item";
 
 const CadastroPedido = () => {
   const [cliente, setCliente] = useState<Cliente>();
   const [itensSelecionados, setItensSelecionados] = useState<ItemSelecionado[]>(
     [],
   );
-  const [itens, setItens] = useState<Item[]>([]);
   const [mostrarNota, setMostrarNota] = useState(false);
 
   function enviarPedido(e: React.FormEvent) {
     e.preventDefault();
+    console.log("Enviando pedido...");
+
+    // Expande os itens com base na quantidade (ex: 3 unidades → 3 entradas no array)
+    const itensPedido: Item[] = itensSelecionados.flatMap((sel) =>
+      Array.from({ length: sel.quantidade }, () => ({
+        id: sel.item.id,
+        nome: sel.item.nome,
+        valor: sel.item.valor,
+      })),
+    );
+
+    const valorTotal = itensSelecionados.reduce(
+      (total, sel) => total + sel.item.valor * sel.quantidade,
+      0,
+    );
 
     const pedido = {
       clienteId: cliente?.id || null,
-      statusPreparo: 0 as StatusPreparo, // AFazer
-      cliente: cliente || undefined,
-      itens: itens,
+      estaAtivo: true,
+      estaPago: false,
+      valorTotal,
+      itens: itensPedido,
     };
 
     fetch("http://localhost:5190/api/pedidos", {
@@ -41,15 +55,15 @@ const CadastroPedido = () => {
         }
         return resposta.json();
       })
-      .then((dpedidoCadastrado) => {
-        console.log("Pedido cadastrado", dpedidoCadastrado);
+      .then((pedidoCadastrado) => {
+        console.log("Pedido cadastrado", pedidoCadastrado);
         alert("Pedido cadastrado com sucesso!");
-        // Limpa o formulário
         setCliente(undefined);
-        setItens([]);
+        setItensSelecionados([]);
+        setMostrarNota(false);
       })
       .catch((erro) => {
-        console.error("Erro ao cadastrar dpedido\n", erro);
+        console.error("Erro ao cadastrar pedido\n", erro);
         alert(`Erro: ${erro.message}`);
       });
   }
@@ -90,12 +104,16 @@ const CadastroPedido = () => {
     <>
       <NotaFiscal
         itensSelecionados={itensSelecionados}
+        cliente={cliente}
         onVoltar={() => {
           setMostrarNota(false);
           setItensSelecionados([]);
           setCliente(undefined);
         }}
       />
+      <button onClick={enviarPedido} className="table-select">
+        Confirmar Pedido
+      </button>
     </>
   );
 };

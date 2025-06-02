@@ -84,10 +84,6 @@ const ListarItens = ({
     aoSelecionarItens?.(atualizados);
   };
 
-  const getQuantidade = (id: number) => {
-    return selecionados.find((sel) => sel.item.id === id)?.quantidade || 0;
-  };
-
   if (carregando) {
     return <div className="form-container">Carregando...</div>;
   }
@@ -145,18 +141,60 @@ const ListarItens = ({
                               {selecionado ? "Remover" : "Selecionar"}
                             </button>
                             {selecionado && (
-                              <input
-                                type="number"
-                                min={1}
-                                value={selecionado.quantidade}
-                                onChange={(e) =>
-                                  alterarQuantidade(
-                                    item,
-                                    parseInt(e.target.value),
-                                  )
-                                }
-                                style={{ width: "60px", marginLeft: "10px" }}
-                              />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  marginLeft: "10px",
+                                  background: "#f0f0f0",
+                                  borderRadius: "5px",
+                                  padding: "2px 6px",
+                                }}>
+                                <button
+                                  onClick={() =>
+                                    alterarQuantidade(
+                                      item,
+                                      selecionado.quantidade - 1,
+                                    )
+                                  }
+                                  style={{
+                                    border: "none",
+                                    background: "#d01818",
+                                    color: "#fff",
+                                    borderRadius: "4px",
+                                    width: "25px",
+                                    height: "25px",
+                                    cursor: "pointer",
+                                  }}>
+                                  −
+                                </button>
+                                <span
+                                  style={{
+                                    margin: "0 10px",
+                                    minWidth: "20px",
+                                    textAlign: "center",
+                                  }}>
+                                  {selecionado.quantidade}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    alterarQuantidade(
+                                      item,
+                                      selecionado.quantidade + 1,
+                                    )
+                                  }
+                                  style={{
+                                    border: "none",
+                                    background: "#18a018",
+                                    color: "#fff",
+                                    borderRadius: "4px",
+                                    width: "25px",
+                                    height: "25px",
+                                    cursor: "pointer",
+                                  }}>
+                                  +
+                                </button>
+                              </div>
                             )}
                           </>
                         ) : (

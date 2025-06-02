@@ -1,14 +1,17 @@
 // src/components/NotaFiscal.tsx
 import React from "react";
 import type { ItemSelecionado } from "../../models/interfaces/ItemSelecionado";
+import type { Cliente } from "../../models/interfaces/Cliente";
 
 interface NotaFiscalProps {
   itensSelecionados: ItemSelecionado[];
+  cliente?: Cliente;
   onVoltar: () => void;
 }
 
 const NotaFiscal: React.FC<NotaFiscalProps> = ({
   itensSelecionados,
+  cliente,
   onVoltar,
 }) => {
   const total = itensSelecionados.reduce(
@@ -19,6 +22,15 @@ const NotaFiscal: React.FC<NotaFiscalProps> = ({
   return (
     <div className="form-container">
       <h2>Nota Fiscal</h2>
+      {cliente && (
+        <div className="nota-fiscal-cliente">
+          <strong>Cliente:</strong> {cliente.nome} <br />
+          <strong>CPF:</strong> {cliente.cpf} <br />
+          <strong>Telefone:</strong> {cliente.telefone} <br />
+          <strong>Pontos de Fidelidade:</strong> {cliente.pontosFidelidade}{" "}
+          <br />
+        </div>
+      )}
       <table className="styled-table">
         <thead>
           <tr>
