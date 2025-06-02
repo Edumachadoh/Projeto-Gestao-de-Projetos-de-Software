@@ -3,13 +3,7 @@ import { DeletarCliente } from "./DeletarCliente";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import { Link, Outlet } from "react-router";
-import {
-  Gauge,
-  gaugeClasses,
-  GaugeContainer,
-  GaugeReferenceArc,
-  GaugeValueArc,
-} from "@mui/x-charts/Gauge";
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { Box } from "@mui/material";
 
 interface ListarClientesProps {
