@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -6,7 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 
 const iconColor = {
   color: "#000",
@@ -16,16 +15,23 @@ const iconColor = {
 };
 
 export default function Navbar() {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
+
+  const pathToValueMap: { [key: string]: number } = {
+    "/": 0,
+    "/relatorio-financeiro": 1,
+    "/cadastro/funcionario": 2,
+    "/listar/funcionario": 3,
+  };
+
+  const value = pathToValueMap[location.pathname] ?? 0;
 
   return (
     <Box sx={{ width: "100%", margin: "0 auto" }}>
       <BottomNavigation
         showLabels
         value={value}
-        onChange={(_event, newValue) => {
-          setValue(newValue);
-        }}
+        onChange={(_event) => {}}
         sx={{ backgroundColor: "#c0c0c1" }}>
         <BottomNavigationAction
           label="Home"

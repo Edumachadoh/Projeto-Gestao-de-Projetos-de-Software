@@ -17,6 +17,9 @@ import ListarClientes from "./components/cliente/ListarClientes.tsx";
 import EditarCliente from "./components/cliente/EditarCliente.tsx";
 import CadastroProduto from "./components/produto/CadastroProduto.tsx";
 import ListarProdutos from "./components/produto/ListarProdutos.tsx";
+import ListarItens from "./components/item/ListarItens.tsx";
+import EditarItem from "./components/item/EditarItem.tsx";
+import CadastroItem from "./components/item/CadastroItem.tsx";
 
 const router = createBrowserRouter([
   {
