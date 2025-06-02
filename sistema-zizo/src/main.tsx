@@ -15,9 +15,8 @@ import CadastroFuncionario from "./components/funcionario/CadastroFuncionario.ts
 import CadastroCliente from "./components/cliente/CadastroCliente.tsx";
 import ListarClientes from "./components/cliente/ListarClientes.tsx";
 import EditarCliente from "./components/cliente/EditarCliente.tsx";
-import ListarItens from "./components/item/ListarItens.tsx";
-import EditarItem from "./components/item/EditarItem.tsx";
-import CadastroItem from "./components/item/CadastroItem.tsx";
+import CadastroProduto from "./components/produto/CadastroProduto.tsx";
+import ListarProdutos from "./components/produto/ListarProdutos.tsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +51,10 @@ const router = createBrowserRouter([
             path: "/cadastro/cliente",
             element: <CadastroCliente />,
           },
+          {
+            path: "/cadastro/produto",
+            element: <CadastroProduto />,
+          },
         ],
       },
       {
@@ -85,6 +88,10 @@ const router = createBrowserRouter([
                 element: <EditarCliente />,
               },
             ],
+          },
+          {
+            path: "/listar/produto",
+            element: <ListarProdutos />,
           },
         ],
       },

@@ -3,7 +3,7 @@ import type { Pedido } from "../../models/interfaces/Pedido";
 import React from "react";
 import type { Item } from "../../models/interfaces/Item";
 import { DeletarPedido } from "./DeletarPedido";
-import EditarPedido from "./EditarPedido";
+// import EditarPedido from "./EditarPedido";
 
 const ListarPedidos = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -121,7 +121,7 @@ const ListarPedidos = () => {
                             transform: "translate(-50%, -50%)",
                           }}>
                           <div className="edit-content">
-                            <EditarPedido _pedido={pedido} _id={pedido.id} />
+                            {/* <EditarPedido _pedido={pedido} _id={pedido.id} /> */}
                           </div>
                         </div>
                       )}

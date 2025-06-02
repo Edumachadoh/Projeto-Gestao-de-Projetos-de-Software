@@ -48,6 +48,14 @@ const Sidebar: React.FC<SidebarProps> = ({ type }) => {
             <ListItemText primary="Clientes" />
           </ListItemButton>
         </ListItem>
+        <ListItem component={Link} to={`/${type}/produto`}>
+          <ListItemButton>
+            <ListItemIcon>
+              <ViewListIcon />
+            </ListItemIcon>
+            <ListItemText primary="Produtos" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
