@@ -7,6 +7,8 @@ function ListarProdutos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [formEdit, setFormEdit] = useState<Partial<Produto>>({});
   const [termoPesquisa, setTermoPesquisa] = useState("");
+  const [mostrarNotificacao, setMostrarNotificacao] = useState(false);
+  const [mostrarProdutosCriticos, setMostrarProdutosCriticos] = useState(false);
 
   const carregarProdutos = async () => {
     try {
@@ -14,6 +16,9 @@ function ListarProdutos() {
       if (!resposta.ok) throw new Error("Erro ao carregar produtos");
       const dados: Produto[] = await resposta.json();
       setProdutos(dados);
+      
+      const temProdutosCriticos = dados.some(p => p.qtdAtual < p.qtdMinima);
+      setMostrarNotificacao(temProdutosCriticos);
     } catch (erro) {
       console.error("Erro ao carregar produtos:", erro);
       alert("Erro ao carregar produtos");
@@ -27,6 +32,10 @@ function ListarProdutos() {
       produto.nome.toLowerCase().includes(termoPesquisa.toLowerCase())
     );
   }, [produtos, termoPesquisa]);
+
+  const produtosCriticos = useMemo(() => {
+    return produtos.filter(produto => produto.qtdAtual < produto.qtdMinima);
+  }, [produtos]);
 
   useEffect(() => {
     carregarProdutos();
@@ -65,7 +74,6 @@ function ListarProdutos() {
         qtdMaxima: formEdit.qtdMaxima ?? produtoAtual.qtdMaxima,
         qtdAtual: formEdit.qtdAtual ?? produtoAtual.qtdAtual,
       };
-
 
       const resposta = await fetch(
         `http://localhost:5190/api/produtos/att/${editandoId}`,
@@ -132,11 +140,79 @@ function ListarProdutos() {
     deletarProduto(produto.id);
   };
 
+  const toggleProdutosCriticos = () => {
+    setMostrarProdutosCriticos(!mostrarProdutosCriticos);
+  };
+
   if (carregando) return <div className="form-container">Carregando...</div>;
 
   return (
     <div className="form-container">
-      <div className="form-header">
+      {mostrarNotificacao && (
+        <div className="notification-badge" onClick={toggleProdutosCriticos}>
+          ⚠️ {produtosCriticos.length} {produtosCriticos.length === 1 ? 'Produto' : 'Produtos'} com estoque crítico!
+
+        </div>
+      )}
+
+      {mostrarProdutosCriticos && (
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: '#fff8dc',
+          padding: '20px',
+          borderRadius: '5px',
+          boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+          zIndex: 1000,
+          width: '400px',
+          maxHeight: '80vh',
+          overflowY: 'auto'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '10px'
+          }}>
+            <h3 style={{margin: 0}}>Produtos com Estoque Crítico</h3>
+            <button 
+              onClick={toggleProdutosCriticos}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.2rem',
+                cursor: 'pointer'
+              }}
+            >
+              X
+            </button>
+          </div>
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
+            <thead>
+              <tr style={{backgroundColor: '#FFA500'}}>
+                <th style={{padding: '8px', textAlign: 'left'}}>Nome</th>
+                <th style={{padding: '8px', textAlign: 'left'}}>Mínimo</th>
+                <th style={{padding: '8px', textAlign: 'left'}}>Atual</th>
+              </tr>
+            </thead>
+            <tbody>
+              {produtosCriticos.map((produto) => (
+                <tr key={produto.id} style={{borderBottom: '1px solid #ddd'}}>
+                  <td style={{padding: '8px'}}>{produto.nome}</td>
+                  <td style={{padding: '8px'}}>{produto.qtdMinima}</td>
+                  <td style={{padding: '8px', color: '#FF0000', fontWeight: 'bold'}}>
+                    {produto.qtdAtual}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className="form-header" style={{ marginTop: "32px"}}>
         <h2>Lista de Produtos</h2>
         <div className="search-container">
           <input
@@ -172,9 +248,8 @@ function ListarProdutos() {
               </tr>
             ) : (
               produtosFiltrados.map((produto) => {
-                // Calcula o status do estoque
                 const statusEstoque =
-                  produto.qtdAtual <= produto.qtdMinima
+                  produto.qtdAtual < produto.qtdMinima
                     ? "Crítico"
                     : produto.qtdAtual >= produto.qtdMaxima
                     ? "Excesso"
@@ -183,7 +258,10 @@ function ListarProdutos() {
                 return (
                   <tr
                     key={produto.id}
-                    className={editandoId === produto.id ? "editing-row" : ""}
+                    className={`
+                      ${editandoId === produto.id ? "editing-row" : ""}
+                      ${produto.qtdAtual < produto.qtdMinima ? "critical-row" : ""}
+                    `}
                   >
                     {editandoId === produto.id ? (
                       <>
@@ -241,13 +319,11 @@ function ListarProdutos() {
                         <td>{produto.qtdAtual}</td>
                         <td>
                           <span
-                            className={`status-badge ${
+                            style={
                               statusEstoque === "Crítico"
-                                ? "critical"
-                                : statusEstoque === "Excesso"
-                                ? "excess"
-                                : "normal"
-                            }`}
+                                ? { color: "red", fontWeight: "bold" }
+                                : {}
+                            }
                           >
                             {statusEstoque}
                           </span>
