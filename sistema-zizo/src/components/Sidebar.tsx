@@ -25,11 +25,17 @@ const Sidebar: React.FC<SidebarProps> = ({ type }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false); // Estado para expandir/retrair a sidebar
 
   const drawerWidth = 220;
+  const collapsedWidth = 64;
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    if (isMobile) {
+      setMobileOpen(!mobileOpen);
+    } else {
+      setOpen(!open);
+    }
   };
 
   const listItems = [
@@ -41,59 +47,74 @@ const Sidebar: React.FC<SidebarProps> = ({ type }) => {
   ];
 
   const sidebarContent = (
-    <Box
-      sx={{ width: drawerWidth }}
-      role="presentation"
-      onClick={handleDrawerToggle}>
-      <List>
-        {listItems.map(({ text, icon, to }) => (
-          <ListItem
-            key={text}
-            disablePadding
-            component={Link}
-            to={to}
-            sx={{ textDecoration: "none", color: "inherit" }}>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+    <List>
+      {listItems.map(({ text, icon, to }) => (
+        <ListItem
+          key={text}
+          disablePadding
+          component={Link}
+          to={to}
+          sx={{
+            textDecoration: "none",
+            color: "inherit",
+          }}>
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? "initial" : "center",
+              px: 2.5,
+            }}>
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 2 : "auto",
+                justifyContent: "center",
+              }}>
+              {icon}
+            </ListItemIcon>
+            {open && <ListItemText primary={text} />}
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
   );
 
   return (
     <>
-      {isMobile && (
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerToggle}
-          sx={{ position: "fixed", top: 10, left: 10, zIndex: 1300 }}>
-          <MenuIcon />
-        </IconButton>
-      )}
+      <IconButton
+        onClick={handleDrawerToggle}
+        sx={{
+          position: "fixed",
+          top: 10,
+          left: 10,
+          zIndex: 1300,
+          color: "inherit",
+        }}>
+        <MenuIcon />
+      </IconButton>
 
       <Drawer
         variant={isMobile ? "temporary" : "permanent"}
         open={isMobile ? mobileOpen : true}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
+        onClose={() => setMobileOpen(false)}
+        ModalProps={{ keepMounted: true }}
         sx={{
-          width: drawerWidth,
+          width: open ? drawerWidth : collapsedWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
+          "& .MuiDrawer-paper": {
+            width: open ? drawerWidth : collapsedWidth,
             boxSizing: "border-box",
             backgroundColor: "#f9f9f9",
             borderRight: "1px solid #ddd",
-            paddingTop: isMobile ? "0" : "64px",
+            paddingTop: isMobile ? 0 : "64px",
+            overflowX: "hidden",
+            transition: theme.transitions.create("width", {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.standard,
+            }),
           },
         }}>
-        {sidebarContent}
+        <Box sx={{ mt: isMobile ? 0 : 2 }}>{sidebarContent}</Box>
       </Drawer>
     </>
   );

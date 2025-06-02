@@ -93,6 +93,7 @@ body {
 
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
+
 }
 
 .styled-table tbody tr:last-of-type {
@@ -117,12 +118,16 @@ body {
   cursor: pointer;
 }
 
-/* Centralização dos botões na coluna de ações */
+
 .action-buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 25px;
   gap: 8px;
+  justify-content: center;
+  align-items: center;
+  /* <- ESSENCIAL para centralizar verticalmente */
+  height: 100%;
+  /* <- Garante que ocupe toda a altura da célula */
 }
 
 /* Estado vazio da tabela */

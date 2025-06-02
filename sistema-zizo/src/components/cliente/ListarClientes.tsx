@@ -3,6 +3,14 @@ import { DeletarCliente } from "./DeletarCliente";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import { Link, Outlet } from "react-router";
+import {
+  Gauge,
+  gaugeClasses,
+  GaugeContainer,
+  GaugeReferenceArc,
+  GaugeValueArc,
+} from "@mui/x-charts/Gauge";
+import { Box } from "@mui/material";
 
 interface ListarClientesProps {
   modoSelecao?: boolean;
@@ -23,6 +31,16 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
   const [quantidades, setQuantidades] = useState<
     Record<number, Record<number, number>>
   >({});
+
+  const getGaugeColor = (pontos: number) => {
+    if (pontos >= 200) {
+      return "#52b202";
+    } else if (pontos > 50) {
+      return "#f0ad4e";
+    } else {
+      return "#d9534f";
+    }
+  };
 
   const selecionarItens = (id: number, idSelecionado: number) => {
     setClienteSelecionado(id === idSelecionado ? null : id);
@@ -117,7 +135,40 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
                       {new Date(cliente.dataNascimento).toLocaleDateString()}
                     </td>
                     <td>{cliente.telefone}</td>
-                    <td>{cliente.pontosFidelidade}</td>
+                    <td>
+                      <Box
+                        position="relative"
+                        display="inline-flex"
+                        justifyContent="center">
+                        <Gauge
+                          width={80}
+                          height={80}
+                          value={(cliente.pontosFidelidade / 500) * 100} // valor convertido de 0–500 para 0–100%
+                          cornerRadius="50%"
+                          sx={{
+                            [`& .${gaugeClasses.valueArc}`]: {
+                              fill: getGaugeColor(cliente.pontosFidelidade),
+                            },
+                            [`& .${gaugeClasses.valueText}`]: {
+                              display: "none", // oculta o valor original
+                            },
+                          }}
+                        />
+                        <Box
+                          position="absolute"
+                          top={0}
+                          left={0}
+                          width="100%"
+                          height="100%"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center">
+                          <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                            {cliente.pontosFidelidade}
+                          </span>
+                        </Box>
+                      </Box>
+                    </td>
 
                     {!modoSelecao && (
                       <td>

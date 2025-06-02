@@ -131,7 +131,7 @@ const ListarItens = ({
                     <tr>
                       <td>{item.id}</td>
                       <td>{item.nome}</td>
-                      <td>{item.valor}</td>
+                      <td>R$ {item.valor.toFixed(2)}</td>
                       <td className="action-buttons">
                         {modoSelecao ? (
                           <>
