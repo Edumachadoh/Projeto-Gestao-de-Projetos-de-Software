@@ -33,8 +33,8 @@ const ListarPedidos = () => {
       const resposta = await fetch("http://localhost:5190/api/pedidos");
       if (!resposta.ok) throw new Error("Erro ao carregar pedidos");
       const dados: Pedido[] = await resposta.json();
-      setPedidos(dados);
       console.log(dados);
+      setPedidos(dados);
     } catch (erro: any) {
       console.error("Erro ao carregar pedidos:", erro);
       alert("Erro ao carregar pedidos");
@@ -82,7 +82,11 @@ const ListarPedidos = () => {
                   <tr>
                     <td>{pedido.id}</td>
                     <td>{pedido.cliente?.nome ?? "N/A"}</td>
-                    <td>{new Date(pedido.data).toLocaleDateString()}</td>
+                    <td>
+                      {pedido.data
+                        ? new Date(pedido.data).toLocaleDateString()
+                        : "Data não disponível"}
+                    </td>
                     <td>
                       <button
                         onClick={() =>

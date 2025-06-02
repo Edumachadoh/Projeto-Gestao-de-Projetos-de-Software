@@ -4,10 +4,10 @@ import type { Item } from "./Item";
 
 export interface Pedido {
   id: number;
-  clienteId: number;
+  clienteId?: number;
   valorTotal: number;
+  data?: Date;
   statusPreparo: StatusPreparo;
-  data: Date;
   cliente?: Cliente;
   itens: Item[];
 }

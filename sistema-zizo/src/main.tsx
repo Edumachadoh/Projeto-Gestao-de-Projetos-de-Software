@@ -15,6 +15,9 @@ import CadastroFuncionario from "./components/funcionario/CadastroFuncionario.ts
 import CadastroCliente from "./components/cliente/CadastroCliente.tsx";
 import ListarClientes from "./components/cliente/ListarClientes.tsx";
 import EditarCliente from "./components/cliente/EditarCliente.tsx";
+import ListarItens from "./components/item/ListarItens.tsx";
+import EditarItem from "./components/item/EditarItem.tsx";
+import CadastroItem from "./components/item/CadastroItem.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,10 @@ const router = createBrowserRouter([
             element: <CadastroFuncionario />,
           },
           {
+            path: "/cadastro/item",
+            element: <CadastroItem />,
+          },
+          {
             path: "/cadastro/pedido",
             element: <CadastroPedido />,
           },
@@ -54,6 +61,16 @@ const router = createBrowserRouter([
           {
             path: "/listar/funcionario",
             element: <ListarFuncionarios />,
+          },
+          {
+            path: "/listar/item",
+            element: <ListarItens />,
+            children: [
+              {
+                path: "/listar/item/editar/:id",
+                element: <EditarItem />,
+              },
+            ],
           },
           {
             path: "/listar/pedido",

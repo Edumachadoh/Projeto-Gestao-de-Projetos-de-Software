@@ -9,8 +9,8 @@ export const DeletarCliente = async (id: number) => {
 
     if (!resposta.ok) throw new Error("Erro ao deletar funcionário");
 
+    window.alert("Funcionário deletado com sucesso!");
     window.location.reload();
-    alert("Funcionário deletado com sucesso!");
   } catch (erro) {
     console.error("Erro ao deletar funcionário:", erro);
     alert("Erro ao deletar funcionário");

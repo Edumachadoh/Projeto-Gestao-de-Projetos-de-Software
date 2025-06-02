@@ -24,6 +24,14 @@ const Sidebar: React.FC<SidebarProps> = ({ type }) => {
             <ListItemText primary="Funcionários" />
           </ListItemButton>
         </ListItem>
+        <ListItem component={Link} to={`/${type}/item`}>
+          <ListItemButton>
+            <ListItemIcon>
+              <ViewListIcon />
+            </ListItemIcon>
+            <ListItemText primary="Itens" />
+          </ListItemButton>
+        </ListItem>
         <ListItem component={Link} to={`/${type}/pedido`}>
           <ListItemButton>
             <ListItemIcon>
