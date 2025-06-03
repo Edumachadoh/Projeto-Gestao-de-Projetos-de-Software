@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 
 interface ListarClientesProps {
   modoSelecao?: boolean;
-  onSelecionarCliente?: (cliente: Cliente) => void;
+  onSelecionarCliente?: (cliente: Cliente | undefined) => void;
 }
 
 const ListarClientes: React.FC<ListarClientesProps> = ({
@@ -252,7 +252,13 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
           </tbody>
         </table>
       </div>
-
+      {modoSelecao && (
+        <button
+          className="table-input"
+          onClick={() => onSelecionarCliente?.(undefined)}>
+          Sem Cliente
+        </button>
+      )}
       {mostrarEditar && (
         <div className="edit-overlay">
           <div className="edit-content">

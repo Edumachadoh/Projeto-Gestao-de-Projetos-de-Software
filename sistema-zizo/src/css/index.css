@@ -121,13 +121,11 @@ body {
 
 .action-buttons {
   display: flex;
-  margin-top: 25px;
+
   gap: 8px;
   justify-content: center;
   align-items: center;
-  /* <- ESSENCIAL para centralizar verticalmente */
   height: 100%;
-  /* <- Garante que ocupe toda a altura da célula */
 }
 
 /* Estado vazio da tabela */

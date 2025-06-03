@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import ListarClientes from "../cliente/ListarClientes";
 import ListarItens from "../item/ListarItens";
-import type { ItemSelecionado } from "../../models/interfaces/ItemSelecionado";
 import NotaFiscal from "./NotaFiscal";
-import type { Item } from "../../models/interfaces/Item";
+import type { ItemPedido } from "../../models/interfaces/ItemPedido";
+import type { ItemSelecionado } from "../../models/interfaces/ItemSelecionado";
 
 const CadastroPedido = () => {
   const [cliente, setCliente] = useState<Cliente>();
+  const [selecionado, setSelecionado] = useState<boolean>(false);
   const [itensSelecionados, setItensSelecionados] = useState<ItemSelecionado[]>(
     [],
   );
@@ -15,16 +16,11 @@ const CadastroPedido = () => {
 
   function enviarPedido(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Enviando pedido...");
 
-    // Expande os itens com base na quantidade (ex: 3 unidades → 3 entradas no array)
-    const itensPedido: Item[] = itensSelecionados.flatMap((sel) =>
-      Array.from({ length: sel.quantidade }, () => ({
-        id: sel.item.id,
-        nome: sel.item.nome,
-        valor: sel.item.valor,
-      })),
-    );
+    const itensPedido: ItemPedido[] = itensSelecionados.map((sel) => ({
+      itemId: sel.item.id,
+      quantidade: sel.quantidade,
+    }));
 
     const valorTotal = itensSelecionados.reduce(
       (total, sel) => total + sel.item.valor * sel.quantidade,
@@ -33,9 +29,9 @@ const CadastroPedido = () => {
 
     const pedido = {
       clienteId: cliente?.id || null,
+      valorTotal: valorTotal,
       estaAtivo: true,
       estaPago: false,
-      valorTotal,
       itens: itensPedido,
     };
 
@@ -68,7 +64,7 @@ const CadastroPedido = () => {
       });
   }
   return !mostrarNota ? (
-    cliente === undefined ? (
+    !selecionado ? (
       <div className="form-container">
         <div className="form-content">
           <h1>
@@ -79,6 +75,7 @@ const CadastroPedido = () => {
             modoSelecao={true}
             onSelecionarCliente={(clienteSelecionado) => {
               setCliente(clienteSelecionado);
+              setSelecionado(true);
             }}
           />
         </div>
@@ -109,6 +106,7 @@ const CadastroPedido = () => {
           setMostrarNota(false);
           setItensSelecionados([]);
           setCliente(undefined);
+          setSelecionado(false);
         }}
       />
       <button onClick={enviarPedido} className="table-select">

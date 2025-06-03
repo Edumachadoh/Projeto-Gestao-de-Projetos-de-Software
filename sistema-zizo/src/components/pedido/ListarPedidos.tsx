@@ -13,13 +13,6 @@ const ListarPedidos = () => {
   );
   const [mostrarEditar, setMostrarEditar] = useState(false);
 
-  const statusPreparoMap: { [key: number]: string } = {
-    0: "A Fazer",
-    1: "Fazendo",
-    2: "Feito",
-    3: "Entregue",
-  };
-
   const selecionarItens = (id: number, idSelecionado: number) => {
     if (id === idSelecionado) {
       setPedidoSelecionado(null);
@@ -64,7 +57,8 @@ const ListarPedidos = () => {
               <th>cliente</th>
               <th>data</th>
               <th>itens</th>
-              <th>Status</th>
+              <th>Está ativo</th>
+              <th>Está Pago</th>
               <th>valorTotal</th>
               <th>Ações</th>
             </tr>
@@ -97,13 +91,9 @@ const ListarPedidos = () => {
                           : "Ver Itens"}
                       </button>
                     </td>
-                    <td>{statusPreparoMap[Number(pedido.statusPreparo)]}</td>
-                    <td>
-                      {pedido.valorTotal.toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      })}
-                    </td>
+                    <td>{pedido.estaAtivo ? "Sim" : "Não"}</td>
+                    <td>{pedido.estaPago ? "Sim" : "Não"}</td>
+                    <td>R$ {pedido.valorTotal.toFixed(2)}</td>
                     <td className="action-buttons">
                       <button
                         className="edit-btn"
@@ -136,18 +126,37 @@ const ListarPedidos = () => {
                     <tr>
                       <td colSpan={7}>
                         <strong>Itens do pedido:</strong>
-                        <ul>
-                          {pedido.itens.length !== 0 ? (
-                            pedido.itens.map((item: Item, index) => (
-                              <li key={index}>
-                                {item.nome ?? "Produto sem nome"} - id:
-                                {item.id}
-                              </li>
-                            ))
-                          ) : (
-                            <li>Nenhum item encontrado</li>
-                          )}
-                        </ul>
+                        <table className="subtable">
+                          <thead>
+                            <tr>
+                              <th>Nome</th>
+                              <th>Valor</th>
+                              <th>Quantidade</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pedido.itens.length !== 0 ? (
+                              pedido.itens.map((itemPedido, index) => (
+                                <tr key={index}>
+                                  <td>
+                                    {itemPedido.item?.nome ??
+                                      "Produto sem nome"}
+                                  </td>
+                                  <td>
+                                    R${" "}
+                                    {itemPedido.item?.valor?.toFixed(2) ??
+                                      "N/A"}
+                                  </td>
+                                  <td>{itemPedido.quantidade ?? "N/A"}</td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={2}>Nenhum item encontrado</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
                       </td>
                     </tr>
                   )}

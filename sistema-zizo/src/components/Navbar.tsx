@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Link, useLocation } from "react-router-dom";
 
 const iconColor = {
@@ -18,10 +19,11 @@ export default function Navbar() {
   const location = useLocation();
 
   const pathToValueList = [
-    { path: "/relatorio-financeiro", value: 1 },
-    { path: "/cadastro", value: 2 },
-    { path: "/listar", value: 3 },
-    { path: "/relatorio-produtos", value: 4 },
+    { path: "/pedido", value: 1 },
+    { path: "/relatorio-financeiro", value: 2 },
+    { path: "/relatorio-produtos", value: 3 },
+    { path: "/cadastro/funcionario", value: 4 },
+    { path: "/listar/funcionario", value: 5 },
   ];
 
   const value =
@@ -41,6 +43,13 @@ export default function Navbar() {
           sx={iconColor}
           component={Link}
           to="/"
+        />
+        <BottomNavigationAction
+          label="Pedido"
+          icon={<ShoppingBagIcon />}
+          sx={iconColor}
+          component={Link}
+          to="/pedido"
         />
         <BottomNavigationAction
           label="Finanças"
