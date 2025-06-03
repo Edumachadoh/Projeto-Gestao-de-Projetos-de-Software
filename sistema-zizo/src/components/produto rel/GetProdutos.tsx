@@ -85,17 +85,6 @@ function RelatorioProdutos() {
   return grupos;
 }, [produtosFiltrados]);
 
-  const iniciarEdicao = (produto: Produto) => {
-    if (typeof produto.id !== "number") return;
-    setEditandoId(produto.id);
-    setFormEdit({
-      id: produto.id,
-      nome: produto.nome,
-      qtdMinima: produto.qtdMinima,
-      qtdMaxima: produto.qtdMaxima,
-      qtdAtual: produto.qtdAtual,
-    });
-  };
 
   const cancelarEdicao = () => {
     setEditandoId(null);
@@ -147,23 +136,7 @@ function RelatorioProdutos() {
     }
   };
 
-  const deletarProduto = async (id: number) => {
-    if (!window.confirm("Tem certeza que deseja deletar este produto?")) return;
 
-    try {
-      const resposta = await fetch(`http://localhost:5190/api/produtos/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!resposta.ok) throw new Error("Erro ao deletar produto");
-
-      await carregarProdutos();
-      alert("Produto deletado com sucesso!");
-    } catch (erro) {
-      console.error("Erro ao deletar produto:", erro);
-      alert("Erro ao deletar produto");
-    }
-  };
 
   const handleChangeEdit = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -175,10 +148,7 @@ function RelatorioProdutos() {
     }));
   };
 
-  const handleDeletar = (produto: Produto) => {
-    if (typeof produto.id !== "number") return;
-    deletarProduto(produto.id);
-  };
+  
 
   if (carregando) return <div className="form-container">Carregando...</div>;
 

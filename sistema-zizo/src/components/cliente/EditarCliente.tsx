@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import { Link, useNavigate, useParams } from "react-router";
-import { formatDateToISO } from "../../util/FormatarData";
 
 const EditarCliente = () => {
   const { id } = useParams();
