@@ -21,6 +21,7 @@ export default function Navbar() {
     { path: "/relatorio-financeiro", value: 1 },
     { path: "/cadastro", value: 2 },
     { path: "/listar", value: 3 },
+    { path: "/relatorio-produtos", value: 4 },
   ];
 
   const value =
@@ -42,11 +43,18 @@ export default function Navbar() {
           to="/"
         />
         <BottomNavigationAction
-          label="Relatório"
+          label="Finanças"
           icon={<AssignmentIcon />}
           sx={iconColor}
           component={Link}
           to="/relatorio-financeiro"
+        />
+        <BottomNavigationAction
+          label="Produtos"
+          icon={<AssignmentIcon />}
+          sx={iconColor}
+          component={Link}
+          to="/relatorio-produtos"
         />
         <BottomNavigationAction
           label="Cadastro"

@@ -20,6 +20,8 @@ import ListarProdutos from "./components/produto/ListarProdutos.tsx";
 import ListarItens from "./components/item/ListarItens.tsx";
 import EditarItem from "./components/item/EditarItem.tsx";
 import CadastroItem from "./components/item/CadastroItem.tsx";
+import RelatorioProdutos from "./components/produto rel/GetProdutos.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/relatorio-financeiro",
         element: <RelatorioFinanceiro />,
+      },
+      {
+        path: "/relatorio-produtos",
+        element: < RelatorioProdutos/>,
       },
       {
         path: "/cadastro",
