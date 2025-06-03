@@ -18,6 +18,5 @@ public class Pedido
 
     // Não necessariamente um pedido precisa estar vinculado a um cliente
     public Cliente? Cliente { get; set; }
-    [Required]
-    public List<Item> Itens { get; set; } = []; 
+    public List<ItemPedido> Itens { get; set; } = []; 
 }

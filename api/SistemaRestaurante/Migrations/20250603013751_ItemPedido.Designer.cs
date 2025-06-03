@@ -11,8 +11,8 @@ using SistemaRestaurante.Context;
 namespace SistemaRestaurante.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250601170529_Models")]
-    partial class Models
+    [Migration("20250603013751_ItemPedido")]
+    partial class ItemPedido
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,27 +39,27 @@ namespace SistemaRestaurante.Migrations
                         new
                         {
                             Id = 1,
-                            DataRegistrada = new DateTime(2025, 5, 27, 0, 0, 0, 0, DateTimeKind.Local)
-                        },
-                        new
-                        {
-                            Id = 2,
                             DataRegistrada = new DateTime(2025, 5, 28, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             DataRegistrada = new DateTime(2025, 5, 29, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             DataRegistrada = new DateTime(2025, 5, 30, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 4,
                             DataRegistrada = new DateTime(2025, 5, 31, 0, 0, 0, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DataRegistrada = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -219,15 +219,10 @@ namespace SistemaRestaurante.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
 
                     b.ToTable("Itens");
 
@@ -268,6 +263,28 @@ namespace SistemaRestaurante.Migrations
                             Nome = "Pasta de dente",
                             Valor = 15.00m
                         });
+                });
+
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("ItensPedido");
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
@@ -546,7 +563,7 @@ namespace SistemaRestaurante.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SistemaRestaurante.Models.Item", b =>
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
                 {
                     b.HasOne("SistemaRestaurante.Models.Pedido", null)
                         .WithMany("Itens")

@@ -22,7 +22,8 @@ public class AppDbContext : DbContext
     public DbSet<Item> Itens { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<Produto> Produtos { get; set; }
-
+    public DbSet<ItemPedido> ItensPedido { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -31,7 +32,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Funcionario>(entity =>
         {
             entity.Property(f => f.Status)
-                .HasDefaultValue(1); 
+                .HasDefaultValue(1);
         });
     }
 

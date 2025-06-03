@@ -24,22 +24,6 @@ public class PedidoController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        // ana: meio feio if dentro de if mas é um workaround
-        if (pedido.ClienteId is not null)
-        {
-            var cliente = await _appDbContext.Clientes.FirstOrDefaultAsync(x => x.Id == pedido.ClienteId);
-
-            if (cliente is not null)
-            {
-                cliente.Pedidos.Add(pedido);
-            }
-        }
-
-        foreach (Item item in pedido.Itens)
-        {
-            pedido.ValorTotal += item.Valor;
-        }
-
         await _appDbContext.Pedidos.AddAsync(pedido);
         await _appDbContext.SaveChangesAsync();
 

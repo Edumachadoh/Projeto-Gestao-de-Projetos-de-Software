@@ -19,30 +19,6 @@ namespace SistemaRestaurante.Migrations
                 .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ItensPedido", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("ItensPedido");
-                });
-
             modelBuilder.Entity("SistemaRestaurante.Models.Estoque", b =>
                 {
                     b.Property<int>("Id")
@@ -284,6 +260,28 @@ namespace SistemaRestaurante.Migrations
                             Nome = "Pasta de dente",
                             Valor = 15.00m
                         });
+                });
+
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("ItensPedido");
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
@@ -562,23 +560,11 @@ namespace SistemaRestaurante.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ItensPedido", b =>
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
                 {
-                    b.HasOne("SistemaRestaurante.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SistemaRestaurante.Models.Pedido", "Pedido")
-                        .WithMany("ItensPedido")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("Pedido");
+                    b.HasOne("SistemaRestaurante.Models.Pedido", null)
+                        .WithMany("Itens")
+                        .HasForeignKey("PedidoId");
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
@@ -604,7 +590,7 @@ namespace SistemaRestaurante.Migrations
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
                 {
-                    b.Navigation("ItensPedido");
+                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pessoa.Cliente", b =>
