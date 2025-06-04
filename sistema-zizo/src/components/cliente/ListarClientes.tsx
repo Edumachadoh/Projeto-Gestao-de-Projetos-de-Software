@@ -22,9 +22,6 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
   );
   const [mostrarEditar, setMostrarEditar] = useState(false);
   const [termoPesquisa, setTermoPesquisa] = useState("");
-  const [quantidades, setQuantidades] = useState<
-    Record<number, Record<number, number>>
-  >({});
 
   const getGaugeColor = (pontos: number) => {
     if (pontos >= 200) {
@@ -64,20 +61,6 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
       cliente.nome.toLowerCase().includes(termoPesquisa.toLowerCase()),
     );
   }, [clientes, termoPesquisa]);
-
-  const handleQuantidadeChange = (
-    clienteId: number,
-    pedidoId: number,
-    novaQuantidade: number,
-  ) => {
-    setQuantidades((prev) => ({
-      ...prev,
-      [clienteId]: {
-        ...prev[clienteId],
-        [pedidoId]: novaQuantidade,
-      },
-    }));
-  };
 
   if (carregando) return <div className="form-container">Carregando...</div>;
 
@@ -273,7 +256,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
         </button>
       )}
       {mostrarEditar && (
-        <div className="edit-overlay">
+        <div className="edit-overlay" style={{ position: "fixed" }}>
           <div className="edit-content">
             <Outlet />
           </div>
