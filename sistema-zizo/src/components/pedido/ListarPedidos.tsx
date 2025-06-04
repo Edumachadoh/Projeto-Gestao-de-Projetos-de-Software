@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import React from "react";
 import { DeletarPedido } from "./DeletarPedido";
-// import EditarPedido from "./EditarPedido"; // descomente se estiver pronto
 
 const ListarPedidos = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -10,14 +9,11 @@ const ListarPedidos = () => {
   const [pedidoSelecionado, setPedidoSelecionado] = useState<number | null>(
     null,
   );
-  const [editarPedidoId, setEditarPedidoId] = useState<number | null>(null);
+  const [editandoId, setEditandoId] = useState<number | null>(null);
+  const [formEdit, setFormEdit] = useState<Partial<Pedido>>({});
 
   const selecionarItens = (id: number, idSelecionado: number) => {
-    if (id === idSelecionado) {
-      setPedidoSelecionado(null);
-    } else {
-      setPedidoSelecionado(id);
-    }
+    setPedidoSelecionado(id === idSelecionado ? null : id);
   };
 
   const carregarPedidos = async () => {
@@ -26,8 +22,7 @@ const ListarPedidos = () => {
       if (!resposta.ok) throw new Error("Erro ao carregar pedidos");
       const dados: Pedido[] = await resposta.json();
       setPedidos(dados);
-      console.log("Pedidos carregados:", dados);
-    } catch (erro: any) {
+    } catch (erro) {
       console.error("Erro ao carregar pedidos:", erro);
       alert("Erro ao carregar pedidos");
     } finally {
@@ -35,18 +30,68 @@ const ListarPedidos = () => {
     }
   };
 
-  const deletarPedido = async (id: number) => {
-    await DeletarPedido(id);
-    carregarPedidos(); // Atualiza a lista
-  };
-
   useEffect(() => {
     carregarPedidos();
   }, []);
 
-  if (carregando) {
-    return <div>Carregando...</div>;
-  }
+  const iniciarEdicao = (pedido: Pedido) => {
+    setEditandoId(pedido.id);
+    setFormEdit({
+      estaAtivo: pedido.estaAtivo,
+      estaPago: pedido.estaPago,
+    });
+  };
+
+  const cancelarEdicao = () => {
+    setEditandoId(null);
+    setFormEdit({});
+  };
+
+  const salvarEdicao = async (id: number) => {
+    const pedidoOriginal = pedidos.find((p) => p.id === id);
+    if (!pedidoOriginal) return;
+
+    const pedidoAtualizado: Pedido = {
+      ...pedidoOriginal,
+      ...formEdit,
+    };
+
+    try {
+      const resposta = await fetch(`http://localhost:5190/api/pedidos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pedidoAtualizado),
+      });
+
+      if (!resposta.ok) {
+        const erro = await resposta.text();
+        throw new Error(erro);
+      }
+
+      await carregarPedidos();
+      setEditandoId(null);
+    } catch (erro) {
+      console.error("Erro ao atualizar pedido:", erro);
+      alert("Erro ao atualizar pedido");
+    }
+  };
+
+  const handleChangeEdit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormEdit((prev) => ({
+      ...prev,
+      [name]: value === "1",
+    }));
+  };
+
+  const deletarPedido = async (id: number) => {
+    await DeletarPedido(id);
+    carregarPedidos();
+  };
+
+  if (carregando) return <div>Carregando...</div>;
 
   return (
     <div className="form-container">
@@ -57,13 +102,13 @@ const ListarPedidos = () => {
         <table className="styled-table">
           <thead>
             <tr>
-              <th>id</th>
-              <th>cliente</th>
-              <th>data</th>
-              <th>itens</th>
-              <th>Está ativo</th>
-              <th>Está Pago</th>
-              <th>valorTotal</th>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Data</th>
+              <th>Itens</th>
+              <th>Ativo</th>
+              <th>Pago</th>
+              <th>Total</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -77,7 +122,7 @@ const ListarPedidos = () => {
             ) : (
               pedidos.map((pedido) => (
                 <React.Fragment key={pedido.id}>
-                  <tr>
+                  <tr className={editandoId === pedido.id ? "editing-row" : ""}>
                     <td>{pedido.id}</td>
                     <td>{pedido.cliente?.nome ?? "N/A"}</td>
                     <td>
@@ -95,44 +140,62 @@ const ListarPedidos = () => {
                           : "Ver Itens"}
                       </button>
                     </td>
-                    <td>{pedido.estaAtivo ? "Sim" : "Não"}</td>
-                    <td>{pedido.estaPago ? "Sim" : "Não"}</td>
+                    {editandoId === pedido.id ? (
+                      <>
+                        <td>
+                          <select
+                            name="estaAtivo"
+                            value={formEdit.estaAtivo ? "1" : "0"}
+                            onChange={handleChangeEdit}>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                          </select>
+                        </td>
+                        <td>
+                          <select
+                            name="estaPago"
+                            value={formEdit.estaPago ? "1" : "0"}
+                            onChange={handleChangeEdit}>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                          </select>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>{pedido.estaAtivo ? "Sim" : "Não"}</td>
+                        <td>{pedido.estaPago ? "Sim" : "Não"}</td>
+                      </>
+                    )}
                     <td>R$ {pedido.valorTotal.toFixed(2)}</td>
                     <td className="action-buttons">
-                      <button
-                        className="edit-btn"
-                        onClick={() => setEditarPedidoId(pedido.id)}>
-                        Editar
-                      </button>
-                      {editarPedidoId === pedido.id && (
-                        <div
-                          className="edit"
-                          style={{
-                            display: "flex",
-                            position: "fixed",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            backgroundColor: "#fff",
-                            padding: "20px",
-                            borderRadius: "8px",
-                            boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-                            zIndex: 1000,
-                          }}>
-                          <div className="edit-content">
-                            {/* Descomente e implemente o componente abaixo quando pronto */}
-                            {/* <EditarPedido _pedido={pedido} _id={pedido.id} /> */}
-                            <button onClick={() => setEditarPedidoId(null)}>
-                              Fechar
-                            </button>
-                          </div>
-                        </div>
+                      {editandoId === pedido.id ? (
+                        <>
+                          <button
+                            onClick={() => salvarEdicao(pedido.id)}
+                            className="save-btn">
+                            Salvar
+                          </button>
+                          <button
+                            onClick={cancelarEdicao}
+                            className="cancel-btn">
+                            Cancelar
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => iniciarEdicao(pedido)}
+                            className="edit-btn">
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => deletarPedido(pedido.id)}
+                            className="delete-btn">
+                            Deletar
+                          </button>
+                        </>
                       )}
-                      <button
-                        onClick={() => deletarPedido(pedido.id)}
-                        className="delete-btn">
-                        Deletar
-                      </button>
                     </td>
                   </tr>
 
@@ -150,18 +213,13 @@ const ListarPedidos = () => {
                           </thead>
                           <tbody>
                             {pedido.itens && pedido.itens.length > 0 ? (
-                              pedido.itens.map((itemPedido, index) => (
-                                <tr key={index}>
+                              pedido.itens.map((item, i) => (
+                                <tr key={i}>
+                                  <td>{item.item?.nome ?? "N/A"}</td>
                                   <td>
-                                    {itemPedido.item?.nome ??
-                                      "Produto sem nome"}
+                                    R$ {item.item?.valor?.toFixed(2) ?? "0.00"}
                                   </td>
-                                  <td>
-                                    R${" "}
-                                    {itemPedido.item?.valor?.toFixed(2) ??
-                                      "0.00"}
-                                  </td>
-                                  <td>{itemPedido.quantidade ?? 0}</td>
+                                  <td>{item.quantidade ?? 0}</td>
                                 </tr>
                               ))
                             ) : (
