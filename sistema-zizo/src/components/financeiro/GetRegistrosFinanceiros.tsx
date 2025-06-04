@@ -82,7 +82,7 @@ const GetRegistrosFinanceiros = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSizeOptions={[5, 10]}
+          pageSizeOptions={[100]}
           checkboxSelection
           onRowSelectionModelChange={(selectionModel) => {
             const idsArray = Array.from(selectionModel.ids ?? []);

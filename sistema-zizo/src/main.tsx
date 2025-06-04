@@ -15,6 +15,13 @@ import CadastroFuncionario from "./components/funcionario/CadastroFuncionario.ts
 import CadastroCliente from "./components/cliente/CadastroCliente.tsx";
 import ListarClientes from "./components/cliente/ListarClientes.tsx";
 import EditarCliente from "./components/cliente/EditarCliente.tsx";
+import CadastroProduto from "./components/produto/CadastroProduto.tsx";
+import ListarProdutos from "./components/produto/ListarProdutos.tsx";
+import ListarItens from "./components/item/ListarItens.tsx";
+import EditarItem from "./components/item/EditarItem.tsx";
+import CadastroItem from "./components/item/CadastroItem.tsx";
+import RelatorioProdutos from "./components/produto rel/GetProdutos.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -30,6 +37,10 @@ const router = createBrowserRouter([
         element: <RelatorioFinanceiro />,
       },
       {
+        path: "/relatorio-produtos",
+        element: < RelatorioProdutos/>,
+      },
+      {
         path: "/cadastro",
         element: <Cadastro />,
         children: [
@@ -38,12 +49,20 @@ const router = createBrowserRouter([
             element: <CadastroFuncionario />,
           },
           {
+            path: "/cadastro/item",
+            element: <CadastroItem />,
+          },
+          {
             path: "/cadastro/pedido",
             element: <CadastroPedido />,
           },
           {
             path: "/cadastro/cliente",
             element: <CadastroCliente />,
+          },
+          {
+            path: "/cadastro/produto",
+            element: <CadastroProduto />,
           },
         ],
       },
@@ -54,6 +73,16 @@ const router = createBrowserRouter([
           {
             path: "/listar/funcionario",
             element: <ListarFuncionarios />,
+          },
+          {
+            path: "/listar/item",
+            element: <ListarItens />,
+            children: [
+              {
+                path: "/listar/item/editar/:id",
+                element: <EditarItem />,
+              },
+            ],
           },
           {
             path: "/listar/pedido",
@@ -68,6 +97,10 @@ const router = createBrowserRouter([
                 element: <EditarCliente />,
               },
             ],
+          },
+          {
+            path: "/listar/produto",
+            element: <ListarProdutos />,
           },
         ],
       },

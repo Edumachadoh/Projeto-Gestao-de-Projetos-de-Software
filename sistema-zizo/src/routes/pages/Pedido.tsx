@@ -1,9 +1,9 @@
-import ListarPedidos from "../../components/pedido/ListarPedidos";
+import CadastroPedido from "../../components/pedido/CadastroPedido";
 
 const Pedido = () => {
   return (
     <div>
-      <ListarPedidos />
+      <CadastroPedido />
     </div>
   );
 };

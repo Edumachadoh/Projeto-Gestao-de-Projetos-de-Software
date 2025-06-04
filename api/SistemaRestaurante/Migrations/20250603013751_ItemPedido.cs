@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaRestaurante.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class ItemPedido : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,6 +94,22 @@ namespace SistemaRestaurante.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Itens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Valor = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Itens", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "RegistrosFinanceiros",
                 columns: table => new
                 {
@@ -121,7 +137,8 @@ namespace SistemaRestaurante.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClienteId = table.Column<int>(type: "int", nullable: true),
                     ValorTotal = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    StatusPreparo = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    EstaAtivo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    EstaPago = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -160,21 +177,20 @@ namespace SistemaRestaurante.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Itens",
+                name: "ItensPedido",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Valor = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Quantidade = table.Column<int>(type: "int", nullable: false),
                     PedidoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Itens", x => x.Id);
+                    table.PrimaryKey("PK_ItensPedido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Itens_Pedidos_PedidoId",
+                        name: "FK_ItensPedido_Pedidos_PedidoId",
                         column: x => x.PedidoId,
                         principalTable: "Pedidos",
                         principalColumn: "Id");
@@ -198,11 +214,11 @@ namespace SistemaRestaurante.Migrations
                 columns: new[] { "Id", "DataRegistrada" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 5, 16, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, new DateTime(2025, 5, 17, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, new DateTime(2025, 5, 19, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 5, new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, new DateTime(2025, 5, 28, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, new DateTime(2025, 5, 29, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, new DateTime(2025, 5, 30, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, new DateTime(2025, 5, 31, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 5, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(
@@ -230,6 +246,19 @@ namespace SistemaRestaurante.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Itens",
+                columns: new[] { "Id", "Nome", "Valor" },
+                values: new object[,]
+                {
+                    { 1, "Refrigerante", 5.50m },
+                    { 2, "Suco", 12.00m },
+                    { 3, "Bolacha", 8.00m },
+                    { 4, "Bala", 2.20m },
+                    { 5, "Chicletes", 1.00m },
+                    { 6, "Pasta de dente", 15.00m }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Produtos",
                 columns: new[] { "Id", "EstoqueId", "Nome", "QtdAtual", "QtdMaxima", "QtdMinima" },
                 values: new object[,]
@@ -253,34 +282,9 @@ namespace SistemaRestaurante.Migrations
                     { 5, 88m, new DateTime(2025, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 760m, 3300m, 135m, 265m, 195m }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Pedidos",
-                columns: new[] { "Id", "ClienteId", "Data", "StatusPreparo", "ValorTotal" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6351), (byte)0, 45.50m },
-                    { 2, 2, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6362), (byte)0, 22.00m },
-                    { 3, 3, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6364), (byte)3, 100.00m },
-                    { 4, 4, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6365), (byte)1, 18.75m },
-                    { 5, 1, new DateTime(2025, 5, 21, 19, 18, 20, 861, DateTimeKind.Local).AddTicks(6366), (byte)2, 70.30m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Itens",
-                columns: new[] { "Id", "Nome", "PedidoId", "Valor" },
-                values: new object[,]
-                {
-                    { 1, "Refrigerante", 1, 5.50m },
-                    { 2, "Suco", 2, 12.00m },
-                    { 3, "Bolacha", 2, 8.00m },
-                    { 4, "Bala", 2, 2.20m },
-                    { 5, "Chicletes", 3, 1.00m },
-                    { 6, "Pasta de dente", 4, 15.00m }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Itens_PedidoId",
-                table: "Itens",
+                name: "IX_ItensPedido_PedidoId",
+                table: "ItensPedido",
                 column: "PedidoId");
 
             migrationBuilder.CreateIndex(
@@ -305,6 +309,9 @@ namespace SistemaRestaurante.Migrations
 
             migrationBuilder.DropTable(
                 name: "Itens");
+
+            migrationBuilder.DropTable(
+                name: "ItensPedido");
 
             migrationBuilder.DropTable(
                 name: "Produtos");

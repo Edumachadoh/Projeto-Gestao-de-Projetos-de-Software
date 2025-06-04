@@ -16,10 +16,7 @@ const Home = () => {
         }}>
         <h1>Sistema Restaurante do Tio ZIZO</h1>
         <p style={{ padding: "30px", fontSize: "20px" }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis cum
-          inventore reiciendis pariatur, mollitia maiores quos non sapiente
-          totam voluptatum quae nemo quaerat ullam error similique enim.
-          Repellat, natus soluta!
+          Bem vindo ao Sistema Tio Zizo. Nunca foi tão fácil gerenciar seu restaurante! Organize seu estabelecimento, facilite sua rotina e maximize seus lucros!
         </p>
       </div>
       {ImagemZizo ? (

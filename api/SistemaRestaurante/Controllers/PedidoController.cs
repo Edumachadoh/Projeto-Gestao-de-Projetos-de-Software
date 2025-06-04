@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaRestaurante.Context;
 using SistemaRestaurante.Models;
+using SistemaRestaurante.Models.Pessoa;
 
 namespace SistemaRestaurante.Controllers;
 
@@ -24,35 +25,50 @@ public class PedidoController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        // ana: meio feio if dentro de if mas é um workaround
-        if (pedido.ClienteId is not null)
-        {
-            var cliente = await _appDbContext.Clientes.FirstOrDefaultAsync(x => x.Id == pedido.ClienteId);
-
-            if (cliente is not null)
-            {
-                cliente.Pedidos.Add(pedido);
-            }
-        }
-
-        foreach (Item item in pedido.Itens)
-        {
-            pedido.ValorTotal += item.Valor;
-        }
-
         await _appDbContext.Pedidos.AddAsync(pedido);
         await _appDbContext.SaveChangesAsync();
 
         return StatusCode(201, pedido);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidos()
-    {
-        var pedidos = await _appDbContext.Pedidos.ToListAsync();
+[HttpGet]
+public async Task<ActionResult<IEnumerable<PedidoDTO>>> GetPedidos()
+{
+    var pedidos = await _appDbContext.Pedidos
+        .Include(x => x.Cliente)
+        .Include(x => x.Itens)
+        .ToListAsync();
 
-        return StatusCode(200, pedidos);
-    }
+    var pedidosDto = pedidos.Select(p => new PedidoDTO
+    {
+        Id = p.Id,
+        ClienteId = p.ClienteId,
+        ValorTotal = p.ValorTotal,
+        EstaAtivo = p.EstaAtivo,
+        EstaPago = p.EstaPago,
+        Data = p.Data,
+        Cliente = p.Cliente == null ? null : new ClienteDTO
+        {
+            Id = p.Cliente.Id,
+            Nome = p.Cliente.Nome,
+            Cpf = p.Cliente.Cpf,
+            DataNascimento = p.Cliente.DataNascimento,
+            Telefone = p.Cliente.Telefone,
+            PontosFidelidade = p.Cliente.PontosFidelidade
+        },
+        Itens = _appDbContext.ItensPedido
+            .Where(ip => ip.PedidoId == p.Id)
+            .Select(ip => new ItemPedidoDTO
+            {
+                Id = ip.Id,
+                ItemId = ip.ItemId,
+                Quantidade = ip.Quantidade,
+                Item = _appDbContext.Itens.FirstOrDefault(i => i.Id == ip.ItemId)!
+            }).ToList()
+    }).ToList();
+
+    return Ok(pedidosDto);
+}
 
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidoId(int id)

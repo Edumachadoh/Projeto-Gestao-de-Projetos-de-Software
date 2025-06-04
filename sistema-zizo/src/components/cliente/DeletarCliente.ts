@@ -1,18 +1,17 @@
 export const DeletarCliente = async (id: number) => {
-  if (!window.confirm("Tem certeza que deseja deletar este funcionário?"))
-    return;
+  if (!window.confirm("Tem certeza que deseja deletar este cliente?")) return;
 
   try {
     const resposta = await fetch(`http://localhost:5190/api/clientes/${id}`, {
       method: "DELETE",
     });
 
-    if (!resposta.ok) throw new Error("Erro ao deletar funcionário");
+    if (!resposta.ok) throw new Error("Erro ao deletar cliente");
 
+    window.alert("cliente deletado com sucesso!");
     window.location.reload();
-    alert("Funcionário deletado com sucesso!");
   } catch (erro) {
-    console.error("Erro ao deletar funcionário:", erro);
-    alert("Erro ao deletar funcionário");
+    console.error("Erro ao deletar cliente:", erro);
+    alert("Erro ao deletar cliente");
   }
 };

@@ -1,13 +1,13 @@
-import type { StatusPreparo } from "../enums/StatusPreparo";
 import type { Cliente } from "./Cliente";
-import type { Item } from "./Item";
+import type { ItemPedido } from "./ItemPedido";
 
 export interface Pedido {
   id: number;
-  clienteId: number;
+  clienteId?: number;
   valorTotal: number;
-  statusPreparo: StatusPreparo;
-  data: Date;
+  data?: Date;
+  estaAtivo: boolean;
+  estaPago: boolean;
   cliente?: Cliente;
-  itens: Item[];
+  itens: ItemPedido[];
 }

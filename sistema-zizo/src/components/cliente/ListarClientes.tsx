@@ -1,11 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DeletarCliente } from "./DeletarCliente";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import { Link, Outlet } from "react-router";
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import { Box } from "@mui/material";
 
-const ListarClientes = () => {
+interface ListarClientesProps {
+  modoSelecao?: boolean;
+  onSelecionarCliente?: (cliente: Cliente | undefined) => void;
+}
+
+const ListarClientes: React.FC<ListarClientesProps> = ({
+  modoSelecao = false,
+  onSelecionarCliente,
+}) => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [clienteSelecionado, setClienteSelecionado] = useState<number | null>(
@@ -14,12 +23,18 @@ const ListarClientes = () => {
   const [mostrarEditar, setMostrarEditar] = useState(false);
   const [termoPesquisa, setTermoPesquisa] = useState("");
 
-  const selecionarItens = (id: number, idSelecionado: number) => {
-    if (id === idSelecionado) {
-      setClienteSelecionado(null);
+  const getGaugeColor = (pontos: number) => {
+    if (pontos >= 200) {
+      return "#52b202";
+    } else if (pontos > 50) {
+      return "#f0ad4e";
     } else {
-      setClienteSelecionado(id);
+      return "#d9534f";
     }
+  };
+
+  const selecionarItens = (id: number, idSelecionado: number) => {
+    setClienteSelecionado(id === idSelecionado ? null : id);
   };
 
   const carregarClientes = async () => {
@@ -28,6 +43,7 @@ const ListarClientes = () => {
       if (!resposta.ok) throw new Error("Erro ao carregar clientes");
       const dados: Cliente[] = await resposta.json();
       setClientes(dados);
+      console.log("Clientes carregados:", dados);
     } catch (erro: any) {
       console.error("Erro ao carregar clientes:", erro);
       alert("Erro ao carregar clientes");
@@ -46,14 +62,12 @@ const ListarClientes = () => {
     );
   }, [clientes, termoPesquisa]);
 
-  if (carregando) {
-    return <div className="form-container">Carregando...</div>;
-  }
+  if (carregando) return <div className="form-container">Carregando...</div>;
 
   return (
     <div className="form-container">
       <div className="form-header">
-        <h2>Lista de Clientes</h2>
+        <h2>{modoSelecao ? "Selecione um Cliente" : "Lista de Clientes"}</h2>
         <div className="search-container">
           <input
             type="text"
@@ -64,6 +78,7 @@ const ListarClientes = () => {
           />
         </div>
       </div>
+
       <div className="form-content">
         <table className="styled-table">
           <thead>
@@ -73,15 +88,15 @@ const ListarClientes = () => {
               <th>CPF</th>
               <th>Data Nascimento</th>
               <th>Telefone</th>
-              <th>Pontos Fidelidade</th>
-              <th>Pedidos</th>
-              <th>Ações</th>
+              <th>Pontos</th>
+              {!modoSelecao && <th>Pedidos</th>}
+              <th>{modoSelecao ? "Selecionar" : "Ações"}</th>
             </tr>
           </thead>
           <tbody>
             {clientesFiltrados.length === 0 ? (
               <tr>
-                <td colSpan={8} className="no-data">
+                <td colSpan={modoSelecao ? 7 : 8} className="no-data">
                   {termoPesquisa
                     ? "Nenhum cliente encontrado com esse nome"
                     : "Nenhum cliente cadastrado"}
@@ -98,64 +113,132 @@ const ListarClientes = () => {
                       {new Date(cliente.dataNascimento).toLocaleDateString()}
                     </td>
                     <td>{cliente.telefone}</td>
-                    <td>{cliente.pontosFidelidade}</td>
                     <td>
-                      <button
-                        onClick={() =>
-                          selecionarItens(cliente.id, clienteSelecionado ?? -1)
-                        }
-                        className="table-input">
-                        {cliente.id === clienteSelecionado
-                          ? "Ocultar Pedidos"
-                          : "Ver Pedidos"}
-                      </button>
+                      <Box
+                        position="relative"
+                        display="inline-flex"
+                        justifyContent="center">
+                        <Gauge
+                          width={80}
+                          height={80}
+                          value={(cliente.pontosFidelidade / 500) * 100} // valor convertido de 0–500 para 0–100%
+                          cornerRadius="50%"
+                          sx={{
+                            [`& .${gaugeClasses.valueArc}`]: {
+                              fill: getGaugeColor(cliente.pontosFidelidade),
+                            },
+                            [`& .${gaugeClasses.valueText}`]: {
+                              display: "none", // oculta o valor original
+                            },
+                          }}
+                        />
+                        <Box
+                          position="absolute"
+                          top={0}
+                          left={0}
+                          width="100%"
+                          height="100%"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center">
+                          <span style={{ fontSize: 14, fontWeight: "bold" }}>
+                            {cliente.pontosFidelidade}
+                          </span>
+                        </Box>
+                      </Box>
                     </td>
-                    <td className="action-buttons">
-                      <Link to={`/listar/cliente/editar/${cliente.id}`}>
+
+                    {!modoSelecao && (
+                      <td>
                         <button
-                          className="edit-btn"
-                          onClick={() => setMostrarEditar(true)}>
-                          Editar
+                          onClick={() =>
+                            selecionarItens(
+                              cliente.id,
+                              clienteSelecionado ?? -1,
+                            )
+                          }
+                          className="table-input">
+                          {cliente.id === clienteSelecionado
+                            ? "Ocultar"
+                            : "Ver Pedidos"}
                         </button>
-                      </Link>
-                      {mostrarEditar && (
-                        <div
-                          className="edit"
-                          style={{
-                            display: "flex",
-                            position: "fixed",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                          }}>
-                          <div className="edit-content">
-                            <Outlet />
-                          </div>
-                        </div>
+                      </td>
+                    )}
+
+                    <td className="action-buttons">
+                      {modoSelecao ? (
+                        <button
+                          className="table-input"
+                          onClick={() => onSelecionarCliente?.(cliente)}>
+                          Selecionar
+                        </button>
+                      ) : (
+                        <>
+                          <Link to={`/listar/cliente/editar/${cliente.id}`}>
+                            <button
+                              className="edit-btn"
+                              onClick={() => setMostrarEditar(true)}>
+                              Editar
+                            </button>
+                          </Link>
+                          <button
+                            onClick={() => DeletarCliente(cliente.id)}
+                            className="delete-btn">
+                            Deletar
+                          </button>
+                        </>
                       )}
-                      <button
-                        onClick={() => DeletarCliente(cliente.id)}
-                        className="delete-btn">
-                        Deletar
-                      </button>
                     </td>
                   </tr>
-                  {cliente.id === clienteSelecionado && (
-                    <tr>
+
+                  {cliente.id === clienteSelecionado && !modoSelecao && (
+                    <tr className="editing-row">
                       <td colSpan={8}>
-                        <strong>Itens do pedido:</strong>
-                        <ul>
-                          {cliente.pedidos.length !== 0 ? (
+                        <div className="pedido-lista">
+                          <strong>Pedidos:</strong>
+                          {cliente.pedidos.length > 0 ? (
                             cliente.pedidos.map((pedido: Pedido, index) => (
-                              <li key={index}>
-                                {pedido.id ?? "Produto sem nome"} - id:{" "}
-                                {pedido.id}
-                              </li>
+                              <div key={index} className="pedido-detalhado">
+                                <p>
+                                  <strong>ID:</strong> {pedido.id}
+                                </p>
+                                <p>
+                                  <strong>Data:</strong>{" "}
+                                  {pedido.data
+                                    ? new Date(pedido.data).toLocaleString()
+                                    : "Data não disponível"}
+                                </p>
+                                <p>
+                                  <strong>Valor Total:</strong> R${" "}
+                                  {pedido.valorTotal.toFixed(2)}
+                                </p>
+                                <p>
+                                  <strong>Ativo:</strong>{" "}
+                                  {pedido.estaAtivo ? "Sim" : "Não"}
+                                </p>
+                                <p>
+                                  <strong>Pago:</strong>{" "}
+                                  {pedido.estaPago ? "Sim" : "Não"}
+                                </p>
+                                <div style={{ marginTop: "8px" }}>
+                                  <strong>Itens:</strong>
+                                  <ul>
+                                    {pedido.itens.map((itemPedido) => (
+                                      <li key={itemPedido.id}>
+                                        {itemPedido.item.nome} - R${" "}
+                                        {itemPedido.item.valor.toFixed(2)} x{" "}
+                                        {itemPedido.quantidade}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                                <hr />
+                              </div>
                             ))
                           ) : (
-                            <li>Nenhum pedido encontrado</li>
+                            <p>Nenhum pedido encontrado.</p>
                           )}
-                        </ul>
+                        </div>
                       </td>
                     </tr>
                   )}
@@ -165,6 +248,20 @@ const ListarClientes = () => {
           </tbody>
         </table>
       </div>
+      {modoSelecao && (
+        <button
+          className="table-input"
+          onClick={() => onSelecionarCliente?.(undefined)}>
+          Sem Cliente
+        </button>
+      )}
+      {mostrarEditar && (
+        <div className="edit-overlay" style={{ position: "fixed" }}>
+          <div className="edit-content">
+            <Outlet />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

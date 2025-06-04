@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Cliente } from "../../models/interfaces/Cliente";
 import { Link, useNavigate, useParams } from "react-router";
-import { formatDateToISO } from "../../util/FormatarData";
 
 const EditarCliente = () => {
   const { id } = useParams();
@@ -12,7 +11,7 @@ const EditarCliente = () => {
   const [cpf, setCpf] = useState<string>("");
   const [dataNascimento, setDataNascimento] = useState<Date>();
   const [telefone, setTelefone] = useState<string>("");
-  const [pontosFidelidade, setPontosFidelidade] = useState<number>();
+  const [pontosFidelidade, setPontosFidelidade] = useState<number>(0);
 
   function enviarCliente(e: React.FormEvent) {
     e.preventDefault();
@@ -97,54 +96,6 @@ const EditarCliente = () => {
             required
             value={nome}
             onChange={(e) => setNome(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cpf">CPF</label>
-          <input
-            placeholder="000.000.000-00"
-            type="text"
-            id="cpf"
-            name="cpf"
-            required
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="dataNascimento">Data de Nascimento</label>
-          <input
-            type="date"
-            id="dataNascimento"
-            name="dataNascimento"
-            required
-            value={formatDateToISO(dataNascimento) ?? ""}
-            onChange={(e) => setDataNascimento(new Date(e.target.value))}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="telefone">Telefone</label>
-          <input
-            placeholder="(00) 00000-0000"
-            type="text"
-            id="telefone"
-            name="telefone"
-            required
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="pontosFidelidade">Pontos Fidelidade</label>
-          <input
-            placeholder="(00) 00000-0000"
-            type="number"
-            step="1"
-            id="pontosFidelidade"
-            name="pontosFidelidade"
-            required
-            value={pontosFidelidade}
-            onChange={(e) => setPontosFidelidade(Number(e.target.value))}
           />
         </div>
         <button type="submit" className="save-btn">

@@ -36,27 +36,27 @@ namespace SistemaRestaurante.Migrations
                         new
                         {
                             Id = 1,
-                            DataRegistrada = new DateTime(2025, 5, 16, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 29, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 2,
-                            DataRegistrada = new DateTime(2025, 5, 17, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 30, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 3,
-                            DataRegistrada = new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 5, 31, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 4,
-                            DataRegistrada = new DateTime(2025, 5, 19, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             Id = 5,
-                            DataRegistrada = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Local)
+                            DataRegistrada = new DateTime(2025, 6, 2, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -216,15 +216,10 @@ namespace SistemaRestaurante.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
 
                     b.ToTable("Itens");
 
@@ -267,6 +262,28 @@ namespace SistemaRestaurante.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("ItensPedido");
+                });
+
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
@@ -279,8 +296,11 @@ namespace SistemaRestaurante.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte>("StatusPreparo")
-                        .HasColumnType("tinyint unsigned");
+                    b.Property<bool>("EstaAtivo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("EstaPago")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("decimal(65,30)");
@@ -290,48 +310,6 @@ namespace SistemaRestaurante.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Pedidos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClienteId = 1,
-                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1155),
-                            StatusPreparo = (byte)0,
-                            ValorTotal = 45.50m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClienteId = 2,
-                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1169),
-                            StatusPreparo = (byte)0,
-                            ValorTotal = 22.00m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClienteId = 3,
-                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1170),
-                            StatusPreparo = (byte)3,
-                            ValorTotal = 100.00m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClienteId = 4,
-                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1171),
-                            StatusPreparo = (byte)1,
-                            ValorTotal = 18.75m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ClienteId = 1,
-                            Data = new DateTime(2025, 5, 21, 19, 21, 10, 674, DateTimeKind.Local).AddTicks(1173),
-                            StatusPreparo = (byte)2,
-                            ValorTotal = 70.30m
-                        });
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pessoa.Cliente", b =>
@@ -582,11 +560,13 @@ namespace SistemaRestaurante.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SistemaRestaurante.Models.Item", b =>
+            modelBuilder.Entity("SistemaRestaurante.Models.ItemPedido", b =>
                 {
                     b.HasOne("SistemaRestaurante.Models.Pedido", null)
                         .WithMany("Itens")
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SistemaRestaurante.Models.Pedido", b =>
