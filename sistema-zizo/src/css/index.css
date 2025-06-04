@@ -216,3 +216,55 @@ button,
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
+
+.pedido-lista {
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  margin-top: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.pedido-detalhado {
+  background-color: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pedido-detalhado p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.pedido-detalhado strong {
+  color: #222;
+}
+
+.pedido-detalhado ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.pedido-detalhado li {
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #555;
+}
+
+.pedido-detalhado li::before {
+  content: "🛒";
+  margin-right: 8px;
+}

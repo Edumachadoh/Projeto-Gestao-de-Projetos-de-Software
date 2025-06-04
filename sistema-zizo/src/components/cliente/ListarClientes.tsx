@@ -46,6 +46,7 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
       if (!resposta.ok) throw new Error("Erro ao carregar clientes");
       const dados: Cliente[] = await resposta.json();
       setClientes(dados);
+      console.log("Clientes carregados:", dados);
     } catch (erro: any) {
       console.error("Erro ao carregar clientes:", erro);
       alert("Erro ao carregar clientes");
@@ -213,32 +214,44 @@ const ListarClientes: React.FC<ListarClientesProps> = ({
                         <div className="pedido-lista">
                           <strong>Pedidos:</strong>
                           {cliente.pedidos.length > 0 ? (
-                            <ul>
-                              {cliente.pedidos.map((pedido: Pedido, index) => (
-                                <li key={index} className="pedido-item">
-                                  Pedido ID: {pedido.id} - Quantidade:
-                                  <input
-                                    type="number"
-                                    min={1}
-                                    value={
-                                      quantidades[cliente.id]?.[pedido.id] ?? 1
-                                    }
-                                    onChange={(e) =>
-                                      handleQuantidadeChange(
-                                        cliente.id,
-                                        pedido.id,
-                                        parseInt(e.target.value),
-                                      )
-                                    }
-                                    className="table-input"
-                                    style={{
-                                      width: "60px",
-                                      marginLeft: "10px",
-                                    }}
-                                  />
-                                </li>
-                              ))}
-                            </ul>
+                            cliente.pedidos.map((pedido: Pedido, index) => (
+                              <div key={index} className="pedido-detalhado">
+                                <p>
+                                  <strong>ID:</strong> {pedido.id}
+                                </p>
+                                <p>
+                                  <strong>Data:</strong>{" "}
+                                  {pedido.data
+                                    ? new Date(pedido.data).toLocaleString()
+                                    : "Data não disponível"}
+                                </p>
+                                <p>
+                                  <strong>Valor Total:</strong> R${" "}
+                                  {pedido.valorTotal.toFixed(2)}
+                                </p>
+                                <p>
+                                  <strong>Ativo:</strong>{" "}
+                                  {pedido.estaAtivo ? "Sim" : "Não"}
+                                </p>
+                                <p>
+                                  <strong>Pago:</strong>{" "}
+                                  {pedido.estaPago ? "Sim" : "Não"}
+                                </p>
+                                <div style={{ marginTop: "8px" }}>
+                                  <strong>Itens:</strong>
+                                  <ul>
+                                    {pedido.itens.map((itemPedido) => (
+                                      <li key={itemPedido.id}>
+                                        {itemPedido.item.nome} - R${" "}
+                                        {itemPedido.item.valor.toFixed(2)} x{" "}
+                                        {itemPedido.quantidade}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                                <hr />
+                              </div>
+                            ))
                           ) : (
                             <p>Nenhum pedido encontrado.</p>
                           )}

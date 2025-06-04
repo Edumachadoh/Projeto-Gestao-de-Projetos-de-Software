@@ -30,14 +30,47 @@ public class ClienteController : ControllerBase
         return StatusCode(201, cliente);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
+[HttpGet]
+public async Task<ActionResult> GetClientes()
+{
+    var clientes = await _appDbContext.Clientes
+        .Include(c => c.Pedidos)
+            .ThenInclude(p => p.Itens)
+        .ToListAsync();
+
+    var clientesDto = clientes.Select(c => new
     {
+        c.Id,
+        c.Nome,
+        c.Cpf,
+        c.DataNascimento,
+        c.PontosFidelidade,
+        c.Telefone,
+        Pedidos = c.Pedidos.Select(p => new
+        {
+            p.Id,
+            p.Data,
+            p.ValorTotal,
+            p.EstaAtivo,
+            p.EstaPago,
+            Itens = p.Itens.Select(i => new
+            {
+                i.Id,
+                i.Quantidade,
+                Item = _appDbContext.Itens
+                    .Where(item => item.Id == i.ItemId)
+                    .Select(item => new
+                    {
+                        item.Id,
+                        item.Nome,
+                        item.Valor
+                    }).FirstOrDefault()
+            })
+        })
+    });
 
-        var clientes = await _appDbContext.Clientes.ToListAsync();
-
-        return StatusCode(200, clientes);
-    }
+    return Ok(clientesDto);
+}
 
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<Cliente>>> GetClienteId(int id)

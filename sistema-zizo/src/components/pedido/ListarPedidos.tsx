@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Pedido } from "../../models/interfaces/Pedido";
 import React from "react";
-import type { Item } from "../../models/interfaces/Item";
 import { DeletarPedido } from "./DeletarPedido";
-// import EditarPedido from "./EditarPedido";
+// import EditarPedido from "./EditarPedido"; // descomente se estiver pronto
 
 const ListarPedidos = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -11,7 +10,7 @@ const ListarPedidos = () => {
   const [pedidoSelecionado, setPedidoSelecionado] = useState<number | null>(
     null,
   );
-  const [mostrarEditar, setMostrarEditar] = useState(false);
+  const [editarPedidoId, setEditarPedidoId] = useState<number | null>(null);
 
   const selecionarItens = (id: number, idSelecionado: number) => {
     if (id === idSelecionado) {
@@ -26,14 +25,19 @@ const ListarPedidos = () => {
       const resposta = await fetch("http://localhost:5190/api/pedidos");
       if (!resposta.ok) throw new Error("Erro ao carregar pedidos");
       const dados: Pedido[] = await resposta.json();
-      console.log(dados);
       setPedidos(dados);
+      console.log("Pedidos carregados:", dados);
     } catch (erro: any) {
       console.error("Erro ao carregar pedidos:", erro);
       alert("Erro ao carregar pedidos");
     } finally {
       setCarregando(false);
     }
+  };
+
+  const deletarPedido = async (id: number) => {
+    await DeletarPedido(id);
+    carregarPedidos(); // Atualiza a lista
   };
 
   useEffect(() => {
@@ -66,7 +70,7 @@ const ListarPedidos = () => {
           <tbody>
             {pedidos.length === 0 ? (
               <tr>
-                <td colSpan={7} className="no-data">
+                <td colSpan={8} className="no-data">
                   Nenhum pedido cadastrado
                 </td>
               </tr>
@@ -97,10 +101,10 @@ const ListarPedidos = () => {
                     <td className="action-buttons">
                       <button
                         className="edit-btn"
-                        onClick={() => setMostrarEditar(true)}>
+                        onClick={() => setEditarPedidoId(pedido.id)}>
                         Editar
                       </button>
-                      {mostrarEditar && (
+                      {editarPedidoId === pedido.id && (
                         <div
                           className="edit"
                           style={{
@@ -109,22 +113,32 @@ const ListarPedidos = () => {
                             top: "50%",
                             left: "50%",
                             transform: "translate(-50%, -50%)",
+                            backgroundColor: "#fff",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+                            zIndex: 1000,
                           }}>
                           <div className="edit-content">
+                            {/* Descomente e implemente o componente abaixo quando pronto */}
                             {/* <EditarPedido _pedido={pedido} _id={pedido.id} /> */}
+                            <button onClick={() => setEditarPedidoId(null)}>
+                              Fechar
+                            </button>
                           </div>
                         </div>
                       )}
                       <button
-                        onClick={() => DeletarPedido(pedido.id)}
+                        onClick={() => deletarPedido(pedido.id)}
                         className="delete-btn">
                         Deletar
                       </button>
                     </td>
                   </tr>
+
                   {pedido.id === pedidoSelecionado && (
                     <tr>
-                      <td colSpan={7}>
+                      <td colSpan={8}>
                         <strong>Itens do pedido:</strong>
                         <table className="subtable">
                           <thead>
@@ -135,7 +149,7 @@ const ListarPedidos = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {pedido.itens.length !== 0 ? (
+                            {pedido.itens && pedido.itens.length > 0 ? (
                               pedido.itens.map((itemPedido, index) => (
                                 <tr key={index}>
                                   <td>
@@ -145,14 +159,14 @@ const ListarPedidos = () => {
                                   <td>
                                     R${" "}
                                     {itemPedido.item?.valor?.toFixed(2) ??
-                                      "N/A"}
+                                      "0.00"}
                                   </td>
-                                  <td>{itemPedido.quantidade ?? "N/A"}</td>
+                                  <td>{itemPedido.quantidade ?? 0}</td>
                                 </tr>
                               ))
                             ) : (
                               <tr>
-                                <td colSpan={2}>Nenhum item encontrado</td>
+                                <td colSpan={3}>Nenhum item encontrado</td>
                               </tr>
                             )}
                           </tbody>
