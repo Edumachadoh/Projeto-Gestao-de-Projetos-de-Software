@@ -1,5 +1,4 @@
 import type { Cliente } from "./Cliente";
-import type { Item } from "./Item";
 import type { ItemPedido } from "./ItemPedido";
 
 export interface Pedido {

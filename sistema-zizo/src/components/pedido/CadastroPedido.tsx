@@ -3,7 +3,6 @@ import type { Cliente } from "../../models/interfaces/Cliente";
 import ListarClientes from "../cliente/ListarClientes";
 import ListarItens from "../item/ListarItens";
 import NotaFiscal from "./NotaFiscal";
-import type { ItemPedido } from "../../models/interfaces/ItemPedido";
 import type { ItemSelecionado } from "../../models/interfaces/ItemSelecionado";
 
 const CadastroPedido = () => {
@@ -17,7 +16,7 @@ const CadastroPedido = () => {
   function enviarPedido(e: React.FormEvent) {
     e.preventDefault();
 
-    const itensPedido: ItemPedido[] = itensSelecionados.map((sel) => ({
+    const itensPedido = itensSelecionados.map((sel) => ({
       itemId: sel.item.id,
       quantidade: sel.quantidade,
     }));
