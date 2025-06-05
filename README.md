@@ -13,38 +13,11 @@ Desenvolver um sistema integrado que permita:
 
 ### Estrutura do Projeto
 
-SistemaRestaurante/
-├── API/                       # Projeto back-end (.NET)
-│   ├── Context/              # Contexto do banco de dados (AppDbContext.cs)
-│   ├── Controllers/          # Controladores da API (Cliente, Pedido, Produto, etc.)
-│   ├── Data/                 # Dados de seed e inicialização
-│   ├── Enums/                # Enumerações (Cargos, Categorias, Status de Preparo, etc.)
-│   ├── Migrations/           # Migrações do Entity Framework
-│   ├── Models/
-│   │   ├── Financeiro/       # Modelos financeiros (Gasto, RegistroFinanceiro, etc.)
-│   │   └── Pessoa/           # Modelos relacionados a pessoas (Cliente, Funcionário, Produto, etc.)
-│   ├── Properties/           # Configurações do projeto (launchSettings.json)
-│   ├── Requests/             # Testes HTTP (Requisições para Postman/Insomnia)
-│   ├── Program.cs            # Ponto de entrada da aplicação
-│   ├── appsettings.json      # Configurações de conexão com banco e app
-│   └── SistemaRestaurante.csproj
-│
-├── sistema-zizo/             # Projeto front-end (React + Vite + TypeScript)
-│   ├── src/
-│   │   ├── assets/           # Logos e imagens
-│   │   ├── components/       # Componentes reutilizáveis (Cliente, Pedido, Financeiro, etc.)
-│   │   ├── css/              # Estilização global e temas
-│   │   ├── models/           # Interfaces e enums TypeScript
-│   │   ├── routes/pages/     # Páginas da aplicação (Home, Cadastro, Relatórios, etc.)
-│   │   ├── util/             # Funções utilitárias e helpers
-│   │   ├── App.tsx           # Componente principal da aplicação
-│   │   └── main.tsx          # Ponto de entrada do front-end
-│   ├── index.html
-│   ├── package.json          # Dependências e scripts do projeto
-│   └── vite.config.ts        # Configurações do Vite
-│
-├── README.md                 # Este arquivo
-└── .gitignore                # Arquivos ignorados pelo Git
+Projeto-Gestao-de-Projetos-de-Software: 
+- api (backend da aplicação)
+- sistema-zizo (frontend da aplicação)
+- .gitignore (arquivos a serem ignorados)
+- README (arquivo a ser lido no github)
 
 ### Como Rodar o Projeto
 
